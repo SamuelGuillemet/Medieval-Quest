@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 54c2100317f765442a1f247c7d09ccf5
 ModelImporter:
-  serializedVersion: 21202
+  serializedVersion: 19301
   internalIDToNameTable:
   - first:
       1: 100000
@@ -28,6 +28,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Diffuse_Default
+    second: {fileID: 2100000, guid: fa9e8323c39675f459e110ce7b78f7cf, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Metal_Polished
     second: {fileID: 2100000, guid: 53ce828af18d0eb46b8e8ede9ab92220, type: 2}
   - first:
@@ -35,6 +40,11 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: Metal_Rusty
     second: {fileID: 2100000, guid: 57c5c45402f367749a31d5f99048f829, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Paper
+    second: {fileID: 2100000, guid: 145c0287570245a4b894de54ec840353, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -50,7 +60,6 @@ ModelImporter:
     bakeSimulation: 0
     resampleCurves: 1
     optimizeGameObjects: 0
-    removeConstantScaleCurves: 0
     motionNodeName: 
     rigImportErrors: 
     rigImportWarnings: 
@@ -68,7 +77,7 @@ ModelImporter:
     extraExposedTransformPaths: []
     extraUserProperties: []
     clipAnimations: []
-    isReadable: 0
+    isReadable: 1
   meshes:
     lODScreenPercentages: []
     globalScale: 1
@@ -80,27 +89,21 @@ ModelImporter:
     importBlendShapes: 0
     importCameras: 0
     importLights: 0
-    nodeNameCollisionStrategy: 0
     fileIdsGeneration: 1
     swapUVChannels: 0
     generateSecondaryUV: 1
     useFileUnits: 1
     keepQuads: 0
     weldVertices: 1
-    bakeAxisConversion: 0
     preserveHierarchy: 0
     skinWeightsMode: 0
     maxBonesPerVertex: 4
     minBoneWeight: 0.001
-    optimizeBones: 1
     meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
-    secondaryUVMarginMethod: 0
-    secondaryUVMinLightmapResolution: 40
-    secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
   tangentSpace:
@@ -134,7 +137,6 @@ ModelImporter:
   animationType: 0
   humanoidOversampling: 1
   avatarSetup: 0
-  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
   additionalBone: 0
   userData: 
   assetBundleName: 
