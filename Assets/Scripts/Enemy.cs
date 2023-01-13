@@ -5,34 +5,37 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
-    // This script moves the player using the navMeshAgent when clicking on the ground
-
-    NavMeshAgent agent;
-    [SerializeField]
-    private Camera _cam;
+    private NavMeshAgent _agent;
+    [SerializeField] private GameObject _player;
+    private NavMeshAgent _playerAgent;
 
     void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
-        agent.angularSpeed = 800f;
-        agent.acceleration = 60f;
-        agent.speed = 15f;
-        agent.stoppingDistance = 1f;
+        _agent = GetComponent<NavMeshAgent>();
+        _agent.angularSpeed = 800f;
+        _agent.acceleration = 60f;
+        _agent.speed = 6f;
+        _agent.stoppingDistance = 1f;
+
+        _playerAgent = _player.GetComponent<NavMeshAgent>();
+
+        StartCoroutine(FollowPlayer());
     }
 
-    void Update()
+    IEnumerator FollowPlayer()
     {
-        if (Input.GetMouseButtonDown(0))
+        while (true)
         {
-            Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
+            // Set the destionation 1 block away from the player
+            Vector3 playerPos = _player.transform.position;
 
-            if (Physics.Raycast(ray, out hit))
-            {
-                agent.SetDestination(hit.point);
-            }
+            Vector3 direction = (playerPos - transform.position).normalized;
+            Vector3 destination = playerPos - (direction * _agent.stoppingDistance);
+
+            _agent.SetDestination(destination);
+            Debug.DrawLine(transform.position, destination, Color.red);
+
+            yield return new WaitUntil(() => _playerAgent.velocity.magnitude > 0.1f);
         }
-
-        _cam.transform.position = new Vector3(x: transform.position.x, y: 33, z: transform.position.z - 10);
     }
 }
