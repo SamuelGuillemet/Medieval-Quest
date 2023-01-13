@@ -5,47 +5,25 @@ public class MapGenerator : MonoBehaviour
 {
     private enum DrawMode { NoiseMap, ColourMap, PrefabMap };
 
-    [SerializeField]
-    private int _mapWidth;
-    [SerializeField]
-    private int _mapHeight;
-
-    [Space]
-    [Header("Noise Settings")]
-    [SerializeField]
-    private DrawMode _drawMode = DrawMode.PrefabMap;
-
-    [SerializeField]
-    private float _noiseScale;
-
-    [SerializeField]
-    private int _octaves;
-
-    [SerializeField]
-    [Range(0, 1)]
-    private float _persistance;
-
-    [SerializeField]
-    private float _lacunarity;
-
-    [SerializeField]
-    private int _seed;
-
-    [SerializeField]
-    private Vector2 _offset;
+    [SerializeField] private int _mapWidth;
+    [SerializeField] private int _mapHeight;
+    [Space, Header("Noise Settings"), SerializeField] private DrawMode _drawMode = DrawMode.PrefabMap;
+    [SerializeField] private float _noiseScale;
+    [SerializeField] private int _octaves;
+    [SerializeField, Range(0, 1)] private float _persistance;
+    [SerializeField] private float _lacunarity;
+    [SerializeField] private int _seed;
+    [SerializeField] private Vector2 _offset;
 
     public bool autoUpdate;
 
-    [Space]
-    [Header("Terrain Settings")]
-    [SerializeField]
-    private TerrainType[] _regions;
+    [Space, Header("Terrain Settings"), SerializeField] private TerrainType[] _regions;
 
     private PrefabsGenerator _prefabsGenerator;
 
     public void GenerateMap()
     {
-        _prefabsGenerator = FindObjectOfType<PrefabsGenerator>();
+        _prefabsGenerator = GetComponent<PrefabsGenerator>();
         _prefabsGenerator.ClearPrefabs();
 
         float[,] noiseMap = Noise.GenerateNoiseMap(_mapWidth, _mapHeight, _seed, _noiseScale, _octaves, _persistance, _lacunarity, _offset);
@@ -131,7 +109,7 @@ public class MapGenerator : MonoBehaviour
                 {
                     if (currentHeight <= _regions[i].height)
                     {
-                        _prefabsGenerator.Tiles.Add(new Tile(new Vector3(x, 0, y) * 4f, _regions[i].name));
+                        _prefabsGenerator.AddTile(new Vector3(x, 0f, y), _regions[i].name);
                         break;
                     }
                 }

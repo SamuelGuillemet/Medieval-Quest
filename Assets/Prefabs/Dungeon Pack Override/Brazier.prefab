@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 33338401280110110}
   - component: {fileID: 23922715005495336}
   - component: {fileID: 1689125284264614281}
-  - component: {fileID: 5970090295663232812}
+  - component: {fileID: 8241453508900915006}
   m_Layer: 0
   m_Name: Brazier
   m_TagString: Untagged
@@ -98,22 +98,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: e474ac24e4a142743b1d193bce55e295, type: 3}
---- !u!208 &5970090295663232812
-NavMeshObstacle:
+--- !u!114 &8241453508900915006
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1610183233969500}
   m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.9990001, y: 0.8, z: 0.9990001}
-  m_MoveThreshold: 0
-  m_Carve: 1
-  m_CarveOnlyStationary: 1
-  m_Center: {x: -0.002, y: 0.10700001, z: -0.004}
-  m_TimeToStationary: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &6259591666884219197
 GameObject:
   m_ObjectHideFlags: 0
