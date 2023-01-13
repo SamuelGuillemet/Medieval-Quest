@@ -5,63 +5,50 @@ using UnityEngine.AI;
 
 public class PrefabsGenerator : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject LightPrefab;
-    [SerializeField]
-    private GameObject HolePrefab;
-    [SerializeField]
-    private GameObject ObstaclePrefab;
-    [SerializeField]
-    private GameObject LandPrefab;
-    [SerializeField]
-    private GameObject LightPole;
-    [SerializeField]
-    private GameObject Start;
-    [SerializeField]
-    private GameObject Wall;
-    [SerializeField]
-    private GameObject Angle;
+    [SerializeField] private GameObject LightPrefab;
+    [SerializeField] private GameObject HolePrefab;
+    [SerializeField] private GameObject ObstaclePrefab;
+    [SerializeField] private GameObject LandPrefab;
+    [SerializeField] private GameObject LightPole;
+    [SerializeField] private GameObject Start;
+    [SerializeField] private GameObject Wall;
+    [SerializeField] private GameObject Angle;
+    [SerializeField] private GameObject EnemySpawn;
 
     private GameObject _LightsContainer;
     private GameObject _HolesContainer;
     private GameObject _ObstaclesContainer;
     private GameObject _LandContainer;
     private GameObject _Arena;
+    private GameObject _EnemySpawnContainer;
 
     private int _tileSize = 4;
 
     // List of Tile to store the position of the prefabs
     public List<Tile> Tiles = new List<Tile>();
 
-    [SerializeField]
-    private int _holes;
-    [SerializeField]
-    private int _obstacles;
-    [SerializeField]
-    private int _lands;
+    [SerializeField] private int _holes;
+    [SerializeField] private int _obstacles;
+    [SerializeField] private int _lands;
+
+    public void AddTile(Vector3 postion, TileType name)
+    {
+        Tiles.Add(new Tile(postion * _tileSize, name));
+    }
 
     public void GeneratePrefabs(int mapWidth, int mapHeight)
     {
-        _Arena = new GameObject("Arena", typeof(NavMeshSurface));
-
-        _LightsContainer = new GameObject("LightsContainer");
-        _HolesContainer = new GameObject("HolesContainer");
-        _ObstaclesContainer = new GameObject("ObstaclesContainer");
-        _LandContainer = new GameObject("LandContainer");
-
-        // Set _Arena as parent of the containers
-        _LightsContainer.transform.parent = _Arena.transform;
-        _HolesContainer.transform.parent = _Arena.transform;
-        _ObstaclesContainer.transform.parent = _Arena.transform;
-        _LandContainer.transform.parent = _Arena.transform;
+        InstantiateContainers();
 
         ModifyCenter(mapWidth, mapHeight);
 
+        GenerateLand(mapWidth, mapHeight);
         GenerateLight();
         GenerateHoles();
         GenerateObstacles();
-        GenerateLand(mapWidth, mapHeight);
         GenerateSurround(mapWidth, mapHeight);
+
+        GenerateEnemySpawn(mapWidth, mapHeight);
     }
 
     public void ClearPrefabs()
@@ -82,6 +69,27 @@ public class PrefabsGenerator : MonoBehaviour
 
         DestroyImmediate(_Arena);
         DestroyImmediate(GameObject.Find("Arena"));
+
+        DestroyImmediate(_EnemySpawnContainer);
+        DestroyImmediate(GameObject.Find("EnemySpawnContainer"));
+    }
+
+    private void InstantiateContainers()
+    {
+        _EnemySpawnContainer = new GameObject("EnemySpawnContainer");
+
+        _Arena = new GameObject("Arena", typeof(NavMeshSurface));
+
+        _LightsContainer = new GameObject("LightsContainer");
+        _HolesContainer = new GameObject("HolesContainer");
+        _ObstaclesContainer = new GameObject("ObstaclesContainer");
+        _LandContainer = new GameObject("LandContainer");
+
+        // Set _Arena as parent of the containers
+        _LightsContainer.transform.parent = _Arena.transform;
+        _HolesContainer.transform.parent = _Arena.transform;
+        _ObstaclesContainer.transform.parent = _Arena.transform;
+        _LandContainer.transform.parent = _Arena.transform;
     }
 
     private void ModifyCenter(int mapWidth, int mapHeight)
@@ -157,22 +165,8 @@ public class PrefabsGenerator : MonoBehaviour
             if (Tiles[i].name == TileType.Obstacle)
             {
                 Vector3 position = Tiles[i].position + new Vector3(2f, 2f, 2f);
-                float rotation = 180f;
-                float random = Random.Range(0f, 1f);
-                if (random > 0.75f)
-                {
-                    rotation = 0f;
-                }
-                else if (random > 0.5f)
-                {
-                    rotation = 270f;
-                }
-                else if (random > 0.25f)
-                {
-                    rotation = 90f;
-                }
+                float rotation = Random.Range(0, 4) * 90f;
                 GameObject obstacle = Instantiate(ObstaclePrefab, position, Quaternion.Euler(0f, rotation, 0f), _ObstaclesContainer.transform);
-                obstacle.transform.localScale = new Vector3(0.75f, 0.75f, 0.75f);
             }
         }
     }
@@ -253,14 +247,36 @@ public class PrefabsGenerator : MonoBehaviour
     public void GenerateNavMesh()
     {
         NavMeshSurface navMesh = _Arena.GetComponent<NavMeshSurface>();
-        // Change params to make the bake of NavMesh more accurate
+
         navMesh.overrideTileSize = true;
         navMesh.tileSize = 128;
 
         navMesh.overrideVoxelSize = true;
-        navMesh.voxelSize = 0.1f;
+        navMesh.voxelSize = 0.05f;
 
         navMesh.BuildNavMesh();
+    }
+
+    private void GenerateEnemySpawn(int mapWidth, int mapHeight)
+    {
+        List<Vector3> positionsList = new List<Vector3>();
+        for (int i = 0; i < 8; i++)
+        {
+            while (true)
+            {
+                int randomTile = Random.Range(0, Tiles.Count);
+
+                bool notToCloseFromCenter = Mathf.Abs(Tiles[randomTile].position.x - mapWidth * _tileSize / 2f) > 2f * _tileSize && Mathf.Abs(Tiles[randomTile].position.z - mapHeight * _tileSize / 2f) > 2f * _tileSize;
+                if (Tiles[randomTile].name == TileType.Land && notToCloseFromCenter && !positionsList.Contains(Tiles[randomTile].position))
+                {
+                    Vector3 position = Tiles[randomTile].position + new Vector3(2f, 2f, 2f);
+                    float rotation = Random.Range(0, 4) * 90f;
+                    Instantiate(EnemySpawn, position, Quaternion.Euler(0f, rotation, 0f), _EnemySpawnContainer.transform);
+                    positionsList.Add(position);
+                    break;
+                }
+            }
+        }
     }
 }
 

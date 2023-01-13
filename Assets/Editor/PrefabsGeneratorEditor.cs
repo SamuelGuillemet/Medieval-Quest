@@ -17,6 +17,7 @@ public class PrefabsGeneratorEditor : Editor
     SerializedProperty start;
     SerializedProperty wall;
     SerializedProperty angle;
+    SerializedProperty enemySpawn;
 
     public override void OnInspectorGUI()
     {
@@ -27,14 +28,15 @@ public class PrefabsGeneratorEditor : Editor
         if (lightPrefab.isExpanded)
         {
             EditorGUI.indentLevel++;
-            EditorGUILayout.PropertyField(lightPrefab, new GUIContent("Light"));
+            EditorGUILayout.PropertyField(lightPrefab, new GUIContent("Brazier"));
             EditorGUILayout.PropertyField(holePrefab, new GUIContent("Hole"));
-            EditorGUILayout.PropertyField(obstaclePrefab, new GUIContent("Obstacle"));
+            EditorGUILayout.PropertyField(obstaclePrefab, new GUIContent("Tower"));
             EditorGUILayout.PropertyField(landPrefab, new GUIContent("Land"));
-            EditorGUILayout.PropertyField(lightPole, new GUIContent("LightPole"));
+            EditorGUILayout.PropertyField(lightPole, new GUIContent("Light"));
             EditorGUILayout.PropertyField(start, new GUIContent("Start"));
             EditorGUILayout.PropertyField(wall, new GUIContent("Wall"));
             EditorGUILayout.PropertyField(angle, new GUIContent("Angle"));
+            EditorGUILayout.PropertyField(enemySpawn, new GUIContent("Enemy Spawn"));
             EditorGUI.indentLevel--;
         }
 
@@ -68,6 +70,7 @@ public class PrefabsGeneratorEditor : Editor
         start = serializedObject.FindProperty("Start");
         wall = serializedObject.FindProperty("Wall");
         angle = serializedObject.FindProperty("Angle");
+        enemySpawn = serializedObject.FindProperty("EnemySpawn");
 
         lightPrefab.isExpanded = true;
 
