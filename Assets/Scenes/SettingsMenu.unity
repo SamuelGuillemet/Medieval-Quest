@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -240,7 +240,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 136866310}
         m_MethodName: ExitMenu
         m_Mode: 1
         m_Arguments:
@@ -458,6 +458,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 87383214}
+  - component: {fileID: 87383215}
   m_Layer: 0
   m_Name: Buttons
   m_TagString: Untagged
@@ -487,6 +488,18 @@ Transform:
   m_Father: {fileID: 136866309}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!225 &87383215
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 87383213}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &122867477
 GameObject:
   m_ObjectHideFlags: 0
@@ -609,6 +622,7 @@ GameObject:
   - component: {fileID: 136866308}
   - component: {fileID: 136866307}
   - component: {fileID: 136866306}
+  - component: {fileID: 136866310}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -698,6 +712,25 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &136866310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 136866305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1040bacf4c6ab1d4580145396846554d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  settingsCanvasGroup: {fileID: 87383215}
+  popupCanvasGroup: {fileID: 1328980571}
+  resolutionDropdown: {fileID: 370130039}
+  qualityDropdown: {fileID: 739237828}
+  fullscreenToggle: {fileID: 691456330}
+  volumeSlider: {fileID: 1798326450}
+  saveButton: {fileID: 917728609}
 --- !u!1 &198492249
 GameObject:
   m_ObjectHideFlags: 0
@@ -1519,7 +1552,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 136866310}
         m_MethodName: EnableSaveButton
         m_Mode: 1
         m_Arguments:
@@ -1888,7 +1921,7 @@ GameObject:
   - component: {fileID: 691456329}
   - component: {fileID: 691456330}
   m_Layer: 5
-  m_Name: ToggleFullscreen
+  m_Name: FullscreenToggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1961,7 +1994,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 136866310}
         m_MethodName: EnableSaveButton
         m_Mode: 1
         m_Arguments:
@@ -2208,7 +2241,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 136866310}
         m_MethodName: EnableSaveButton
         m_Mode: 1
         m_Arguments:
@@ -2376,7 +2409,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 136866310}
         m_MethodName: SaveAndExit
         m_Mode: 1
         m_Arguments:
@@ -2797,7 +2830,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 136866310}
         m_MethodName: SaveSettings
         m_Mode: 1
         m_Arguments:
@@ -4457,8 +4490,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: 
+      - m_Target: {fileID: 136866310}
+        m_MethodName: EnableSaveButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4807,7 +4840,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 136866310}
         m_MethodName: EnableSaveButton
         m_Mode: 1
         m_Arguments:
@@ -4901,7 +4934,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 136866310}
         m_MethodName: ConfirmExit
         m_Mode: 1
         m_Arguments:
@@ -5557,8 +5590,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: 
+      - m_Target: {fileID: 136866310}
+        m_MethodName: EnableSaveButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
