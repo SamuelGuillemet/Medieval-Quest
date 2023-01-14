@@ -13,7 +13,16 @@ public class GameUI : MonoBehaviour
 
     private void Start()
     {
-        pauseMenu.SetActive(false);
+        if (PlayerPrefs.GetString("PreviousScene") == "GameScene")
+        {
+            Time.timeScale = 0;
+            pauseMenu.SetActive(true);
+        }
+        else
+        {
+            Time.timeScale = 1;
+            pauseMenu.SetActive(false);
+        }
     }
 
     private void Update()
@@ -22,18 +31,25 @@ public class GameUI : MonoBehaviour
         {
             if (pauseMenu.activeSelf)
             {
-                pauseMenu.SetActive(false);
+                ResumeGame();
             }
             else
             {
-                pauseMenu.SetActive(true);
+                PauseGame();
             }
         }
     }
 
     public void ResumeGame()
     {
+        Time.timeScale = 1;
         pauseMenu.SetActive(false);
+    }
+
+    public void PauseGame()
+    {
+        Time.timeScale = 0;
+        pauseMenu.SetActive(true);
     }
 
     public void ExitGame()
