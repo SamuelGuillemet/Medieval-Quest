@@ -42,7 +42,7 @@ public class CharacterSelection : MonoBehaviour
 
     public void PlayGame()
     {
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene("GameScene");
         timer.playing = true;
         Debug.Log("Play Game");
     }
