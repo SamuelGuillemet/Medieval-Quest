@@ -11,8 +11,7 @@ public class CharacterSelection : MonoBehaviour
     public Button nextCharacterButton;
     public Button previousCharacterButton;
     private GameObject[] charactersPanels;
-    public UITimer timer;
-
+    public Animator crossfadeAnimator;
     private int currentCharacterIndex;
 
     private void Start()
@@ -37,13 +36,12 @@ public class CharacterSelection : MonoBehaviour
 
     public void ExitMenu()
     {
-        SceneManager.LoadScene("MainMenu");
+        StartCoroutine(LoadSceneCoroutine("MainMenu"));
     }
 
     public void PlayGame()
     {
-        SceneManager.LoadScene("GameScene");
-        timer.playing = true;
+        StartCoroutine(LoadSceneCoroutine("GameScene"));
         Debug.Log("Play Game");
     }
 
@@ -87,5 +85,12 @@ public class CharacterSelection : MonoBehaviour
                 break;
             }
         }
+    }
+
+    IEnumerator LoadSceneCoroutine(string sceneName)
+    {
+        crossfadeAnimator.SetTrigger("Start");
+        yield return new WaitForSecondsRealtime(.5f);
+        SceneManager.LoadScene(sceneName);
     }
 }

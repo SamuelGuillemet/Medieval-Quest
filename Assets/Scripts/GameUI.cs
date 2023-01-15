@@ -11,6 +11,8 @@ public class GameUI : MonoBehaviour
     public Button exitButton;
     public Button settingsButton;
 
+    public Animator crossfadeAnimator;
+
     private void Start()
     {
         if (PlayerPrefs.GetString("PreviousScene") == "GameScene")
@@ -54,13 +56,21 @@ public class GameUI : MonoBehaviour
 
     public void ExitGame()
     {
-        Application.Quit();
+        //Application.Quit();
+        StartCoroutine(LoadSceneCoroutine("MainMenu"));
     }
 
     public void Settings()
     {
-        //save current scene
+        Debug.Log("SAVE SCENE TO CONTINUE GAME");
         PlayerPrefs.SetString("PreviousScene", SceneManager.GetActiveScene().name);
-        SceneManager.LoadScene("SettingsMenu");
+        StartCoroutine(LoadSceneCoroutine("SettingsMenu"));
+    }
+
+    IEnumerator LoadSceneCoroutine(string sceneName)
+    {
+        crossfadeAnimator.SetTrigger("Start");
+        yield return new WaitForSecondsRealtime(.5f);
+        SceneManager.LoadScene(sceneName);
     }
 }
