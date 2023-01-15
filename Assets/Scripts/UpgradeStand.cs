@@ -6,6 +6,7 @@ public class UpgradeStand : MonoBehaviour
 {
     private Camera _cam;
     private bool _isInUpgradeZone = false;
+    public GameObject upgradeMenu;
 
     private void Start()
     {
@@ -37,7 +38,8 @@ public class UpgradeStand : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.E))
             {
-                Debug.Log("Upgrade Menu");
+                Time.timeScale = 0;
+                upgradeMenu.SetActive(true);
             }
         }
     }
@@ -57,9 +59,11 @@ public class UpgradeStand : MonoBehaviour
                     GameObject upgradeStand = hit.collider.gameObject;
 
                     // Play the particle effect
-                    ParticleSystem particleSystem = upgradeStand.GetComponentInChildren<ParticleSystem>();
+                    ParticleSystem particleSystem =
+                        upgradeStand.GetComponentInChildren<ParticleSystem>();
 
-                    if (particleSystem.isPlaying) particleSystem.Stop();
+                    if (particleSystem.isPlaying)
+                        particleSystem.Stop();
                     particleSystem.Play();
                 }
             }
