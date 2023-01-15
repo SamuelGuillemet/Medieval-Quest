@@ -9,6 +9,7 @@ public class MainMenu : MonoBehaviour
 
     public void PlayGame()
     {
+        PlayerPrefs.SetString("PreviousScene", SceneManager.GetActiveScene().name);
         StartCoroutine(LoadSceneCoroutine("CharacterSelect"));
     }
 
