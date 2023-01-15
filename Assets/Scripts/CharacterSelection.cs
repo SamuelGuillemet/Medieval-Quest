@@ -41,8 +41,18 @@ public class CharacterSelection : MonoBehaviour
 
     public void PlayGame()
     {
+        SaveCharacterandAbilities();
         StartCoroutine(LoadSceneCoroutine("GameScene"));
         Debug.Log("Play Game");
+    }
+
+    private void SaveCharacterandAbilities()
+    {
+        PlayerPrefs.SetString("Character", charactersPanels[currentCharacterIndex].name);
+        PlayerPrefs.SetFloat(
+            "Health",
+            charactersPanels[currentCharacterIndex].GetComponentInChildren<Slider>().value
+        );
     }
 
     public void NextCharacter()
