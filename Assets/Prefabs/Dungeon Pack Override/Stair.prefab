@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5787622831396620872}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Stair
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 5787622832696913732}
   - component: {fileID: 5787622832695913860}
   - component: {fileID: 5333479102478370648}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Steps01D
   m_TagString: Untagged
   m_Icon: {fileID: 0}

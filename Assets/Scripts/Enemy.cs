@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class Enemy : MonoBehaviour
 {
     private NavMeshAgent _agent;
-    [SerializeField] private GameObject _player;
+    private GameObject _player;
     private NavMeshAgent _playerAgent;
 
     void Start()
@@ -17,6 +17,7 @@ public class Enemy : MonoBehaviour
         _agent.speed = 6f;
         _agent.stoppingDistance = 1f;
 
+        _player = GameObject.FindGameObjectWithTag("Player");
         _playerAgent = _player.GetComponent<NavMeshAgent>();
 
         StartCoroutine(FollowPlayer());
@@ -36,6 +37,15 @@ public class Enemy : MonoBehaviour
             Debug.DrawLine(transform.position, destination, Color.red);
 
             yield return new WaitUntil(() => _playerAgent.velocity.magnitude > 0.1f);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            Debug.Log("Player killed enemy");
+            GameManager.Instance.OnEnemyKilled?.Invoke(gameObject);
         }
     }
 }
