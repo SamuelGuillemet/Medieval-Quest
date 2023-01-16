@@ -21,6 +21,8 @@ public class MapGenerator : MonoBehaviour
 
     private PrefabsGenerator _prefabsGenerator;
 
+    public int Seed { get => _seed; set => _seed = value; }
+
     public void GenerateMap()
     {
         _prefabsGenerator = GetComponent<PrefabsGenerator>();
