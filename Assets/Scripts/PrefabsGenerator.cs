@@ -31,6 +31,9 @@ public class PrefabsGenerator : MonoBehaviour
     [SerializeField] private int _obstacles;
     [SerializeField] private int _lands;
 
+    private int _numberOfEnemySpawnZone = 8;
+    public int NumberOfEnemySpawnZone { get => _numberOfEnemySpawnZone; set => _numberOfEnemySpawnZone = value; }
+
     public void AddTile(Vector3 postion, TileType name)
     {
         Tiles.Add(new Tile(postion * _tileSize, name));
@@ -260,7 +263,8 @@ public class PrefabsGenerator : MonoBehaviour
     private void GenerateEnemySpawn(int mapWidth, int mapHeight)
     {
         List<Vector3> positionsList = new List<Vector3>();
-        for (int i = 0; i < 8; i++)
+
+        for (int i = 0; i < _numberOfEnemySpawnZone; i++)
         {
             while (true)
             {
