@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -15,11 +16,13 @@ public class HeroController : MonoBehaviour
     private float _horizontalInput;
     private float _verticalInput;
 
+    private bool _tryToClimb = false;
     private AgentRangeMode _agentRange = AgentRangeMode.Walk;
     // Return -1f for AgentRangeMode.Walk and -0.1f pour AgentRangeMode.Dash
     private float AgentRange => _agentRange == AgentRangeMode.Walk ? -1f : -0.1f;
 
-    NavMeshAgent _agent;
+    private NavMeshAgent _agent;
+
 
     // Animator _animator;
 
@@ -41,7 +44,7 @@ public class HeroController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CalculateDestinationWithInput();
+        CalculateDestinationWithInputFromTopWorld();
         UpdateRotation();
 
         _cam.transform.position = new Vector3(x: transform.position.x, y: 33, z: transform.position.z - 10);
@@ -83,7 +86,8 @@ public class HeroController : MonoBehaviour
         }
     }
 
-    private void CalculateDestinationWithInput()
+    [Obsolete("Use CalculateDestinationWithInputFromTopWorld instead. This function was deprecated because it is not working properly.")]
+    private void CalculateDestinationWithRayFromThePlayer()
     {
         _horizontalInput = Input.GetAxis("Horizontal");
         _verticalInput = Input.GetAxis("Vertical");
@@ -119,5 +123,49 @@ public class HeroController : MonoBehaviour
 
         // _animator.SetFloat("HorizontalSpeed", horizontalSpeed * (_agent.velocity.magnitude / _agent.speed));
         // _animator.SetFloat("VerticalSpeed", verticalSpeed * (_agent.velocity.magnitude / _agent.speed));
+    }
+
+    private void CalculateDestinationWithInputFromTopWorld()
+    {
+        _horizontalInput = Input.GetAxis("Horizontal");
+        _verticalInput = Input.GetAxis("Vertical");
+
+        // Calculate the direction of the movement based on input and rotation
+        Vector3 origin = new Vector3(_horizontalInput, 0f, _verticalInput);
+
+        if (_agentRange == AgentRangeMode.Dash)
+        {
+            origin *= 5f;
+        }
+
+        if (_tryToClimb) origin.y = 10f;
+
+        origin += transform.position;
+
+        RaycastHit hit;
+        if (Physics.Raycast(origin, Vector3.down, out hit))
+        {
+            Vector3 destination = new Vector3(hit.point.x, hit.point.y, hit.point.z);
+
+            Debug.DrawLine(transform.position, destination, Color.blue);
+            _agent.SetDestination(destination);
+
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Ladder"))
+        {
+            _tryToClimb = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Ladder"))
+        {
+            _tryToClimb = false;
+        }
     }
 }
