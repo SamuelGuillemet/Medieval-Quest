@@ -101,6 +101,6 @@ public class CharacterSelection : MonoBehaviour
     {
         crossfadeAnimator.SetTrigger("Start");
         yield return new WaitForSecondsRealtime(.5f);
-        SceneManager.LoadScene(sceneName);
+        SceneManager.LoadSceneAsync(sceneName);
     }
 }

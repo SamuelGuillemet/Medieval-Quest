@@ -45,7 +45,7 @@ public class PauseMenu : MonoBehaviour
     {
         crossfadeAnimator.SetTrigger("Start");
         yield return new WaitForSecondsRealtime(.5f);
-        SceneManager.LoadScene(sceneName);
+        SceneManager.LoadSceneAsync(sceneName);
     }
 
     public void PauseGame()
