@@ -7,7 +7,7 @@ public class UITimer : MonoBehaviour
 {
     public TMPro.TMP_Text TimerText;
     public bool playing { get; set; }
-    private float timer;
+    public float timer;
 
     private void Awake()
     {
