@@ -11,7 +11,7 @@ public class GameUI : MonoBehaviour
     private Slider _enemiesBar;
     private TMPro.TMP_Text _waveText;
 
-    private void Start()
+    void Awake()
     {
         _healthBar = GameObject.Find("HealthBar").GetComponentInChildren<Slider>();
         _xpBar = GameObject.Find("XPBar").GetComponentInChildren<Slider>();

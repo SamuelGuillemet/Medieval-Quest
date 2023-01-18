@@ -19,7 +19,7 @@ public class SettingsMenu : MonoBehaviour
     public Animator crossfadeAnimator;
     Resolution[] resolutions;
 
-    private void Start()
+    void Awake()
     {
         DisablePopup();
 
@@ -131,7 +131,7 @@ public class SettingsMenu : MonoBehaviour
         }
     }
 
-    public void DisablePopup()
+    private void DisablePopup()
     {
         //enable the normal ui
         settingsCanvasGroup.alpha = 1;
@@ -144,7 +144,7 @@ public class SettingsMenu : MonoBehaviour
         popupCanvasGroup.blocksRaycasts = false;
     }
 
-    public void EnablePopup()
+    private void EnablePopup()
     {
         //disable the normal ui
         settingsCanvasGroup.alpha = 0.3f;

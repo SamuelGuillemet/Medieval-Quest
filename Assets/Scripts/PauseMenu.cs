@@ -12,7 +12,7 @@ public class PauseMenu : MonoBehaviour
     public Button settingsButton;
     public Animator crossfadeAnimator;
 
-    private void Start()
+    void Awake()
     {
         if (PlayerPrefs.GetString("PreviousScene") == "GameScene")
         {

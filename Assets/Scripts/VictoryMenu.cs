@@ -17,7 +17,7 @@ public class VictoryMenu : MonoBehaviour
     private UITimer _uitimer;
     private GameManager _gameManager;
 
-    private void Start()
+    void Awake()
     {
         _gameManager = GameObject.Find("GameManager").GetComponentInParent<GameManager>();
         _uitimer = GameObject.Find("Timer").GetComponentInParent<UITimer>();

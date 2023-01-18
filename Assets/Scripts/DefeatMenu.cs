@@ -16,7 +16,7 @@ public class DefeatMenu : MonoBehaviour
     private UITimer _uitimer;
     private GameManager _gameManager;
 
-    private void Start()
+    void Awake()
     {
         _gameManager = GameObject.Find("GameManager").GetComponentInParent<GameManager>();
         _uitimer = GameObject.Find("Timer").GetComponentInParent<UITimer>();
@@ -32,7 +32,7 @@ public class DefeatMenu : MonoBehaviour
         defeatMenu.SetActive(true);
         Time.timeScale = 0;
         _finalTime.text = _uitimer.TimerText.text;
-        _wavesText.text = "Vagues vaincues" + _gameManager.WaveNumber;
+        _wavesText.text = "Vagues vaincues : " + _gameManager.WaveNumber;
         yield return null;
     }
 

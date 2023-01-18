@@ -9,7 +9,7 @@ public class UpgradeMenu : MonoBehaviour
     Button[] upgradeButtons;
     Slider[] upgradeSliders;
 
-    private void Start()
+    void Awake()
     {
         upgradeButtons = upgradeMenu.GetComponentsInChildren<Button>();
         upgradeMenu.SetActive(false);
