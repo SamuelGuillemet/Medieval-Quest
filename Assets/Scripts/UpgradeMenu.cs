@@ -8,31 +8,62 @@ public class UpgradeMenu : MonoBehaviour
     public CanvasGroup upgradeMenuCanvasGroup; //add this in the inspector
     private GameObject _specificUpgrades;
     private GameUI _gameUI;
-    Slider[] upgradeSliders;
 
     void Awake()
     {
         StartCoroutine(DisableUpgradePopup(0f));
 
         _gameUI = FindObjectOfType<GameUI>();
-        upgradeSliders = upgradeMenuCanvasGroup.GetComponentsInChildren<Slider>();
-        for (int i = 0; i < upgradeSliders.Length; i++)
-        {
-            upgradeSliders[i].value = 0;
-        }
-
-        _specificUpgrades = GameObject.Find("SpecificUpgrades");
     }
 
     public void Upgrade(Slider slider)
     {
         slider.value += 1;
+        //depending on the slider, do something
+        switch (slider.name)
+        {
+            case "MovementSpeed":
+                //do something
+                break;
+            case "Cooldown1":
+                //do something
+                break;
+            case "Cooldown2":
+                //do something
+                break;
+            case "Cooldown3":
+                //do something
+                break;
+            case "MaxHP":
+                //do something
+                break;
+            case "Upgrade1":
+                //do something
+                break;
+            case "Upgrade2":
+                //do something
+                break;
+            case "Upgrade3":
+                //do something
+                break;
+            case "Upgrade4":
+                //do something
+                break;
+            case "Upgrade5":
+                //do something
+                break;
+        }
+
         if (slider.value == slider.maxValue)
         {
             slider.transform.gameObject.GetComponentInChildren<Button>().interactable = false;
         }
         _gameUI.upgradeCount--;
-        Destroy(_gameUI.upgradeImages.transform.GetChild(0).gameObject);
+        Destroy(
+            _gameUI.upgradeImages.transform
+                .GetChild(_gameUI.upgradeImages.transform.childCount - 1)
+                .gameObject
+        );
 
         if (_gameUI.upgradeCount == 0)
         {
