@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using WarriorAnimsFREE;
 
 public class HeroController : MonoBehaviour
 {
@@ -22,15 +23,17 @@ public class HeroController : MonoBehaviour
     private float AgentRange => _agentRange == AgentRangeMode.Walk ? -1f : -0.1f;
 
     private NavMeshAgent _agent;
+    private WarriorController _warriorController;
 
 
-    // Animator _animator;
+    Animator _animator;
 
     // Start is called before the first frame update
     void Start()
     {
         _agent = GetComponent<NavMeshAgent>();
-        //_animator = GetComponentInChildren<Animator>();
+        _animator = GetComponentInChildren<Animator>();
+        _warriorController = GetComponent<WarriorController>();
 
         _agent.angularSpeed = 0f;
         _agent.acceleration = 60f;
@@ -58,8 +61,31 @@ public class HeroController : MonoBehaviour
             _agentRange = AgentRangeMode.Walk;
         }
 
+        if (_animator)
+        {
+            AdjustAnimations();
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                _warriorController.Attack1();
+            }
+        }
+
     }
 
+    private void AdjustAnimations()
+    {
+        _animator.SetFloat("Velocity", _agent.velocity.magnitude / _agent.speed);
+
+        if (_agent.velocity.magnitude > 0.1f)
+        {
+            _animator.SetBool("Moving", true);
+        }
+        else
+        {
+            _animator.SetBool("Moving", false);
+        }
+    }
 
     private void UpdateRotation()
     {
@@ -137,10 +163,15 @@ public class HeroController : MonoBehaviour
         {
             origin *= 5f;
         }
+        else
+        {
+            origin *= 1.5f;
+        }
 
         if (_tryToClimb) origin.y = 10f;
 
         origin += transform.position;
+        origin.y += 2.5f;
 
         RaycastHit hit;
         if (Physics.Raycast(origin, Vector3.down, out hit))
@@ -158,6 +189,12 @@ public class HeroController : MonoBehaviour
         if (other.gameObject.CompareTag("Ladder"))
         {
             _tryToClimb = true;
+        }
+
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            Debug.Log("Player killed enemy");
+            GameManager.Instance.OnEnemyKilled?.Invoke(other.gameObject);
         }
     }
 
