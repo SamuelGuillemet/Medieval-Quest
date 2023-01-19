@@ -6,7 +6,6 @@ public class UpgradeStand : MonoBehaviour
 {
     private Camera _cam;
     private bool _isInUpgradeZone = false;
-    public GameObject upgradeMenu;
 
     private void Start()
     {
@@ -35,12 +34,6 @@ public class UpgradeStand : MonoBehaviour
         {
             // Handle the click on a upgrade stand
             ClickOnUpgradeStand();
-
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                Time.timeScale = 0;
-                upgradeMenu.SetActive(true);
-            }
         }
     }
 

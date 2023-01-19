@@ -7,22 +7,23 @@ using UnityEngine.SceneManagement;
 public class PauseMenu : MonoBehaviour
 {
     public GameObject pauseMenu;
-    public Button resumeButton;
-    public Button exitButton;
-    public Button settingsButton;
     public Animator crossfadeAnimator;
+    public CanvasGroup pauseMenuCanvasGroup;
+    public CanvasGroup upgradeMenuCanvasGroup;
+    private bool _isPaused;
 
     void Awake()
     {
+        _isPaused = false;
         if (PlayerPrefs.GetString("PreviousScene") == "GameScene")
         {
             Time.timeScale = 0;
-            pauseMenu.SetActive(true);
+            ResumeGame();
         }
         else
         {
             Time.timeScale = 1;
-            pauseMenu.SetActive(false);
+            PauseGame();
         }
     }
 
@@ -30,7 +31,7 @@ public class PauseMenu : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (pauseMenu.activeSelf)
+            if (_isPaused)
             {
                 ResumeGame();
             }
@@ -38,6 +39,7 @@ public class PauseMenu : MonoBehaviour
             {
                 PauseGame();
             }
+            _isPaused = !_isPaused;
         }
     }
 
@@ -51,13 +53,26 @@ public class PauseMenu : MonoBehaviour
     public void PauseGame()
     {
         Time.timeScale = 0;
-        pauseMenu.SetActive(true);
+        upgradeMenuCanvasGroup.alpha *= 0.3f;
+        upgradeMenuCanvasGroup.interactable = false;
+        upgradeMenuCanvasGroup.blocksRaycasts = false;
+
+        pauseMenuCanvasGroup.alpha = 1;
+        pauseMenuCanvasGroup.interactable = true;
+        pauseMenuCanvasGroup.blocksRaycasts = true;
     }
 
     public void ResumeGame()
     {
+        upgradeMenuCanvasGroup.alpha /= 0.3f;
+        upgradeMenuCanvasGroup.interactable = true;
+        upgradeMenuCanvasGroup.blocksRaycasts = true;
+
+        pauseMenuCanvasGroup.alpha = 0;
+        pauseMenuCanvasGroup.interactable = false;
+        pauseMenuCanvasGroup.blocksRaycasts = false;
+
         Time.timeScale = 1;
-        pauseMenu.SetActive(false);
     }
 
     public void Settings()

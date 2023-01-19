@@ -5,44 +5,64 @@ using UnityEngine.UI;
 
 public class UpgradeMenu : MonoBehaviour
 {
-    public GameObject upgradeMenu;
-    private GameObject specificUpgrades;
+    public CanvasGroup upgradeMenuCanvasGroup; //add this in the inspector
+    private GameObject _specificUpgrades;
     private GameManager _gameManager;
-    Button[] upgradeButtons;
     Slider[] upgradeSliders;
 
     void Awake()
     {
+        StartCoroutine(DisableUpgradePopup(0f));
         _gameManager = GameObject.Find("GameManager").GetComponentInParent<GameManager>();
 
-        upgradeMenu.SetActive(false);
-        upgradeSliders = upgradeMenu.GetComponentsInChildren<Slider>();
+        upgradeSliders = upgradeMenuCanvasGroup.GetComponentsInChildren<Slider>();
         for (int i = 0; i < upgradeSliders.Length; i++)
         {
             upgradeSliders[i].value = 0;
-            upgradeButtons[i] = upgradeSliders[i].GetComponentInChildren<Button>();
         }
 
-        specificUpgrades = GameObject.Find("SpecificUpgrades");
+        _specificUpgrades = GameObject.Find("SpecificUpgrades");
     }
 
     public void Upgrade(Slider slider)
     {
-        int upgradeIndex = System.Array.IndexOf(upgradeSliders, slider);
+        // int upgradeIndex = System.Array.IndexOf(upgradeSliders, slider);
         //StartCoroutine(Upgrade(_gameManager.SelectedPlayer, upgradeIndex));
         slider.value += 1;
         if (slider.value == slider.maxValue)
         {
             slider.GetComponentInChildren<Button>().interactable = false;
         }
-
-        StartCoroutine(ExitMenu());
+        StartCoroutine(DisableUpgradePopup(0.5f));
     }
 
-    IEnumerator ExitMenu()
+    IEnumerator DisableUpgradePopup(float time)
     {
-        yield return new WaitForSecondsRealtime(0.1f);
-        upgradeMenu.SetActive(false);
+        yield return new WaitForSecondsRealtime(time);
+
+        //disable the upgrade menu
+        upgradeMenuCanvasGroup.alpha = 0;
+        upgradeMenuCanvasGroup.interactable = false;
+        upgradeMenuCanvasGroup.blocksRaycasts = false;
+
         Time.timeScale = 1;
+    }
+
+    public void EnableUpgradePopup()
+    {
+        Time.timeScale = 0;
+
+        //enable the upgrade menu
+        upgradeMenuCanvasGroup.alpha = 1;
+        upgradeMenuCanvasGroup.interactable = true;
+        upgradeMenuCanvasGroup.blocksRaycasts = true;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.E)) // && _canUpgrade)
+        {
+            EnableUpgradePopup();
+        }
     }
 }
