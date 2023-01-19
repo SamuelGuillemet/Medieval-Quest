@@ -24,9 +24,9 @@ AvatarMask:
   - m_Path: Erika_Archer_Eyes_Mesh
     m_Weight: 1
   - m_Path: mixamorig:Hips
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: mixamorig:Hips/mixamorig:arrow
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: mixamorig:Hips/mixamorig:LeftUpLeg
     m_Weight: 0
   - m_Path: mixamorig:Hips/mixamorig:LeftUpLeg/mixamorig:LeftLeg
