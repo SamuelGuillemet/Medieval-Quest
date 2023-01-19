@@ -6,20 +6,12 @@ using UnityEngine.Events;
 public class GameManager : MonoBehaviour
 {
     public PlayerType SelectedPlayer = PlayerType.None;
+    private GameObject _player;
+    public GameObject Player { get => _player; set => _player = value; }
 
     private static GameManager _instance;
-    public static GameManager Instance
-    {
-        get
-        {
-            if (_instance == null)
-                _instance = GameObject.FindObjectOfType<GameManager>();
-            return _instance;
-        }
-    }
+    public static GameManager Instance { get { if (_instance == null) _instance = GameObject.FindObjectOfType<GameManager>(); return _instance; } }
 
-    [SerializeField]
-    private int _numberOfEnemySpawnZone = 8;
 
     [SerializeField]
     private int _seed = 1;
@@ -27,14 +19,13 @@ public class GameManager : MonoBehaviour
     private int _numberOfEnemies = 0;
     private EnemySpawnZone[] _enemySpawnZones;
 
-    private int[] _fibonnaciSuite = new int[] { 1, 2, 3, 5, 8, 13, 21, 34, 55, 89 };
-
-    [HideInInspector]
-    public int WaveNumber = 0;
+    private int[] _fibonnaciSuite = new int[] { 2, 2, 3, 5, 8, 13, 21, 34, 55, 89 };
+    [HideInInspector] public int WaveNumber = 0;
 
     public List<GameObject> Enemies;
 
     public UnityEventGameObject OnEnemyKilled;
+    public UnityEventFloat OnDamageTaken;
 
     private GameUI _gameUI;
 
@@ -55,11 +46,13 @@ public class GameManager : MonoBehaviour
         _enemySpawnZones = FindObjectsOfType<EnemySpawnZone>();
 
         OnEnemyKilled.AddListener(OnEnemyKilledCallback);
+        OnDamageTaken.AddListener(OnEnemyDamagedCallback);
     }
 
     void Start()
     {
         StartCoroutine(EnemiesWave());
+        _player = GameObject.FindGameObjectWithTag("Player");
     }
 
     IEnumerator EnemiesWave()
@@ -104,6 +97,13 @@ public class GameManager : MonoBehaviour
         Enemies.Remove(enemy);
         Destroy(enemy);
     }
+
+    private void OnEnemyDamagedCallback(int damage, GameObject enemy)
+    {
+        Debug.Log("Enemy: " + enemy.name + " - Health: " + enemy.GetComponent<IEnemy>().Health);
+    }
+
+
 }
 
 public enum PlayerType
@@ -114,5 +114,5 @@ public enum PlayerType
     Mage
 }
 
-[System.Serializable]
-public class UnityEventGameObject : UnityEvent<GameObject> { }
+[System.Serializable] public class UnityEventGameObject : UnityEvent<GameObject> { }
+[System.Serializable] public class UnityEventFloat : UnityEvent<int, GameObject> { }
