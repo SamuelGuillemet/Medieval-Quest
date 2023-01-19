@@ -139,16 +139,17 @@ public class HeroController : MonoBehaviour
         }
 
 
-        // Quaternion rotation = transform.rotation;
+         Quaternion rotation = transform.rotation;
 
-        // Vector3 input = new Vector3(_horizontalInput, 0, _verticalInput);
-        // Vector3 animspeed = new Vector3(Vector3.Dot(input, transform.forward), 0, Vector3.Dot(input, transform.right));
+         Vector3 input = new Vector3(_horizontalInput, 0, _verticalInput);
+         Vector3 animspeed = new Vector3(Vector3.Dot(input, transform.forward), 0, Vector3.Dot(input, transform.right));
 
-        // float horizontalSpeed = -animspeed.x;
-        // float verticalSpeed = -animspeed.z;
 
-        // _animator.SetFloat("HorizontalSpeed", horizontalSpeed * (_agent.velocity.magnitude / _agent.speed));
-        // _animator.SetFloat("VerticalSpeed", verticalSpeed * (_agent.velocity.magnitude / _agent.speed));
+         float horizontalSpeed = -animspeed.x;
+         float verticalSpeed = -animspeed.z;
+
+        _animator.SetFloat("HorizontalSpeed", horizontalSpeed * (_agent.velocity.magnitude / _agent.speed));
+        _animator.SetFloat("VerticalSpeed", verticalSpeed * (_agent.velocity.magnitude / _agent.speed));
     }
 
     private void CalculateDestinationWithInputFromTopWorld()
