@@ -28,6 +28,9 @@ public class HeroController : MonoBehaviour
 
     Animator _animator;
 
+    public bool isMoving;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -117,6 +120,15 @@ public class HeroController : MonoBehaviour
     {
         _horizontalInput = Input.GetAxis("Horizontal");
         _verticalInput = Input.GetAxis("Vertical");
+
+        if (_horizontalInput == 0 && _verticalInput == 0)
+        {
+            isMoving = false; 
+        } else
+        {
+            isMoving = true;
+        }
+
 
         // Calculate the direction of the movement based on input and rotation
         Vector3 direction = new Vector3(_horizontalInput, AgentRange, _verticalInput);
