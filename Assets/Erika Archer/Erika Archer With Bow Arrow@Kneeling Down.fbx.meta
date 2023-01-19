@@ -60,7 +60,7 @@ ModelImporter:
       curves: []
       events:
       - time: 0.08353222
-        functionName: MovePlayer
+        functionName: SwitchMovement
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
@@ -74,7 +74,7 @@ ModelImporter:
         intParameter: 0
         messageOptions: 0
       - time: 0.8544153
-        functionName: MovePlayer
+        functionName: SwitchMovement
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
