@@ -13,6 +13,7 @@ public class CharacterSelection : MonoBehaviour
     private GameObject[] charactersPanels;
     public Animator crossfadeAnimator;
     private int currentCharacterIndex;
+    private GameManager _gameManager;
 
     private void Start()
     {
@@ -49,10 +50,7 @@ public class CharacterSelection : MonoBehaviour
     private void SaveCharacterandAbilities()
     {
         PlayerPrefs.SetString("Character", charactersPanels[currentCharacterIndex].name);
-        PlayerPrefs.SetFloat(
-            "Health",
-            charactersPanels[currentCharacterIndex].GetComponentInChildren<Slider>().value
-        );
+        // _gameManager.SelectedPlayer = (SelectedPlayer) currentCharacterIndex;
     }
 
     public void NextCharacter()
