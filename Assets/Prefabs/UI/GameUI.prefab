@@ -353,7 +353,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 2301225044325458843}
+  m_TargetGraphic: {fileID: 2301225043254774536}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -1893,7 +1893,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 2301225044325458843}
+  m_TargetGraphic: {fileID: 2301225043465746166}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -2453,7 +2453,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 2301225043974402218}
   m_FillRect: {fileID: 2301225045124271173}
   m_HandleRect: {fileID: 2301225043974402219}
@@ -2751,7 +2751,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 2301225044805852890}
   m_FillRect: {fileID: 2301225043677843857}
   m_HandleRect: {fileID: 2301225044805852891}
@@ -3139,7 +3139,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 2301225044325458843}
+  m_TargetGraphic: {fileID: 2301225043592154508}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -3567,6 +3567,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8bbce4fff214224e9c6f77aa00df6ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  upgradeImages: {fileID: 3754473387180815162}
+  _upgradeImage: {fileID: 8759405332615731422, guid: bd3173c892494e34ba7db41795a65310,
+    type: 3}
 --- !u!1 &2301225043621172975
 GameObject:
   m_ObjectHideFlags: 0
@@ -4989,7 +4992,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 2301225044102575392}
   m_FillRect: {fileID: 2301225044903200469}
   m_HandleRect: {fileID: 2301225044102575393}
@@ -5191,7 +5194,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 2301225044325458843}
+  m_TargetGraphic: {fileID: 2301225043841719230}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -5531,7 +5534,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 2301225043878930557}
   m_FillRect: {fileID: 2301225043962253237}
   m_HandleRect: {fileID: 2301225043878930558}
@@ -7304,7 +7307,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 2301225044487822356}
   m_FillRect: {fileID: 2301225044145022344}
   m_HandleRect: {fileID: 2301225044487822357}
@@ -9866,7 +9869,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 2301225043571474107}
   m_FillRect: {fileID: 2301225044796179332}
   m_HandleRect: {fileID: 2301225043571474100}
@@ -11251,7 +11254,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
-  m_FillAmount: 0.662
+  m_FillAmount: 0.6
   m_FillClockwise: 1
   m_FillOrigin: 2
   m_UseSpriteMesh: 0
@@ -11949,7 +11952,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 2301225044325458843}
+  m_TargetGraphic: {fileID: 2301225044675666215}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -13070,7 +13073,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 2301225044325458843}
+  m_TargetGraphic: {fileID: 2301225044760864134}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -13374,7 +13377,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 2301225043494537768}
   m_FillRect: {fileID: 2301225043938176035}
   m_HandleRect: {fileID: 2301225043494537769}
@@ -13650,7 +13653,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 2301225044325458843}
+  m_TargetGraphic: {fileID: 2301225044843543641}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -13967,7 +13970,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 2301225043210900016}
   m_FillRect: {fileID: 2301225043564061761}
   m_HandleRect: {fileID: 2301225043210900017}
@@ -14757,7 +14760,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 2301225044325458843}
+  m_TargetGraphic: {fileID: 2301225044972294365}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -15596,7 +15599,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -8, y: 50}
+  m_AnchoredPosition: {x: -9, y: 50}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2301225045119934355
@@ -16388,7 +16391,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 2301225044140573195}
   m_FillRect: {fileID: 2301225045336533639}
   m_HandleRect: {fileID: 2301225044140573188}
@@ -16505,6 +16508,7 @@ RectTransform:
   - {fileID: 2301225044555200281}
   - {fileID: 2301225045310165154}
   - {fileID: 2301225044696196187}
+  - {fileID: 5671564087904056838}
   m_Father: {fileID: 2301225044565575118}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -16790,7 +16794,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 2301225045053350974}
   m_FillRect: {fileID: 2301225043638358676}
   m_HandleRect: {fileID: 2301225045053350975}
@@ -17102,7 +17106,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 2301225044325458843}
+  m_TargetGraphic: {fileID: 2301225045293241226}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -17227,3 +17231,38 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &3754473387180815162
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5671564087904056838}
+  m_Layer: 0
+  m_Name: UpgradeImages
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &5671564087904056838
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3754473387180815162}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2301225045211392273}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 135, y: 0}
+  m_SizeDelta: {x: 15, y: 15}
+  m_Pivot: {x: 0.5, y: 0.5}

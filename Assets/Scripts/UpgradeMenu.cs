@@ -7,14 +7,14 @@ public class UpgradeMenu : MonoBehaviour
 {
     public CanvasGroup upgradeMenuCanvasGroup; //add this in the inspector
     private GameObject _specificUpgrades;
-    private GameManager _gameManager;
+    private GameUI _gameUI;
     Slider[] upgradeSliders;
 
     void Awake()
     {
         StartCoroutine(DisableUpgradePopup(0f));
-        _gameManager = GameObject.Find("GameManager").GetComponentInParent<GameManager>();
 
+        _gameUI = FindObjectOfType<GameUI>();
         upgradeSliders = upgradeMenuCanvasGroup.GetComponentsInChildren<Slider>();
         for (int i = 0; i < upgradeSliders.Length; i++)
         {
@@ -26,14 +26,18 @@ public class UpgradeMenu : MonoBehaviour
 
     public void Upgrade(Slider slider)
     {
-        // int upgradeIndex = System.Array.IndexOf(upgradeSliders, slider);
-        //StartCoroutine(Upgrade(_gameManager.SelectedPlayer, upgradeIndex));
         slider.value += 1;
         if (slider.value == slider.maxValue)
         {
-            slider.GetComponentInChildren<Button>().interactable = false;
+            slider.transform.gameObject.GetComponentInChildren<Button>().interactable = false;
         }
-        StartCoroutine(DisableUpgradePopup(0.5f));
+        _gameUI.upgradeCount--;
+        Destroy(_gameUI.upgradeImages.transform.GetChild(0).gameObject);
+
+        if (_gameUI.upgradeCount == 0)
+        {
+            StartCoroutine(DisableUpgradePopup(0.5f));
+        }
     }
 
     IEnumerator DisableUpgradePopup(float time)
@@ -60,7 +64,7 @@ public class UpgradeMenu : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E)) // && _canUpgrade)
+        if (Input.GetKeyDown(KeyCode.E) && _gameUI.upgradeCount > 0)
         {
             EnableUpgradePopup();
         }
