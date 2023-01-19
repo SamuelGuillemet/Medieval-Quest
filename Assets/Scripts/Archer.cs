@@ -10,15 +10,19 @@ public class Archer : MonoBehaviour
     public int health = 30;
 
     
-    public int action1Cooldown = 1;
     private bool canShoot = true;
-    public GameObject arrowPrefab;
-    public Vector3 positionOffset;
-    public Quaternion rotationOffset;
+    public Arrow arrowPrefab;
+    public float damage = 10;
+    public float shootCoolDown = 1f;
+    public int maxEnemyTouched;
 
-    public int action2Cooldown = 3;
     private bool canPlaceTrap = true;
     public GameObject trapPrefab;
+    public float trapCoolDown = 3f;
+
+    private bool canAction3 = true;
+    public float action3Duration = 3f;
+    public float action3CoolDown = 10f;
 
     private HeroController player;
 
@@ -37,9 +41,13 @@ public class Archer : MonoBehaviour
         {
             StartCoroutine(ThrowArrowCoroutine());
         }
-        if (Input.GetMouseButton(1) && canPlaceTrap && !player.isMoving)
+        if (Input.GetMouseButton(1) && canPlaceTrap)
         {
             StartCoroutine(PlaceTrapCoroutine());
+        }
+        if (Input.GetKey(KeyCode.Space) && canAction3)
+        {
+            StartCoroutine(Action3Coroutine());
         }
     }
 
@@ -47,26 +55,55 @@ public class Archer : MonoBehaviour
     {
         canShoot = false;
         _animator.SetTrigger("Shoot");
-        yield return new WaitForSeconds(action1Cooldown);
+        yield return new WaitForSeconds(shootCoolDown);
         canShoot = true;
     }
 
     public void ThrowArrow()
     {
-        GameObject arrow = Instantiate(arrowPrefab, transform.position + positionOffset, transform.rotation /* * rotationOffset */);
-        arrow.AddComponent<Arrow>();
+        Arrow arrow = Instantiate(arrowPrefab, transform.position + transform.forward + transform.forward + new Vector3(0,2,0), transform.rotation);
+        arrow.transform.right = -transform.forward;
+        arrow.damage = damage;
+        arrow.maxEnemyTouched = maxEnemyTouched;
     }
 
     IEnumerator PlaceTrapCoroutine()
     {
-        canPlaceTrap = false;
+        canPlaceTrap = false;   
         _animator.SetTrigger("PlaceTrap");
-        yield return new WaitForSeconds(action2Cooldown);
+        yield return new WaitForSeconds(trapCoolDown);
         canPlaceTrap = true;
+
     }
 
     public void PlaceTrap()
     {
-        GameObject trap = Instantiate(trapPrefab, transform.position, new Quaternion(0,0,0,0));
+        GameObject trap = Instantiate(trapPrefab, transform.position , new Quaternion(0,0,0,0));
+    }
+
+    public void MovePlayer()
+    {
+        player.enabled = !player.enabled;
+    }
+
+    IEnumerator Action3Coroutine()
+    {
+        canAction3 = false;
+        Action3();
+        yield return new WaitForSeconds(action3Duration);
+        UnAction3();
+        yield return new WaitForSeconds(action3CoolDown - action3Duration);
+        canAction3 = true;
+    }
+
+    public void Action3()
+    {
+        //Double la vitesse du perso
+        shootCoolDown = shootCoolDown / 2;
+    }
+    public void UnAction3()
+    {
+        //divise la vitesse du perso par deux
+        shootCoolDown = shootCoolDown * 2;
     }
 }
