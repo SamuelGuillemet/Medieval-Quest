@@ -36,7 +36,7 @@ public class PlayerAgent : MonoBehaviour
 
         _agent.angularSpeed = 0f;
         _agent.acceleration = 60f;
-        _agent.speed = 10f;
+        _agent.speed = 5f;
         _agent.stoppingDistance = 0.1f;
 
         _agent.updateRotation = false;

@@ -73,7 +73,7 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.8544153
+      - time: 1
         functionName: SwitchMovement
         data: 
         objectReferenceParameter: {instanceID: 0}
