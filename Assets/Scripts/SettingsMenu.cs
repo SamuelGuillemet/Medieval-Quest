@@ -16,7 +16,7 @@ public class SettingsMenu : MonoBehaviour
     public Button saveButton;
     private float currentVolume;
     private bool _isSaved;
-    public Animator crossfadeAnimator;
+    public CrossFade crossFade;
     Resolution[] resolutions;
 
     void Awake()
@@ -127,7 +127,7 @@ public class SettingsMenu : MonoBehaviour
         }
         else
         {
-            StartCoroutine(LoadSceneCoroutine(PlayerPrefs.GetString("PreviousScene")));
+            StartCoroutine(crossFade.LoadSceneCoroutine(PlayerPrefs.GetString("PreviousScene")));
         }
     }
 
@@ -159,19 +159,12 @@ public class SettingsMenu : MonoBehaviour
 
     public void ConfirmExit()
     {
-        StartCoroutine(LoadSceneCoroutine(PlayerPrefs.GetString("PreviousScene")));
+        StartCoroutine(crossFade.LoadSceneCoroutine(PlayerPrefs.GetString("PreviousScene")));
     }
 
     public void SaveAndExit()
     {
         SaveSettings();
-        StartCoroutine(LoadSceneCoroutine(PlayerPrefs.GetString("PreviousScene")));
-    }
-
-    IEnumerator LoadSceneCoroutine(string sceneName)
-    {
-        crossfadeAnimator.SetTrigger("Start");
-        yield return new WaitForSecondsRealtime(.5f);
-        SceneManager.LoadSceneAsync(sceneName);
+        StartCoroutine(crossFade.LoadSceneCoroutine(PlayerPrefs.GetString("PreviousScene")));
     }
 }

@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class PauseMenu : MonoBehaviour
 {
     public GameObject pauseMenu;
-    public Animator crossfadeAnimator;
+    public CrossFade crossFade;
     public CanvasGroup pauseMenuCanvasGroup;
     public CanvasGroup upgradeMenuCanvasGroup;
     private bool _isPaused;
@@ -43,13 +43,6 @@ public class PauseMenu : MonoBehaviour
         }
     }
 
-    IEnumerator LoadSceneCoroutine(string sceneName)
-    {
-        crossfadeAnimator.SetTrigger("Start");
-        yield return new WaitForSecondsRealtime(.5f);
-        SceneManager.LoadSceneAsync(sceneName);
-    }
-
     public void PauseGame()
     {
         Time.timeScale = 0;
@@ -79,12 +72,12 @@ public class PauseMenu : MonoBehaviour
     {
         Debug.Log("SAVE SCENE TO CONTINUE GAME");
         PlayerPrefs.SetString("PreviousScene", SceneManager.GetActiveScene().name);
-        StartCoroutine(LoadSceneCoroutine("SettingsMenu"));
+        StartCoroutine(crossFade.LoadSceneCoroutine("SettingsMenu"));
     }
 
     public void ExitGame()
     {
         //Application.Quit();
-        StartCoroutine(LoadSceneCoroutine("MainMenu"));
+        StartCoroutine(crossFade.LoadSceneCoroutine("MainMenu"));
     }
 }

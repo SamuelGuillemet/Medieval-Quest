@@ -7,9 +7,8 @@ using UnityEngine.SceneManagement;
 public class DefeatMenu : MonoBehaviour
 {
     public GameObject defeatMenu;
-    public Button exitButton;
-    public Button retryButton;
-    public Animator crossfadeAnimator;
+    public GameObject endGameImage;
+    public CrossFade crossFade;
 
     private TMPro.TMP_Text _finalTime;
     private TMPro.TMP_Text _wavesText;
@@ -24,11 +23,13 @@ public class DefeatMenu : MonoBehaviour
         _finalTime = GameObject.Find("FinalTime").GetComponentInChildren<TMPro.TMP_Text>();
         _wavesText = GameObject.Find("Waves").GetComponentInChildren<TMPro.TMP_Text>();
 
+        endGameImage.SetActive(false);
         defeatMenu.SetActive(false);
     }
 
     IEnumerator Defeat()
     {
+        endGameImage.SetActive(true);
         defeatMenu.SetActive(true);
         Time.timeScale = 0;
         _finalTime.text = _uitimer.TimerText.text;
@@ -36,20 +37,13 @@ public class DefeatMenu : MonoBehaviour
         yield return null;
     }
 
-    IEnumerator LoadSceneCoroutine(string sceneName)
-    {
-        crossfadeAnimator.SetTrigger("Start");
-        yield return new WaitForSecondsRealtime(.5f);
-        SceneManager.LoadSceneAsync(sceneName);
-    }
-
     public void Retry()
     {
-        StartCoroutine(LoadSceneCoroutine("GameScene"));
+        StartCoroutine(crossFade.LoadSceneCoroutine("GameScene"));
     }
 
     public void Exit()
     {
-        StartCoroutine(LoadSceneCoroutine("MainMenu"));
+        StartCoroutine(crossFade.LoadSceneCoroutine("MainMenu"));
     }
 }

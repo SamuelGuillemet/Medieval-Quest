@@ -11,7 +11,7 @@ public class CharacterSelection : MonoBehaviour
     public Button nextCharacterButton;
     public Button previousCharacterButton;
     private GameObject[] charactersPanels;
-    public Animator crossfadeAnimator;
+    public CrossFade crossFade;
     private int currentCharacterIndex;
     private GameManager _gameManager;
 
@@ -37,13 +37,13 @@ public class CharacterSelection : MonoBehaviour
 
     public void ExitMenu()
     {
-        StartCoroutine(LoadSceneCoroutine("MainMenu"));
+        StartCoroutine(crossFade.LoadSceneCoroutine("MainMenu"));
     }
 
     public void PlayGame()
     {
         SaveCharacterandAbilities();
-        StartCoroutine(LoadSceneCoroutine("GameScene"));
+        StartCoroutine(crossFade.LoadSceneCoroutine("GameScene"));
         Debug.Log("Play Game");
     }
 
@@ -93,12 +93,5 @@ public class CharacterSelection : MonoBehaviour
                 break;
             }
         }
-    }
-
-    IEnumerator LoadSceneCoroutine(string sceneName)
-    {
-        crossfadeAnimator.SetTrigger("Start");
-        yield return new WaitForSecondsRealtime(.5f);
-        SceneManager.LoadSceneAsync(sceneName);
     }
 }

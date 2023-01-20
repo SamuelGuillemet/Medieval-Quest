@@ -9,7 +9,7 @@ public class VictoryMenu : MonoBehaviour
     public GameObject victoryMenu;
     public Button exitButton;
     public Button retryButton;
-    public Animator crossfadeAnimator;
+    public CrossFade crossFade;
 
     private TMPro.TMP_Text _finalTime;
     private TMPro.TMP_Text _bestTime;
@@ -67,20 +67,13 @@ public class VictoryMenu : MonoBehaviour
         yield return null;
     }
 
-    IEnumerator LoadSceneCoroutine(string sceneName)
-    {
-        crossfadeAnimator.SetTrigger("Start");
-        yield return new WaitForSecondsRealtime(.5f);
-        SceneManager.LoadSceneAsync(sceneName);
-    }
-
     public void Retry()
     {
-        StartCoroutine(LoadSceneCoroutine("GameScene"));
+        StartCoroutine(crossFade.LoadSceneCoroutine("GameScene"));
     }
 
     public void Exit()
     {
-        StartCoroutine(LoadSceneCoroutine("MainMenu"));
+        StartCoroutine(crossFade.LoadSceneCoroutine("MainMenu"));
     }
 }

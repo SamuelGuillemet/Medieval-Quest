@@ -5,30 +5,23 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    public Animator crossfadeAnimator;
+    public CrossFade crossFade;
 
     public void PlayGame()
     {
         PlayerPrefs.SetString("PreviousScene", SceneManager.GetActiveScene().name);
-        StartCoroutine(LoadSceneCoroutine("CharacterSelect"));
+        StartCoroutine(crossFade.LoadSceneCoroutine("GameScene"));
     }
 
     public void SettingsMenu()
     {
         PlayerPrefs.SetString("PreviousScene", SceneManager.GetActiveScene().name);
-        StartCoroutine(LoadSceneCoroutine("SettingsMenu"));
+        StartCoroutine(crossFade.LoadSceneCoroutine("SettingsMenu"));
     }
 
     public void QuitGame()
     {
         Debug.Log("QUIT!");
         Application.Quit();
-    }
-
-    IEnumerator LoadSceneCoroutine(string sceneName)
-    {
-        crossfadeAnimator.SetTrigger("Start");
-        yield return new WaitForSecondsRealtime(.5f);
-        SceneManager.LoadSceneAsync(sceneName);
     }
 }
