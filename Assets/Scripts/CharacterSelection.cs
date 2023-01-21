@@ -6,16 +6,12 @@ using UnityEngine.UI;
 
 public class CharacterSelection : MonoBehaviour
 {
-    public Button exitButton;
-    public Button playButton;
-    public Button nextCharacterButton;
-    public Button previousCharacterButton;
     private GameObject[] charactersPanels;
     public CrossFade crossFade;
     private int currentCharacterIndex;
     private GameManager _gameManager;
 
-    private void Start()
+    private void Awake()
     {
         if (PlayerPrefs.HasKey("CharacterIndex"))
         {
@@ -37,12 +33,14 @@ public class CharacterSelection : MonoBehaviour
 
     public void ExitMenu()
     {
+        charactersPanels[currentCharacterIndex].SetActive(false);
         StartCoroutine(crossFade.LoadSceneCoroutine("MainMenu"));
     }
 
     public void PlayGame()
     {
         SaveCharacterandAbilities();
+        charactersPanels[currentCharacterIndex].SetActive(false);
         StartCoroutine(crossFade.LoadSceneCoroutine("GameScene"));
         Debug.Log("Play Game");
     }
@@ -63,12 +61,15 @@ public class CharacterSelection : MonoBehaviour
                 if (i == charactersPanels.Length - 1)
                 {
                     charactersPanels[0].SetActive(true);
+                    PlayerPrefs.SetInt("CharacterIndex", 0);
+                    currentCharacterIndex = 0;
                 }
                 else
                 {
                     charactersPanels[i + 1].SetActive(true);
+                    PlayerPrefs.SetInt("CharacterIndex", i + 1);
+                    currentCharacterIndex = i + 1;
                 }
-                PlayerPrefs.SetInt("CharacterIndex", i);
                 break;
             }
         }
@@ -84,14 +85,39 @@ public class CharacterSelection : MonoBehaviour
                 if (i == 0)
                 {
                     charactersPanels[charactersPanels.Length - 1].SetActive(true);
+                    PlayerPrefs.SetInt("CharacterIndex", charactersPanels.Length - 1);
+                    currentCharacterIndex = charactersPanels.Length - 1;
                 }
                 else
                 {
                     charactersPanels[i - 1].SetActive(true);
+                    PlayerPrefs.SetInt("CharacterIndex", i - 1);
+                    currentCharacterIndex = i - 1;
                 }
-                PlayerPrefs.SetInt("CharacterIndex", i);
                 break;
             }
+        }
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            NextCharacter();
+        }
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            PreviousCharacter();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            ExitMenu();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            PlayGame();
         }
     }
 }
