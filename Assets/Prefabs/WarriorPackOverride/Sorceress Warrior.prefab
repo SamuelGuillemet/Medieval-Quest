@@ -14,7 +14,8 @@ GameObject:
   - component: {fileID: 7398946459627786686}
   - component: {fileID: 872545208}
   - component: {fileID: 872545209}
-  - component: {fileID: 3325192946560404296}
+  - component: {fileID: 7058385467205460758}
+  - component: {fileID: 1943040270187871227}
   m_Layer: 0
   m_Name: Sorceress Warrior
   m_TagString: Enemy
@@ -75,10 +76,10 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6342257497029272718}
   serializedVersion: 2
-  m_Mass: 80
+  m_Mass: 20
   m_Drag: 0
   m_AngularDrag: 0
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 80
@@ -131,7 +132,7 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 23
   m_ObstacleAvoidanceType: 4
---- !u!114 &3325192946560404296
+--- !u!114 &7058385467205460758
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -140,12 +141,107 @@ MonoBehaviour:
   m_GameObject: {fileID: 6342257497029272718}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c33333f547e31b8458af0aa529762bee, type: 3}
+  m_Script: {fileID: 11500000, guid: 5c524b6461193a144834a93ee5040497, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _onDamageTaken:
-    m_PersistentCalls:
-      m_Calls: []
+  _audioClipAttack: {fileID: 8300000, guid: dbab49b6aedea6142b7927ca21b3fe15, type: 3}
+  _bomb: {fileID: 7281072744222633340, guid: ace604e943e5eea449b113a5f8c9d6c9, type: 3}
+--- !u!82 &1943040270187871227
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6342257497029272718}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!54 &6099959246535391496
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -189,7 +285,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.06969765, y: -0.054001283, z: -0.000000012325612}
+  m_ConnectedAnchor: {x: 0.06969765, y: -0.054000806, z: -0.0000000123236505}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -250,7 +346,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.27091497, y: 0.0000003754334, z: 0.000000029802322}
+  m_ConnectedAnchor: {x: 0.27091545, y: 0.00000034746628, z: 0.000000029802322}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -311,7 +407,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.2717911, y: 0.0000004051183, z: 0.000000059604645}
+  m_ConnectedAnchor: {x: 0.27179015, y: 0.0000003604553, z: 0.000000059604645}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -404,6 +500,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: bd223d1b08e6c0444b82048e4bf6b2b2, type: 2}
+    - target: {fileID: 9500000, guid: bb5ada740cae9e749a27ebcf41af0d85, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 13700004, guid: bb5ada740cae9e749a27ebcf41af0d85, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
