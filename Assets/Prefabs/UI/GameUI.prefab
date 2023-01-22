@@ -3571,6 +3571,10 @@ MonoBehaviour:
   upgradeImages: {fileID: 3754473387180815162}
   _upgradeImage: {fileID: 8759405332615731422, guid: bd3173c892494e34ba7db41795a65310,
     type: 3}
+  _healthBar: {fileID: 2301225043214724305}
+  _xpBar: {fileID: 2301225045211392272}
+  _enemiesBar: {fileID: 2301225043277750480}
+  _waveText: {fileID: 2301225044017998729}
 --- !u!1 &2301225043621172975
 GameObject:
   m_ObjectHideFlags: 0
@@ -7720,6 +7724,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a64f166c4befbb64294b83908b6f53ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _crossFade: {fileID: 6234325431245467673}
+  _pauseMenuCanvasGroup: {fileID: 6071427960620991313}
+  _upgradeMenuCanvasGroup: {fileID: 2301225045008529314}
+  _endGameBackgroundCanvasGroup: {fileID: 3952346382802261461}
+  _defeatMenuCanvasGroup: {fileID: 4346541415529150902}
+  _finalTime: {fileID: 2301225044048744169}
+  _bestTime: {fileID: 2301225043809950077}
+  _newRecord: {fileID: 2301225044141172482}
+  _uitimer: {fileID: 2301225044906392935}
 --- !u!222 &8652603169569105403
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -10443,6 +10456,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63db44acec5b1bf45895dfef88803ed3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _crossFade: {fileID: 6234325431245467673}
+  _pauseMenuCanvasGroup: {fileID: 6071427960620991313}
+  _upgradeMenuCanvasGroup: {fileID: 2301225045008529314}
 --- !u!225 &6071427960620991313
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -15092,7 +15108,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcdec43d46219ac45b6a7426758c5b6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upgradeMenuCanvasGroup: {fileID: 2301225045008529314}
 --- !u!225 &2301225045008529314
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -15482,6 +15497,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3028016545c17514d9834745f1c1b023, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _crossFade: {fileID: 6234325431245467673}
+  _pauseMenuCanvasGroup: {fileID: 6071427960620991313}
+  _upgradeMenuCanvasGroup: {fileID: 2301225045008529314}
+  _endGameBackgroundCanvasGroup: {fileID: 3952346382802261461}
+  _victoryMenuCanvasGroup: {fileID: 3976941957336862231}
+  _finalTime: {fileID: 2301225044281594200}
+  _wavesText: {fileID: 2301225043853205217}
+  _uitimer: {fileID: 2301225044906392935}
 --- !u!222 &2551895230736419286
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -16454,8 +16477,8 @@ MonoBehaviour:
   m_HandleRect: {fileID: 2301225044767142060}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 50
-  m_WholeNumbers: 0
+  m_MaxValue: 2
+  m_WholeNumbers: 1
   m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
@@ -17297,3 +17320,15 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1292655206350102901}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6234325431245467673 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5148928278938997100, guid: 04787f43c9740cf4892996c7bd5aa1a8,
+    type: 3}
+  m_PrefabInstance: {fileID: 1292655206350102901}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecc28c66d466d6d48876d81c80f4a9fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
