@@ -7,10 +7,8 @@ using UnityEngine.SceneManagement;
 public class VictoryMenu : MonoBehaviour
 {
     public GameObject victoryMenu;
-    public Button exitButton;
-    public Button retryButton;
     public CrossFade crossFade;
-
+    public GameObject endGameImage;
     private TMPro.TMP_Text _finalTime;
     private TMPro.TMP_Text _bestTime;
     private TMPro.TMP_Text _newRecord;
@@ -27,11 +25,13 @@ public class VictoryMenu : MonoBehaviour
         _newRecord = GameObject.Find("NewRecord").GetComponentInChildren<TMPro.TMP_Text>();
         _newRecord.text = "";
 
+        endGameImage.SetActive(false);
         victoryMenu.SetActive(false);
     }
 
     IEnumerator Victory()
     {
+        endGameImage.SetActive(true);
         victoryMenu.SetActive(true);
         Time.timeScale = 0;
         _finalTime.text = _uitimer.TimerText.text;
