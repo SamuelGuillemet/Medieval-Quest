@@ -21,13 +21,11 @@ public class PauseMenu : MonoBehaviour
 
         if (PlayerPrefs.GetString("PreviousScene") == "GameScene")
         {
-            Time.timeScale = 0;
-            ResumeGame();
+            PauseGame();
         }
         else
         {
-            Time.timeScale = 1;
-            PauseGame();
+            ResumeGame();
         }
     }
 

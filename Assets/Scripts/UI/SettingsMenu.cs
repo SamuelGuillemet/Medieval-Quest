@@ -21,7 +21,7 @@ public class SettingsMenu : MonoBehaviour
 
     void Awake()
     {
-        _settingsCanvasGroup = GetComponent<CanvasGroup>();
+        _settingsCanvasGroup = GameObject.Find("Buttons").GetComponent<CanvasGroup>();
         _popupCanvasGroup = GameObject.Find("PopupCanvas").GetComponent<CanvasGroup>();
         _resolutionDropdown = GameObject
             .Find("ResolutionDropdown")
