@@ -34,6 +34,18 @@ public class DefeatMenu : MonoBehaviour
         Time.timeScale = 0;
         _finalTime.text = _uitimer.TimerText.text;
         _wavesText.text = "Vagues vaincues : " + _gameManager.WaveNumber;
+
+        PlayerPrefs.SetInt(
+            _gameManager.SelectedPlayer.ToString() + "WaveNumber",
+            PlayerPrefs.GetInt(_gameManager.SelectedPlayer.ToString() + "WaveNumber")
+                + _gameManager.WaveNumber
+        );
+        PlayerPrefs.SetInt(
+            _gameManager.SelectedPlayer.ToString() + "GamesPlayed",
+            PlayerPrefs.GetInt(_gameManager.SelectedPlayer.ToString() + "GamesPlayed") + 1
+        );
+
+        PlayerPrefs.Save();
         yield return null;
     }
 

@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class CharacterSelection : MonoBehaviour
 {
     private GameObject[] charactersPanels;
+    private GameObject[] scoreTabs;
     public CrossFade crossFade;
     private int currentCharacterIndex;
     private GameManager _gameManager;
@@ -24,10 +25,11 @@ public class CharacterSelection : MonoBehaviour
 
         charactersPanels = GameObject.FindGameObjectsWithTag("CharacterPanel");
 
-        foreach (GameObject panel in charactersPanels)
+        for (int i = 0; i < charactersPanels.Length; i++)
         {
-            panel.SetActive(false);
+            charactersPanels[i].SetActive(false);
         }
+        Debug.Log("Current Character Index: " + currentCharacterIndex);
         charactersPanels[currentCharacterIndex].SetActive(true);
     }
 

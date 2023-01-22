@@ -64,6 +64,23 @@ public class VictoryMenu : MonoBehaviour
             _bestTime.text = _uitimer.TimerText.text;
             _newRecord.text = "Nouveau record !";
         }
+
+        PlayerPrefs.SetInt(
+            _gameManager.SelectedPlayer.ToString() + "WaveNumber",
+            PlayerPrefs.GetInt(_gameManager.SelectedPlayer.ToString() + "WaveNumber")
+                + _gameManager.WaveNumber
+        );
+        PlayerPrefs.SetInt(
+            _gameManager.SelectedPlayer.ToString() + "GamesPlayed",
+            PlayerPrefs.GetInt(_gameManager.SelectedPlayer.ToString() + "GamesPlayed") + 1
+        );
+
+        PlayerPrefs.SetInt(
+            _gameManager.SelectedPlayer.ToString() + "GamesWon",
+            PlayerPrefs.GetInt(_gameManager.SelectedPlayer.ToString() + "GamesWon") + 1
+        );
+
+        PlayerPrefs.Save();
         yield return null;
     }
 
