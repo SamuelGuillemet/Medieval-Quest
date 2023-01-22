@@ -66,8 +66,8 @@ public class VictoryMenu : MonoBehaviour
         }
 
         PlayerPrefs.SetInt(
-            _gameManager.SelectedPlayer.ToString() + "WaveNumber",
-            PlayerPrefs.GetInt(_gameManager.SelectedPlayer.ToString() + "WaveNumber")
+            _gameManager.SelectedPlayer.ToString() + "MaxWave",
+            PlayerPrefs.GetInt(_gameManager.SelectedPlayer.ToString() + "MaxWave")
                 + _gameManager.WaveNumber
         );
         PlayerPrefs.SetInt(

@@ -33,12 +33,14 @@ public class DefeatMenu : MonoBehaviour
         defeatMenu.SetActive(true);
         Time.timeScale = 0;
         _finalTime.text = _uitimer.TimerText.text;
-        _wavesText.text = "Vagues vaincues : " + _gameManager.WaveNumber;
+        _wavesText.text = "Vagues vaincues : " + (_gameManager.WaveNumber - 1);
 
         PlayerPrefs.SetInt(
-            _gameManager.SelectedPlayer.ToString() + "WaveNumber",
-            PlayerPrefs.GetInt(_gameManager.SelectedPlayer.ToString() + "WaveNumber")
-                + _gameManager.WaveNumber
+            _gameManager.SelectedPlayer.ToString() + "MaxWave",
+            Mathf.Max(
+                PlayerPrefs.GetInt(_gameManager.SelectedPlayer.ToString() + "MaxeWave"),
+                _gameManager.WaveNumber - 1
+            )
         );
         PlayerPrefs.SetInt(
             _gameManager.SelectedPlayer.ToString() + "GamesPlayed",
