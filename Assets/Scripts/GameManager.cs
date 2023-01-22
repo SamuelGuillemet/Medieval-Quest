@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
 
     private int _numberOfEnemies = 0;
     private EnemySpawnZone[] _enemySpawnZones;
+    [SerializeField] private int _numberOfEnemySpawnZone = 8;
 
     private int[] _fibonnaciSuite = new int[] { 1, 2, 3, 5, 8, 13, 21, 34, 55, 89 };
     [HideInInspector] public int WaveNumber = 0;
@@ -35,7 +36,7 @@ public class GameManager : MonoBehaviour
     public int PlayerExperience { get => _playerExperience; set => _playerExperience = value; }
     private int _playerLevel = 1;
     public int PlayerLevel { get => _playerLevel; set => _playerLevel = value; }
-    public int PlayerExperienceToNextLevel { get => Mathf.CeilToInt(8 * Mathf.Pow(_playerLevel, 1.5f)); }
+    public int PlayerExperienceToNextLevel { get => 10 * _playerLevel; }
 
     private AudioManager _audioManager;
 
@@ -69,6 +70,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         StartCoroutine(EnemiesWave());
+        _gameUI.UpdateExperienceBar(_playerExperience, PlayerExperienceToNextLevel);
+        _gameUI.UpdateWaveText(WaveNumber, _fibonnaciSuite[WaveNumber]);
     }
 
     IEnumerator EnemiesWave()
@@ -136,7 +139,9 @@ public class GameManager : MonoBehaviour
             PlayerExperience -= PlayerExperienceToNextLevel;
             PlayerLevel++;
             _audioManager.PlaySound("LevelUp");
+            _gameUI.CreateUpgradeImage();
         }
+        _gameUI.UpdateExperienceBar(PlayerExperience, PlayerExperienceToNextLevel);
         Debug.Log("Experience: " + PlayerExperience + " / " + PlayerExperienceToNextLevel + " - Level: " + PlayerLevel);
     }
 
@@ -147,7 +152,7 @@ public class GameManager : MonoBehaviour
         {
             Vector3 pos = position + new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f));
             ExperienceOrb orb = PoolingManager.Instance.SpawnExperienceOrb(pos, Quaternion.identity).GetComponent<ExperienceOrb>();
-            orb.ExperienceValue = Random.Range(2, 4);
+            orb.ExperienceValue = Random.Range(3, 6);
             orb.gameObject.SetActive(true);
             yield return new WaitForSeconds(0.5f);
         }

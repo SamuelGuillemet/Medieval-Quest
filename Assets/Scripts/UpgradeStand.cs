@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Obsolete("Use UpgradeMenu instead", true)]
 public class UpgradeStand : MonoBehaviour
 {
     private Camera _cam;

@@ -65,8 +65,7 @@ public class PoolingManager : MonoBehaviour
         }
 
         // We instantiate an object of the desired type and add it to the pool.
-        GameObject obj = Instantiate(_obj);
-        obj.SetActive(false);
+        GameObject obj = UnityUtils.InstantiateDisabled(_obj);
         _pools[key].Add(obj);
         // If we have specified a parent, we set it as the object's parent.
         if (parent != null)

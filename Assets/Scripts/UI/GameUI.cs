@@ -38,22 +38,16 @@ public class GameUI : MonoBehaviour
         _healthBar.value = health;
     }
 
-    public void UpdateXPBar(float xp) //or int ?
+    public void UpdateExperienceBar(int xp, int maxXP)
     {
         _xpBar.value = xp;
-        if (_xpBar.value >= _xpBar.maxValue)
-        {
-            upgradeCount++;
-            Instantiate(
-                _upgradeImage,
-                upgradeImages.transform.position + (5 * upgradeCount) * Vector3.right,
-                Quaternion.identity,
-                upgradeImages.transform
-            );
+        _xpBar.maxValue = maxXP;
+    }
 
-            _xpBar.value = _xpBar.minValue;
-            _xpBar.maxValue *= 2; //find balance
-        }
+    public void CreateUpgradeImage()
+    {
+        upgradeCount++;
+        Instantiate(_upgradeImage, upgradeImages.transform.position + (5 * upgradeCount) * Vector3.right, Quaternion.identity, upgradeImages.transform);
     }
 
     public void UpdateWaveText(int wave, int enemies)
