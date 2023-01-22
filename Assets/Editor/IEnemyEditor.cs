@@ -35,5 +35,12 @@ public class IEnemyEditor : Editor
         {
             iEnemy.ActivateEnemy();
         }
+
+        EditorGUILayout.Space(10);
+        EditorGUILayout.LabelField("Health: " + iEnemy.Health);
+        if (GUILayout.Button("TakeDamage"))
+        {
+            iEnemy.TakeDamage(2);
+        }
     }
 }
