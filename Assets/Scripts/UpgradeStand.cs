@@ -34,11 +34,6 @@ public class UpgradeStand : MonoBehaviour
         {
             // Handle the click on a upgrade stand
             ClickOnUpgradeStand();
-
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                Debug.Log("Upgrade Menu");
-            }
         }
     }
 
@@ -57,9 +52,11 @@ public class UpgradeStand : MonoBehaviour
                     GameObject upgradeStand = hit.collider.gameObject;
 
                     // Play the particle effect
-                    ParticleSystem particleSystem = upgradeStand.GetComponentInChildren<ParticleSystem>();
+                    ParticleSystem particleSystem =
+                        upgradeStand.GetComponentInChildren<ParticleSystem>();
 
-                    if (particleSystem.isPlaying) particleSystem.Stop();
+                    if (particleSystem.isPlaying)
+                        particleSystem.Stop();
                     particleSystem.Play();
                 }
             }
