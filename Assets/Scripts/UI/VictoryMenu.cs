@@ -6,9 +6,12 @@ using UnityEngine.SceneManagement;
 
 public class VictoryMenu : MonoBehaviour
 {
-    public GameObject victoryMenu;
-    public CrossFade crossFade;
-    public GameObject endGameImage;
+    private CrossFade _crossFade;
+    private CanvasGroup _pauseMenuCanvasGroup;
+    private CanvasGroup _upgradeMenuCanvasGroup;
+    private CanvasGroup _endGameBackgroundCanvasGroup;
+    private CanvasGroup _defeatMenuCanvasGroup;
+    private CanvasGroup _victoryMenuCanvasGroup;
     private TMPro.TMP_Text _finalTime;
     private TMPro.TMP_Text _bestTime;
     private TMPro.TMP_Text _newRecord;
@@ -18,6 +21,18 @@ public class VictoryMenu : MonoBehaviour
     void Awake()
     {
         _gameManager = GameManager.Instance;
+
+        _crossFade = GameObject.Find("CrossFade").GetComponent<CrossFade>();
+        _pauseMenuCanvasGroup = GameObject.Find("PauseMenu").GetComponent<CanvasGroup>();
+        _upgradeMenuCanvasGroup = GameObject.Find("UpgradeMenu").GetComponent<CanvasGroup>();
+
+        _endGameBackgroundCanvasGroup = GameObject
+            .Find("EndGameBackground")
+            .GetComponent<CanvasGroup>();
+
+        _defeatMenuCanvasGroup = GameObject.Find("DefeatMenu").GetComponent<CanvasGroup>();
+        _victoryMenuCanvasGroup = gameObject.GetComponent<CanvasGroup>();
+
         _uitimer = GameObject.Find("Timer").GetComponentInParent<UITimer>();
 
         _finalTime = GameObject.Find("FinalTime").GetComponentInChildren<TMPro.TMP_Text>();
@@ -25,14 +40,42 @@ public class VictoryMenu : MonoBehaviour
         _newRecord = GameObject.Find("NewRecord").GetComponentInChildren<TMPro.TMP_Text>();
         _newRecord.text = "";
 
-        endGameImage.SetActive(false);
-        victoryMenu.SetActive(false);
+        HideVictoryMenu();
+    }
+
+    private void ShowVictoryMenu()
+    {
+        _pauseMenuCanvasGroup.alpha *= 0.3f;
+        _pauseMenuCanvasGroup.interactable = false;
+        _pauseMenuCanvasGroup.blocksRaycasts = false;
+
+        _upgradeMenuCanvasGroup.alpha *= 0.3f;
+        _upgradeMenuCanvasGroup.interactable = false;
+        _upgradeMenuCanvasGroup.blocksRaycasts = false;
+
+        _endGameBackgroundCanvasGroup.alpha = 1;
+        _endGameBackgroundCanvasGroup.interactable = true;
+        _endGameBackgroundCanvasGroup.blocksRaycasts = true;
+
+        _victoryMenuCanvasGroup.alpha = 1;
+        _victoryMenuCanvasGroup.interactable = true;
+        _victoryMenuCanvasGroup.blocksRaycasts = true;
+    }
+
+    private void HideVictoryMenu()
+    {
+        _endGameBackgroundCanvasGroup.alpha = 0;
+        _endGameBackgroundCanvasGroup.interactable = false;
+        _endGameBackgroundCanvasGroup.blocksRaycasts = false;
+
+        _victoryMenuCanvasGroup.alpha = 0;
+        _victoryMenuCanvasGroup.interactable = false;
+        _victoryMenuCanvasGroup.blocksRaycasts = false;
     }
 
     IEnumerator Victory()
     {
-        endGameImage.SetActive(true);
-        victoryMenu.SetActive(true);
+        ShowVictoryMenu();
         Time.timeScale = 0;
         _finalTime.text = _uitimer.TimerText.text;
 
@@ -84,13 +127,13 @@ public class VictoryMenu : MonoBehaviour
         yield return null;
     }
 
-    public void Retry()
+    public void Retry() // Retry button
     {
-        StartCoroutine(crossFade.LoadSceneCoroutine("GameScene"));
+        StartCoroutine(_crossFade.LoadSceneCoroutine("GameScene"));
     }
 
-    public void Exit()
+    public void Exit() // Exit button
     {
-        StartCoroutine(crossFade.LoadSceneCoroutine("MainMenu"));
+        StartCoroutine(_crossFade.LoadSceneCoroutine("MainMenu"));
     }
 }

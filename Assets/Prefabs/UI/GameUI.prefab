@@ -7615,6 +7615,7 @@ GameObject:
   - component: {fileID: 2301225044164840708}
   - component: {fileID: 2301225044164840709}
   - component: {fileID: 8652603169569105403}
+  - component: {fileID: 3976941957336862231}
   m_Layer: 5
   m_Name: VictoryMenu
   m_TagString: Untagged
@@ -7719,10 +7720,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a64f166c4befbb64294b83908b6f53ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  victoryMenu: {fileID: 2301225044164840711}
-  exitButton: {fileID: 2301225044612526186}
-  retryButton: {fileID: 2301225044407303939}
-  crossfadeAnimator: {fileID: 0}
 --- !u!222 &8652603169569105403
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7731,6 +7728,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2301225044164840711}
   m_CullTransparentMesh: 0
+--- !u!225 &3976941957336862231
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2301225044164840711}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &2301225044165209933
 GameObject:
   m_ObjectHideFlags: 0
@@ -10434,10 +10443,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63db44acec5b1bf45895dfef88803ed3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pauseMenu: {fileID: 2301225044511503996}
-  crossfadeAnimator: {fileID: 0}
-  pauseMenuCanvasGroup: {fileID: 6071427960620991313}
-  upgradeMenuCanvasGroup: {fileID: 2301225045008529314}
 --- !u!225 &6071427960620991313
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -10446,7 +10451,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2301225044511503996}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -15096,7 +15101,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2301225045008529336}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -15373,6 +15378,7 @@ GameObject:
   - component: {fileID: 2301225045097524965}
   - component: {fileID: 2551895230736419286}
   - component: {fileID: 7191462918986919826}
+  - component: {fileID: 4346541415529150902}
   m_Layer: 5
   m_Name: DefeatMenu
   m_TagString: Untagged
@@ -15476,9 +15482,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3028016545c17514d9834745f1c1b023, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defeatMenu: {fileID: 2301225045097524967}
-  endGameImage: {fileID: 0}
-  crossfadeAnimator: {fileID: 0}
 --- !u!222 &2551895230736419286
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -15516,6 +15519,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &4346541415529150902
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2301225045097524967}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &2301225045104472743
 GameObject:
   m_ObjectHideFlags: 0
@@ -17046,6 +17061,7 @@ GameObject:
   - component: {fileID: 7149155805826823658}
   - component: {fileID: 6790351217661589112}
   - component: {fileID: 8107695182953988048}
+  - component: {fileID: 3952346382802261461}
   m_Layer: 5
   m_Name: EndGameBackground
   m_TagString: Untagged
@@ -17109,6 +17125,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &3952346382802261461
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2505348130720189376}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &3754473387180815162
 GameObject:
   m_ObjectHideFlags: 0
