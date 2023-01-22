@@ -159,13 +159,15 @@ public class HeroController : MonoBehaviour
         // Calculate the direction of the movement based on input and rotation
         Vector3 origin = new Vector3(_horizontalInput, 0f, _verticalInput);
 
+        if (Mathf.Abs(_horizontalInput) < 0.1f && Mathf.Abs(_verticalInput) < 0.1f) return;
+
         if (_agentRange == AgentRangeMode.Dash)
         {
             origin *= 5f;
         }
         else
         {
-            origin *= 1.5f;
+            origin *= 2f;
         }
 
         if (_tryToClimb) origin.y = 10f;
@@ -189,12 +191,6 @@ public class HeroController : MonoBehaviour
         if (other.gameObject.CompareTag("Ladder"))
         {
             _tryToClimb = true;
-        }
-
-        if (other.gameObject.CompareTag("Enemy"))
-        {
-            Debug.Log("Player killed enemy");
-            GameManager.Instance.OnEnemyKilled?.Invoke(other.gameObject);
         }
     }
 
