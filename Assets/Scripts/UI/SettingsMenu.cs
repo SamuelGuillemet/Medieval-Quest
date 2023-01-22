@@ -7,23 +7,34 @@ using UnityEngine.Audio;
 
 public class SettingsMenu : MonoBehaviour
 {
-    public CanvasGroup settingsCanvasGroup;
-    public CanvasGroup popupCanvasGroup;
-    public TMPro.TMP_Dropdown resolutionDropdown;
-    public TMPro.TMP_Dropdown qualityDropdown;
-    public Toggle fullscreenToggle;
-    public Slider volumeSlider;
-    public Button saveButton;
-    private float currentVolume;
+    private CanvasGroup _settingsCanvasGroup;
+    private CanvasGroup _popupCanvasGroup;
+    private TMPro.TMP_Dropdown _resolutionDropdown;
+    private TMPro.TMP_Dropdown _qualityDropdown;
+    private Toggle _fullscreenToggle;
+    private Slider _volumeSlider;
+    private Button _saveButton;
+    private float _currentVolume;
     private bool _isSaved;
-    public CrossFade crossFade;
+    private CrossFade _crossFade;
     Resolution[] resolutions;
 
     void Awake()
     {
+        _settingsCanvasGroup = GetComponent<CanvasGroup>();
+        _popupCanvasGroup = GameObject.Find("PopupCanvas").GetComponent<CanvasGroup>();
+        _resolutionDropdown = GameObject
+            .Find("ResolutionDropdown")
+            .GetComponent<TMPro.TMP_Dropdown>();
+        _qualityDropdown = GameObject.Find("QualityDropdown").GetComponent<TMPro.TMP_Dropdown>();
+        _fullscreenToggle = GameObject.Find("FullscreenToggle").GetComponent<Toggle>();
+        _volumeSlider = GameObject.Find("VolumeSlider").GetComponent<Slider>();
+        _saveButton = GameObject.Find("SaveButton").GetComponent<Button>();
+
+        _crossFade = GameObject.Find("CrossFade").GetComponent<CrossFade>();
         DisablePopup();
 
-        resolutionDropdown.ClearOptions();
+        _resolutionDropdown.ClearOptions();
         List<string> options = new List<string>();
         resolutions = Screen.resolutions;
         int currentResolutionIndex = 0;
@@ -38,24 +49,24 @@ public class SettingsMenu : MonoBehaviour
                 currentResolutionIndex = i;
         }
 
-        resolutionDropdown.AddOptions(options);
-        resolutionDropdown.RefreshShownValue();
+        _resolutionDropdown.AddOptions(options);
+        _resolutionDropdown.RefreshShownValue();
         LoadSettings(currentResolutionIndex);
 
         _isSaved = true;
-        saveButton.interactable = false;
+        _saveButton.interactable = false;
     }
 
     public void EnableSaveButton()
     {
-        saveButton.interactable = true;
+        _saveButton.interactable = true;
         _isSaved = false;
     }
 
     private void SetVolume(float volume)
     {
         AudioListener.volume = volume;
-        currentVolume = volume;
+        _currentVolume = volume;
     }
 
     private void SetFullscreen(bool isFullscreen)
@@ -72,48 +83,48 @@ public class SettingsMenu : MonoBehaviour
     private void SetQuality(int qualityIndex)
     {
         QualitySettings.SetQualityLevel(qualityIndex);
-        qualityDropdown.RefreshShownValue();
+        _qualityDropdown.RefreshShownValue();
     }
 
     public void SaveSettings()
     {
         //Apply settings to the game
-        SetVolume(volumeSlider.value);
-        SetFullscreen(fullscreenToggle.isOn);
-        SetResolution(resolutionDropdown.value);
-        SetQuality(qualityDropdown.value);
+        SetVolume(_volumeSlider.value);
+        SetFullscreen(_fullscreenToggle.isOn);
+        SetResolution(_resolutionDropdown.value);
+        SetQuality(_qualityDropdown.value);
 
         //Save settings to PlayerPrefs
-        PlayerPrefs.SetInt("QualitySettingPreference", qualityDropdown.value);
-        PlayerPrefs.SetInt("ResolutionPreference", resolutionDropdown.value);
-        PlayerPrefs.SetInt("FullscreenPreference", fullscreenToggle.isOn ? 1 : 0);
-        PlayerPrefs.SetFloat("VolumePreference", currentVolume);
+        PlayerPrefs.SetInt("QualitySettingPreference", _qualityDropdown.value);
+        PlayerPrefs.SetInt("ResolutionPreference", _resolutionDropdown.value);
+        PlayerPrefs.SetInt("FullscreenPreference", _fullscreenToggle.isOn ? 1 : 0);
+        PlayerPrefs.SetFloat("VolumePreference", _currentVolume);
         PlayerPrefs.Save();
-        saveButton.interactable = false;
+        _saveButton.interactable = false;
         _isSaved = true;
     }
 
     private void LoadSettings(int currentResolutionIndex)
     {
         if (PlayerPrefs.HasKey("QualitySettingPreference"))
-            qualityDropdown.value = PlayerPrefs.GetInt("QualitySettingPreference");
+            _qualityDropdown.value = PlayerPrefs.GetInt("QualitySettingPreference");
         else
-            qualityDropdown.value = 3;
+            _qualityDropdown.value = 3;
 
         if (PlayerPrefs.HasKey("ResolutionPreference"))
-            resolutionDropdown.value = PlayerPrefs.GetInt("ResolutionPreference");
+            _resolutionDropdown.value = PlayerPrefs.GetInt("ResolutionPreference");
         else
-            resolutionDropdown.value = currentResolutionIndex;
+            _resolutionDropdown.value = currentResolutionIndex;
 
         if (PlayerPrefs.HasKey("FullscreenPreference"))
-            fullscreenToggle.isOn = PlayerPrefs.GetInt("FullscreenPreference") == 1 ? true : false;
+            _fullscreenToggle.isOn = PlayerPrefs.GetInt("FullscreenPreference") == 1 ? true : false;
         else
             Screen.fullScreen = true;
 
         if (PlayerPrefs.HasKey("VolumePreference"))
-            volumeSlider.value = PlayerPrefs.GetFloat("VolumePreference");
+            _volumeSlider.value = PlayerPrefs.GetFloat("VolumePreference");
         else
-            volumeSlider.value = currentVolume;
+            _volumeSlider.value = _currentVolume;
 
         if (!PlayerPrefs.HasKey("PreviousScene"))
             PlayerPrefs.SetString("PreviousScene", "MainMenu");
@@ -127,44 +138,44 @@ public class SettingsMenu : MonoBehaviour
         }
         else
         {
-            StartCoroutine(crossFade.LoadSceneCoroutine(PlayerPrefs.GetString("PreviousScene")));
+            StartCoroutine(_crossFade.LoadSceneCoroutine(PlayerPrefs.GetString("PreviousScene")));
         }
     }
 
     private void DisablePopup()
     {
         //enable the normal ui
-        settingsCanvasGroup.alpha = 1;
-        settingsCanvasGroup.interactable = true;
-        settingsCanvasGroup.blocksRaycasts = true;
+        _settingsCanvasGroup.alpha = 1;
+        _settingsCanvasGroup.interactable = true;
+        _settingsCanvasGroup.blocksRaycasts = true;
 
         //disable the confirmation quit ui
-        popupCanvasGroup.alpha = 0;
-        popupCanvasGroup.interactable = false;
-        popupCanvasGroup.blocksRaycasts = false;
+        _popupCanvasGroup.alpha = 0;
+        _popupCanvasGroup.interactable = false;
+        _popupCanvasGroup.blocksRaycasts = false;
     }
 
     private void EnablePopup()
     {
         //disable the normal ui
-        settingsCanvasGroup.alpha = 0.3f;
-        settingsCanvasGroup.interactable = false;
-        settingsCanvasGroup.blocksRaycasts = false;
+        _settingsCanvasGroup.alpha = 0.3f;
+        _settingsCanvasGroup.interactable = false;
+        _settingsCanvasGroup.blocksRaycasts = false;
 
         //enable the confirmation quit ui
-        popupCanvasGroup.alpha = 1;
-        popupCanvasGroup.interactable = true;
-        popupCanvasGroup.blocksRaycasts = true;
+        _popupCanvasGroup.alpha = 1;
+        _popupCanvasGroup.interactable = true;
+        _popupCanvasGroup.blocksRaycasts = true;
     }
 
     public void ConfirmExit()
     {
-        StartCoroutine(crossFade.LoadSceneCoroutine(PlayerPrefs.GetString("PreviousScene")));
+        StartCoroutine(_crossFade.LoadSceneCoroutine(PlayerPrefs.GetString("PreviousScene")));
     }
 
     public void SaveAndExit()
     {
         SaveSettings();
-        StartCoroutine(crossFade.LoadSceneCoroutine(PlayerPrefs.GetString("PreviousScene")));
+        StartCoroutine(_crossFade.LoadSceneCoroutine(PlayerPrefs.GetString("PreviousScene")));
     }
 }

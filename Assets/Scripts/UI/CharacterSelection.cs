@@ -6,71 +6,74 @@ using UnityEngine.UI;
 
 public class CharacterSelection : MonoBehaviour
 {
-    private GameObject[] charactersPanels;
-    private GameObject[] scoreTabs;
-    public CrossFade crossFade;
-    private int currentCharacterIndex;
+    private GameObject[] _charactersPanels;
+    private GameObject[] _scoreTabs;
+    private CrossFade _crossFade;
+    private int _currentCharacterIndex;
     private GameManager _gameManager;
 
     private void Awake()
     {
+        _gameManager = GameManager.Instance;
+        _crossFade = GameObject.Find("CrossFade").GetComponent<CrossFade>();
+
         if (PlayerPrefs.HasKey("CharacterIndex"))
         {
-            currentCharacterIndex = PlayerPrefs.GetInt("CharacterIndex");
+            _currentCharacterIndex = PlayerPrefs.GetInt("CharacterIndex");
         }
         else
         {
-            currentCharacterIndex = 0;
+            _currentCharacterIndex = 0;
         }
 
-        charactersPanels = GameObject.FindGameObjectsWithTag("CharacterPanel");
+        _charactersPanels = GameObject.FindGameObjectsWithTag("CharacterPanel");
 
-        for (int i = 0; i < charactersPanels.Length; i++)
+        for (int i = 0; i < _charactersPanels.Length; i++)
         {
-            charactersPanels[i].SetActive(false);
+            _charactersPanels[i].SetActive(false);
         }
-        Debug.Log("Current Character Index: " + currentCharacterIndex);
-        charactersPanels[currentCharacterIndex].SetActive(true);
+        Debug.Log("Current Character Index: " + _currentCharacterIndex);
+        _charactersPanels[_currentCharacterIndex].SetActive(true);
     }
 
     public void ExitMenu()
     {
-        charactersPanels[currentCharacterIndex].SetActive(false);
-        StartCoroutine(crossFade.LoadSceneCoroutine("MainMenu"));
+        _charactersPanels[_currentCharacterIndex].SetActive(false);
+        StartCoroutine(_crossFade.LoadSceneCoroutine("MainMenu"));
     }
 
     public void PlayGame()
     {
         SaveCharacterandAbilities();
-        charactersPanels[currentCharacterIndex].SetActive(false);
-        StartCoroutine(crossFade.LoadSceneCoroutine("GameScene"));
+        _charactersPanels[_currentCharacterIndex].SetActive(false);
+        StartCoroutine(_crossFade.LoadSceneCoroutine("GameScene"));
         Debug.Log("Play Game");
     }
 
     private void SaveCharacterandAbilities()
     {
-        PlayerPrefs.SetString("Character", charactersPanels[currentCharacterIndex].name);
+        PlayerPrefs.SetString("Character", _charactersPanels[_currentCharacterIndex].name);
         // _gameManager.SelectedPlayer = (SelectedPlayer) currentCharacterIndex;
     }
 
     public void NextCharacter()
     {
-        for (int i = 0; i < charactersPanels.Length; i++)
+        for (int i = 0; i < _charactersPanels.Length; i++)
         {
-            if (charactersPanels[i].activeSelf)
+            if (_charactersPanels[i].activeSelf)
             {
-                charactersPanels[i].SetActive(false);
-                if (i == charactersPanels.Length - 1)
+                _charactersPanels[i].SetActive(false);
+                if (i == _charactersPanels.Length - 1)
                 {
-                    charactersPanels[0].SetActive(true);
+                    _charactersPanels[0].SetActive(true);
                     PlayerPrefs.SetInt("CharacterIndex", 0);
-                    currentCharacterIndex = 0;
+                    _currentCharacterIndex = 0;
                 }
                 else
                 {
-                    charactersPanels[i + 1].SetActive(true);
+                    _charactersPanels[i + 1].SetActive(true);
                     PlayerPrefs.SetInt("CharacterIndex", i + 1);
-                    currentCharacterIndex = i + 1;
+                    _currentCharacterIndex = i + 1;
                 }
                 break;
             }
@@ -79,22 +82,22 @@ public class CharacterSelection : MonoBehaviour
 
     public void PreviousCharacter()
     {
-        for (int i = 0; i < charactersPanels.Length; i++)
+        for (int i = 0; i < _charactersPanels.Length; i++)
         {
-            if (charactersPanels[i].activeSelf)
+            if (_charactersPanels[i].activeSelf)
             {
-                charactersPanels[i].SetActive(false);
+                _charactersPanels[i].SetActive(false);
                 if (i == 0)
                 {
-                    charactersPanels[charactersPanels.Length - 1].SetActive(true);
-                    PlayerPrefs.SetInt("CharacterIndex", charactersPanels.Length - 1);
-                    currentCharacterIndex = charactersPanels.Length - 1;
+                    _charactersPanels[_charactersPanels.Length - 1].SetActive(true);
+                    PlayerPrefs.SetInt("CharacterIndex", _charactersPanels.Length - 1);
+                    _currentCharacterIndex = _charactersPanels.Length - 1;
                 }
                 else
                 {
-                    charactersPanels[i - 1].SetActive(true);
+                    _charactersPanels[i - 1].SetActive(true);
                     PlayerPrefs.SetInt("CharacterIndex", i - 1);
-                    currentCharacterIndex = i - 1;
+                    _currentCharacterIndex = i - 1;
                 }
                 break;
             }

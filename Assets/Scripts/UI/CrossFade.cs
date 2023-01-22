@@ -5,8 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class CrossFade : MonoBehaviour
 {
-    [SerializeField]
     private Animator crossfadeAnimator;
+
+    void Awake()
+    {
+        crossfadeAnimator = GetComponent<Animator>();
+    }
 
     public IEnumerator LoadSceneCoroutine(string sceneName)
     {

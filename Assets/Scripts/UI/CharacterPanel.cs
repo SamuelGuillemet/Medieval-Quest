@@ -7,19 +7,18 @@ public class CharacterPanel : MonoBehaviour
 {
     [SerializeField]
     private GameObject _characterModel;
-    private bool _isInspected;
 
     [SerializeField]
     private Image _medalImage;
 
     [SerializeField]
-    private TMPro.TextMeshProUGUI _waveText;
+    private TMPro.TextMeshProUGUI _wavesText;
 
     [SerializeField]
     private TMPro.TextMeshProUGUI _gamesText;
 
     [SerializeField]
-    private TMPro.TextMeshProUGUI _winText;
+    private TMPro.TextMeshProUGUI _winsText;
     private GameManager _gameManager;
 
     private void Start()
@@ -45,8 +44,8 @@ public class CharacterPanel : MonoBehaviour
         PlayerPrefs.Save();
 
         SetGamesText(PlayerPrefs.GetInt(_gameManager.SelectedPlayer.ToString() + "GamesPlayed"));
-        SetWaveText(PlayerPrefs.GetInt(_gameManager.SelectedPlayer.ToString() + "MaxWave"));
-        SetWinText(PlayerPrefs.GetInt(_gameManager.SelectedPlayer.ToString() + "GamesWon"));
+        SetWavesText(PlayerPrefs.GetInt(_gameManager.SelectedPlayer.ToString() + "MaxWave"));
+        SetWinsText(PlayerPrefs.GetInt(_gameManager.SelectedPlayer.ToString() + "GamesWon"));
 
         if (PlayerPrefs.GetInt(_gameManager.SelectedPlayer.ToString() + "GamesWon") > 0)
         {
@@ -54,34 +53,9 @@ public class CharacterPanel : MonoBehaviour
         }
     }
 
-    private void OnEnable()
+    private void SetWavesText(int wave)
     {
-        _isInspected = false;
-        _characterModel.transform.rotation = Quaternion.Euler(0, 0, 0);
-    }
-
-    private void OnMouseDrag()
-    {
-        _isInspected = true;
-        _characterModel.transform.Rotate(0, Input.GetAxis("Mouse X") * -10f, 0);
-    }
-
-    private void OnMouseUp()
-    {
-        _isInspected = false;
-    }
-
-    private void Update()
-    {
-        if (!_isInspected)
-        {
-            _characterModel.transform.Rotate(0, -0.2f, 0);
-        }
-    }
-
-    private void SetWaveText(int wave)
-    {
-        _waveText.text = "Nombre de vagues maximum vaincues : " + wave;
+        _wavesText.text = "Nombre de vagues maximum vaincues : " + wave;
     }
 
     private void SetGamesText(int games)
@@ -89,9 +63,9 @@ public class CharacterPanel : MonoBehaviour
         _gamesText.text = "Nombre de parties jouées : " + games;
     }
 
-    private void SetWinText(int win)
+    private void SetWinsText(int win)
     {
-        _winText.text = "Nombre de parties gagnées : " + win;
+        _winsText.text = "Nombre de parties gagnées : " + win;
     }
 
     public void SetSelectedPlayer() // Called by the Sélectionner button

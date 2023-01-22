@@ -5,8 +5,7 @@ using UnityEngine.UI;
 
 public class UpgradeMenu : MonoBehaviour
 {
-    public CanvasGroup upgradeMenuCanvasGroup; //add this in the inspector
-    private GameObject _specificUpgrades;
+    private CanvasGroup _upgradeMenuCanvasGroup;
     private GameUI _gameUI;
 
     void Awake()
@@ -14,6 +13,7 @@ public class UpgradeMenu : MonoBehaviour
         StartCoroutine(DisableUpgradePopup(0f));
 
         _gameUI = FindObjectOfType<GameUI>();
+        _upgradeMenuCanvasGroup = GetComponent<CanvasGroup>();
     }
 
     public void Upgrade(Slider slider)
@@ -76,9 +76,9 @@ public class UpgradeMenu : MonoBehaviour
         yield return new WaitForSecondsRealtime(time);
 
         //disable the upgrade menu
-        upgradeMenuCanvasGroup.alpha = 0;
-        upgradeMenuCanvasGroup.interactable = false;
-        upgradeMenuCanvasGroup.blocksRaycasts = false;
+        _upgradeMenuCanvasGroup.alpha = 0;
+        _upgradeMenuCanvasGroup.interactable = false;
+        _upgradeMenuCanvasGroup.blocksRaycasts = false;
 
         Time.timeScale = 1;
     }
@@ -88,9 +88,9 @@ public class UpgradeMenu : MonoBehaviour
         Time.timeScale = 0;
 
         //enable the upgrade menu
-        upgradeMenuCanvasGroup.alpha = 1;
-        upgradeMenuCanvasGroup.interactable = true;
-        upgradeMenuCanvasGroup.blocksRaycasts = true;
+        _upgradeMenuCanvasGroup.alpha = 1;
+        _upgradeMenuCanvasGroup.interactable = true;
+        _upgradeMenuCanvasGroup.blocksRaycasts = true;
     }
 
     private void Update()
