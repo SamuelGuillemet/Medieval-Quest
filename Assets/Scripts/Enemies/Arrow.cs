@@ -5,12 +5,13 @@ using UnityEngine;
 public class Arrow : MonoBehaviour
 {
     private int _damage = 3;
+    [SerializeField] private Rigidbody _rigidbody;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Player hit");
+            GameManager.Instance.OnPlayerDamageTaken?.Invoke(_damage);
             DisableObject();
         }
         if (other.gameObject.CompareTag("Obstacle"))
@@ -21,12 +22,13 @@ public class Arrow : MonoBehaviour
 
     private void Update()
     {
-        if (transform.position.y < -10) DisableObject();
+        if (transform.position.y < -1) DisableObject();
         if (transform.position.y > 10) DisableObject();
     }
 
     private void DisableObject()
     {
-        Destroy(gameObject); //TODO: Pooling
+        PoolingManager.Instance.ReturnToPool(this.gameObject);
+        _rigidbody.velocity = Vector3.zero;
     }
 }
