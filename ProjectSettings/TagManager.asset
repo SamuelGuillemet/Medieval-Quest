@@ -13,6 +13,10 @@ TagManager:
   - Shadow
   - Collide
   - Ladder
+  - Ladder
+  - Fire
+  - Arrow
+  - FireBall
   layers:
   - Default
   - TransparentFX
