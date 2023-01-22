@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class EnemySpawnZone : MonoBehaviour
 {
-    [SerializeField] private GameObject[] _enemyPrefabs;
+    [SerializeField] private IEnemy[] _enemyPrefabs;
     public void SpawnEnemy()
     {
-        Debug.Log("SpawnEnemy");
-        GameObject enemyToInstantiate = _enemyPrefabs[Random.Range(0, _enemyPrefabs.Length)];
-        GameObject enemy = Instantiate(enemyToInstantiate, transform.position, Quaternion.identity);
+        IEnemy enemy = PoolingManager.Instance.SpawnRandomEnemyFromPool(transform.position, Quaternion.identity).GetComponent<IEnemy>();
         GameManager.Instance.Enemies.Add(enemy);
     }
 }
