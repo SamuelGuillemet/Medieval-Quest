@@ -8,14 +8,13 @@ public class CharacterSelection : MonoBehaviour
 {
     private GameObject[] _charactersPanels;
     private GameObject[] _scoreTabs;
-    private CrossFade _crossFade;
+    [SerializeField] private CrossFade _crossFade;
     private int _currentCharacterIndex;
     private GameManager _gameManager;
 
     private void Awake()
     {
         _gameManager = GameManager.Instance;
-        _crossFade = GameObject.Find("CrossFade").GetComponent<CrossFade>();
 
         if (PlayerPrefs.HasKey("CharacterIndex"))
         {

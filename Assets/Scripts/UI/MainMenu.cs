@@ -5,12 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    private CrossFade _crossFade;
-
-    private void Awake()
-    {
-        _crossFade = GameObject.Find("CrossFade").GetComponent<CrossFade>();
-    }
+    [SerializeField] private CrossFade _crossFade;
 
     public void PlayGame()
     {

@@ -7,31 +7,20 @@ using UnityEngine.Audio;
 
 public class SettingsMenu : MonoBehaviour
 {
-    private CanvasGroup _settingsCanvasGroup;
-    private CanvasGroup _popupCanvasGroup;
-    private TMPro.TMP_Dropdown _resolutionDropdown;
-    private TMPro.TMP_Dropdown _qualityDropdown;
-    private Toggle _fullscreenToggle;
-    private Slider _volumeSlider;
-    private Button _saveButton;
+    [SerializeField] private CanvasGroup _settingsCanvasGroup;
+    [SerializeField] private CanvasGroup _popupCanvasGroup;
+    [SerializeField] private TMPro.TMP_Dropdown _resolutionDropdown;
+    [SerializeField] private TMPro.TMP_Dropdown _qualityDropdown;
+    [SerializeField] private Toggle _fullscreenToggle;
+    [SerializeField] private Slider _volumeSlider;
+    [SerializeField] private Button _saveButton;
+    [SerializeField] private CrossFade _crossFade;
     private float _currentVolume;
     private bool _isSaved;
-    private CrossFade _crossFade;
     Resolution[] resolutions;
 
     void Awake()
     {
-        _settingsCanvasGroup = GameObject.Find("Buttons").GetComponent<CanvasGroup>();
-        _popupCanvasGroup = GameObject.Find("PopupCanvas").GetComponent<CanvasGroup>();
-        _resolutionDropdown = GameObject
-            .Find("ResolutionDropdown")
-            .GetComponent<TMPro.TMP_Dropdown>();
-        _qualityDropdown = GameObject.Find("QualityDropdown").GetComponent<TMPro.TMP_Dropdown>();
-        _fullscreenToggle = GameObject.Find("FullscreenToggle").GetComponent<Toggle>();
-        _volumeSlider = GameObject.Find("VolumeSlider").GetComponent<Slider>();
-        _saveButton = GameObject.Find("SaveButton").GetComponent<Button>();
-
-        _crossFade = GameObject.Find("CrossFade").GetComponent<CrossFade>();
         DisablePopup();
 
         _resolutionDropdown.ClearOptions();

@@ -6,27 +6,24 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
-    private CrossFade _crossFade;
-    private CanvasGroup _pauseMenuCanvasGroup;
-    private CanvasGroup _upgradeMenuCanvasGroup;
+    [SerializeField] private CrossFade _crossFade;
+    [SerializeField] private CanvasGroup _pauseMenuCanvasGroup;
+    [SerializeField] private CanvasGroup _upgradeMenuCanvasGroup;
     private bool _isPaused;
 
     void Awake()
     {
-        _crossFade = GameObject.Find("CrossFade").GetComponent<CrossFade>();
-        _pauseMenuCanvasGroup = GameObject.Find("PauseMenu").GetComponent<CanvasGroup>();
-        _upgradeMenuCanvasGroup = GameObject.Find("UpgradeMenu").GetComponent<CanvasGroup>();
+        _isPaused = true;
+        ResumeGame();
 
-        _isPaused = false;
-
-        if (PlayerPrefs.GetString("PreviousScene") == "GameScene")
-        {
-            PauseGame();
-        }
-        else
-        {
-            ResumeGame();
-        }
+        // if (PlayerPrefs.GetString("PreviousScene") == "GameScene")
+        // {
+        //     PauseGame();
+        // }
+        // else
+        // {
+        //     ResumeGame();
+        // }
     }
 
     private void Update()
@@ -76,7 +73,7 @@ public class PauseMenu : MonoBehaviour
     {
         Debug.Log("SAVE SCENE TO CONTINUE GAME");
         PlayerPrefs.SetString("PreviousScene", SceneManager.GetActiveScene().name);
-        StartCoroutine(_crossFade.LoadSceneCoroutine("SettingsMenu"));
+        StartCoroutine(_crossFade.LoadSceneCoroutine("SettingsMenu", false));
     }
 
     public void ExitGame()

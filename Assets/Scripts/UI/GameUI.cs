@@ -9,20 +9,15 @@ public class GameUI : MonoBehaviour
     public int upgradeCount { get; set; }
     public GameObject upgradeImages;
 
-    [SerializeField]
-    private Image _upgradeImage;
-    private Slider _healthBar;
-    private Slider _xpBar;
-    private Slider _enemiesBar;
-    private TMPro.TMP_Text _waveText;
+    [SerializeField] private Image _upgradeImage;
+    [SerializeField] private Slider _healthBar;
+    [SerializeField] private Slider _xpBar;
+    [SerializeField] private Slider _enemiesBar;
+    [SerializeField] private TMPro.TMP_Text _waveText;
 
     // private IPlayer _player;
     void Awake()
     {
-        _healthBar = GameObject.Find("HealthBar").GetComponentInChildren<Slider>();
-        _xpBar = GameObject.Find("XPBar").GetComponentInChildren<Slider>();
-        _enemiesBar = GameObject.Find("EnemiesBar").GetComponentInChildren<Slider>();
-        _waveText = GameObject.Find("Waves").GetComponentInChildren<TMPro.TMP_Text>();
 
         // _healthBar.maxValue = _player.MaxHealth;
         _healthBar.value = _healthBar.maxValue;

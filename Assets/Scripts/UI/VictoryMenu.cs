@@ -6,38 +6,35 @@ using UnityEngine.SceneManagement;
 
 public class VictoryMenu : MonoBehaviour
 {
-    private CrossFade _crossFade;
-    private CanvasGroup _pauseMenuCanvasGroup;
-    private CanvasGroup _upgradeMenuCanvasGroup;
-    private CanvasGroup _endGameBackgroundCanvasGroup;
-    private CanvasGroup _defeatMenuCanvasGroup;
+    [SerializeField] private CrossFade _crossFade;
+    [SerializeField] private CanvasGroup _pauseMenuCanvasGroup;
+    [SerializeField] private CanvasGroup _upgradeMenuCanvasGroup;
+    [SerializeField] private CanvasGroup _endGameBackgroundCanvasGroup;
+    [SerializeField] private CanvasGroup _defeatMenuCanvasGroup;
     private CanvasGroup _victoryMenuCanvasGroup;
-    private TMPro.TMP_Text _finalTime;
-    private TMPro.TMP_Text _bestTime;
-    private TMPro.TMP_Text _newRecord;
-    private UITimer _uitimer;
-    private GameManager _gameManager;
+    [SerializeField] private TMPro.TMP_Text _finalTime;
+    [SerializeField] private TMPro.TMP_Text _bestTime;
+    [SerializeField] private TMPro.TMP_Text _newRecord;
+    [SerializeField] private UITimer _uitimer;
 
     void Awake()
     {
-        _gameManager = GameManager.Instance;
+        // _crossFade = GameObject.Find("CrossFade").GetComponent<CrossFade>();
+        // _pauseMenuCanvasGroup = GameObject.Find("PauseMenu").GetComponent<CanvasGroup>();
+        // _upgradeMenuCanvasGroup = GameObject.Find("UpgradeMenu").GetComponent<CanvasGroup>();
 
-        _crossFade = GameObject.Find("CrossFade").GetComponent<CrossFade>();
-        _pauseMenuCanvasGroup = GameObject.Find("PauseMenu").GetComponent<CanvasGroup>();
-        _upgradeMenuCanvasGroup = GameObject.Find("UpgradeMenu").GetComponent<CanvasGroup>();
+        // _endGameBackgroundCanvasGroup = GameObject
+        //     .Find("EndGameBackground")
+        //     .GetComponent<CanvasGroup>();
 
-        _endGameBackgroundCanvasGroup = GameObject
-            .Find("EndGameBackground")
-            .GetComponent<CanvasGroup>();
+        // _defeatMenuCanvasGroup = GameObject.Find("DefeatMenu").GetComponent<CanvasGroup>();
+        _victoryMenuCanvasGroup = GetComponent<CanvasGroup>();
 
-        _defeatMenuCanvasGroup = GameObject.Find("DefeatMenu").GetComponent<CanvasGroup>();
-        _victoryMenuCanvasGroup = gameObject.GetComponent<CanvasGroup>();
+        // _uitimer = GameObject.Find("Timer").GetComponentInParent<UITimer>();
 
-        _uitimer = GameObject.Find("Timer").GetComponentInParent<UITimer>();
-
-        _finalTime = GameObject.Find("FinalTime").GetComponentInChildren<TMPro.TMP_Text>();
-        _bestTime = GameObject.Find("BestTime").GetComponentInChildren<TMPro.TMP_Text>();
-        _newRecord = GameObject.Find("NewRecord").GetComponentInChildren<TMPro.TMP_Text>();
+        // _finalTime = GameObject.Find("FinalTime").GetComponentInChildren<TMPro.TMP_Text>();
+        // _bestTime = GameObject.Find("BestTime").GetComponentInChildren<TMPro.TMP_Text>();
+        // _newRecord = GameObject.Find("NewRecord").GetComponentInChildren<TMPro.TMP_Text>();
         _newRecord.text = "";
 
         HideVictoryMenu();
@@ -73,8 +70,15 @@ public class VictoryMenu : MonoBehaviour
         _victoryMenuCanvasGroup.blocksRaycasts = false;
     }
 
+    public void VictoryMenuButton() // Victory button
+    {
+        StartCoroutine(Victory());
+    }
+
     IEnumerator Victory()
     {
+        GameManager _gameManager = GameManager.Instance;
+
         ShowVictoryMenu();
         Time.timeScale = 0;
         _finalTime.text = _uitimer.TimerText.text;
@@ -129,7 +133,7 @@ public class VictoryMenu : MonoBehaviour
 
     public void Retry() // Retry button
     {
-        StartCoroutine(_crossFade.LoadSceneCoroutine("GameScene"));
+        StartCoroutine(_crossFade.LoadSceneCoroutine("CharacterSelectionMenu"));
     }
 
     public void Exit() // Exit button
