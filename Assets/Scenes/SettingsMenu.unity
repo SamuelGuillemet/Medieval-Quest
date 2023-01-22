@@ -730,7 +730,7 @@ MonoBehaviour:
   fullscreenToggle: {fileID: 691456330}
   volumeSlider: {fileID: 1798326450}
   saveButton: {fileID: 917728609}
-  crossfadeAnimator: {fileID: 0}
+  crossFade: {fileID: 1130135159}
 --- !u!1 &175954040
 GameObject:
   m_ObjectHideFlags: 0
@@ -3740,6 +3740,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1130135157}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1130135159 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5148928278938997100, guid: 04787f43c9740cf4892996c7bd5aa1a8,
+    type: 3}
+  m_PrefabInstance: {fileID: 1130135157}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecc28c66d466d6d48876d81c80f4a9fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1188023021
 GameObject:
   m_ObjectHideFlags: 0

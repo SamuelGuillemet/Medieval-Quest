@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
-    public GameObject pauseMenu;
     public CrossFade crossFade;
     public CanvasGroup pauseMenuCanvasGroup;
     public CanvasGroup upgradeMenuCanvasGroup;
@@ -39,13 +38,13 @@ public class PauseMenu : MonoBehaviour
             {
                 PauseGame();
             }
-            _isPaused = !_isPaused;
         }
     }
 
     public void PauseGame()
     {
         Time.timeScale = 0;
+    
         upgradeMenuCanvasGroup.alpha *= 0.3f;
         upgradeMenuCanvasGroup.interactable = false;
         upgradeMenuCanvasGroup.blocksRaycasts = false;
@@ -53,6 +52,7 @@ public class PauseMenu : MonoBehaviour
         pauseMenuCanvasGroup.alpha = 1;
         pauseMenuCanvasGroup.interactable = true;
         pauseMenuCanvasGroup.blocksRaycasts = true;
+        _isPaused = !_isPaused;
     }
 
     public void ResumeGame()
@@ -64,6 +64,7 @@ public class PauseMenu : MonoBehaviour
         pauseMenuCanvasGroup.alpha = 0;
         pauseMenuCanvasGroup.interactable = false;
         pauseMenuCanvasGroup.blocksRaycasts = false;
+        _isPaused = !_isPaused;
 
         Time.timeScale = 1;
     }

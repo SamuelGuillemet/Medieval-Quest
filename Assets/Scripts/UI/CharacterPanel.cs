@@ -22,16 +22,33 @@ public class CharacterPanel : MonoBehaviour
     private TMPro.TextMeshProUGUI _winText;
     private GameManager _gameManager;
 
-    private void Awake()
+    private void Start()
     {
-        _gameManager = FindObjectOfType<GameManager>();
+        _gameManager = GameManager.Instance;
         _medalImage.enabled = false;
 
-        SetGamesText(PlayerPrefs.GetInt("GamesPlayed"));
-        SetWaveText(PlayerPrefs.GetInt("MaxWave"));
-        SetWinText(PlayerPrefs.GetInt("GamesWon"));
+        if (!PlayerPrefs.HasKey(_gameManager.SelectedPlayer.ToString() + "GamesPlayed"))
+        {
+            PlayerPrefs.SetInt(_gameManager.SelectedPlayer.ToString() + "GamesPlayed", 0);
+        }
 
-        if (PlayerPrefs.GetInt("GamesWon") > 0)
+        if (!PlayerPrefs.HasKey(_gameManager.SelectedPlayer.ToString() + "MaxWave"))
+        {
+            PlayerPrefs.SetInt(_gameManager.SelectedPlayer.ToString() + "MaxWave", 0);
+        }
+
+        if (!PlayerPrefs.HasKey(_gameManager.SelectedPlayer.ToString() + "GamesWon"))
+        {
+            PlayerPrefs.SetInt(_gameManager.SelectedPlayer.ToString() + "GamesWon", 0);
+        }
+
+        PlayerPrefs.Save();
+
+        SetGamesText(PlayerPrefs.GetInt(_gameManager.SelectedPlayer.ToString() + "GamesPlayed"));
+        SetWaveText(PlayerPrefs.GetInt(_gameManager.SelectedPlayer.ToString() + "MaxWave"));
+        SetWinText(PlayerPrefs.GetInt(_gameManager.SelectedPlayer.ToString() + "GamesWon"));
+
+        if (PlayerPrefs.GetInt(_gameManager.SelectedPlayer.ToString() + "GamesWon") > 0)
         {
             _medalImage.enabled = true;
         }

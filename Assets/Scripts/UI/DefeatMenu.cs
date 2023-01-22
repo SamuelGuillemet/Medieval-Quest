@@ -17,7 +17,7 @@ public class DefeatMenu : MonoBehaviour
 
     void Awake()
     {
-        _gameManager = GameObject.Find("GameManager").GetComponentInParent<GameManager>();
+        _gameManager = GameManager.Instance;
         _uitimer = GameObject.Find("Timer").GetComponentInParent<UITimer>();
 
         _finalTime = GameObject.Find("FinalTime").GetComponentInChildren<TMPro.TMP_Text>();

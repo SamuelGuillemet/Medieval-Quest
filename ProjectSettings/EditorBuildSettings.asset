@@ -6,13 +6,13 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SettingsMenu.unity
-    guid: 89bbd4a41d10f1b43bef1d24878cd956
-  - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: 8e184ddcdd1d040499bae7486a3241eb
   - enabled: 1
-    path: Assets/Scenes/CharacterSelect.unity
+    path: Assets/Scenes/SettingsMenu.unity
+    guid: 89bbd4a41d10f1b43bef1d24878cd956
+  - enabled: 1
+    path: Assets/Scenes/CharacterSelectionMenu.unity
     guid: 5c81d2a49c5384b4bb2c5109dc72aafe
   - enabled: 1
     path: Assets/Scenes/SamuelScene.unity
