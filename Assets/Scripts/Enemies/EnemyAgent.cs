@@ -4,17 +4,21 @@ using UnityEngine;
 using UnityEngine.AI;
 using WarriorAnimsFREE;
 
+[RequireComponent(typeof(NavMeshAgent), typeof(WarriorController))]
 public class EnemyAgent : MonoBehaviour
 {
     private NavMeshAgent _agent;
+    private Rigidbody _rigidbody;
     private Animator _animator;
     private WarriorController _warriorController;
     public NavMeshAgent Agent { get => _agent; }
+    public Rigidbody Rigidbody { get => _rigidbody; }
 
     void Awake()
     {
         _animator = GetComponentInChildren<Animator>();
         _warriorController = GetComponent<WarriorController>();
+        _rigidbody = GetComponent<Rigidbody>();
 
         _agent = GetComponent<NavMeshAgent>();
         _agent.angularSpeed = 800f;
@@ -40,49 +44,17 @@ public class EnemyAgent : MonoBehaviour
         }
     }
 
-    // public void StopFollowingPlayer()
-    // {
-    //     Debug.Log("Killed : " + _followPlayerCoroutine.GetHashCode() + " " + gameObject.name);
-    //     _followPlayer = false;
-    //     if (_followPlayerCoroutine != null) StopCoroutine(_followPlayerCoroutine);
-    //     _followPlayerCoroutine = null;
-    // }
-
-    // private IEnumerator FollowPlayerEnumerator()
-    // {
-    //     while (true)
-    //     {
-    //         if (!_followPlayer) yield break;
-
-    //         NavMeshHit hit;
-    //         _playerAgent.SamplePathPosition(NavMesh.AllAreas, 1f, out hit);
-
-    //         // If the player is on the PlayerZone Area, stop the agent
-    //         if (hit.mask == 8)
-    //         {
-    //             _agent.isStopped = true;
-    //             yield return null;
-    //         }
-    //         else
-    //         {
-    //             _agent.isStopped = false;
-    //             // Set the destionation 1 block away from the player
-    //             Vector3 playerPos = _player.transform.position;
-
-    //             Vector3 direction = (playerPos - transform.position).normalized;
-    //             Vector3 destination = playerPos - (direction * _agent.stoppingDistance);
-
-    //             _agent.SetDestination(destination);
-    //             Debug.DrawLine(transform.position, destination, Color.red);
-
-    //             yield return new WaitUntil(() => _playerAgent.velocity.magnitude > 0.1f);
-    //         }
-    //     }
-    // }
-
     public void AttackAnimation()
     {
         _warriorController.Attack1();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("DeathZone"))
+        {
+            GameManager.Instance.OnEnemyKilled.Invoke(GetComponent<IEnemy>());
+        }
     }
 
 }
