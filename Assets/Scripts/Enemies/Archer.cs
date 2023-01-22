@@ -20,9 +20,9 @@ public class Archer : IEnemy
 {
     [SerializeField] private GameObject _arrow;
     private Transform _muzzle;
-    public override void Start()
+    public override void OnEnable()
     {
-        base.Start();
+        base.OnEnable();
 
         MaxHealth = 5;
         _cooldown = 5f;
@@ -32,19 +32,35 @@ public class Archer : IEnemy
 
         _muzzle = transform.Find("Muzzle");
 
-        _movmentCoroutine = StartCoroutine(MovementRoutine());
+        _movementCoroutine = StartCoroutine(MovementRoutine());
         _attackCoroutine = StartCoroutine(AttackRoutine());
     }
+
+
 
     // Update is called once per frame
     public override void Update()
     {
         base.Update();
         Debug.DrawLine(transform.position, _enemyAgent.Agent.destination, new Color(0.3882353f, 0f, 0.1294118f));
+
+        if (_enemyAgent.Agent.enabled)
+        {
+            if (_enemyAgent.Agent.remainingDistance < 0.1f)
+            {
+                StartCoroutine(FacePlayer(2f));
+            }
+
+            Vector3 start = _enemyAgent.Agent.destination + (_gameManager.Player.transform.position - _enemyAgent.Agent.destination).normalized;
+            start.y = _enemyAgent.Agent.destination.y + 1f;
+            Vector3 direction = _gameManager.Player.transform.position - start;
+            Debug.DrawRay(start, direction, Color.white);
+        }
     }
 
     public override IEnumerator AttackRoutine()
     {
+        base.AttackRoutine();
         while (true)
         {
             if (!_couldAttack)
@@ -53,34 +69,14 @@ public class Archer : IEnemy
             }
             else
             {
-                _enemyAgent.Agent.isStopped = true;
+                StopAgent();
 
-                float time = 0f;
-                while (true)
-                {
-                    Vector3 direction = _gameManager.Player.transform.position - transform.position;
-                    Quaternion lookRotation = Quaternion.LookRotation(direction);
-                    Vector3 rotation = Quaternion.Lerp(transform.rotation, lookRotation, time).eulerAngles;
-                    transform.rotation = Quaternion.Euler(0f, rotation.y, 0f);
-
-                    yield return new WaitForEndOfFrame();
-                    time += Time.deltaTime;
-                    if (time > 1.5f)
-                    {
-                        transform.rotation = Quaternion.Euler(0f, lookRotation.eulerAngles.y, 0f);
-                        break;
-                    }
-
-                    // Break if the enemy faces the player
-                    if (Vector3.Angle(transform.forward, direction) < 10f)
-                    {
-                        break;
-                    }
-                }
+                yield return FacePlayer(0.5f);
 
                 InstantiateArrow();
+                _audioSource.PlayOneShot(_audioClipAttack);
 
-                _enemyAgent.Agent.isStopped = false;
+                ResumeAgent();
 
                 yield return new WaitForSeconds(_cooldown);
             }
@@ -90,31 +86,28 @@ public class Archer : IEnemy
 
     public override IEnumerator MovementRoutine()
     {
-        _enemyAgent.Agent.isStopped = false;
+        ResumeAgent();
         while (true)
         {
             Vector3 destination = FindPointOnEdgeOfScreen();
+            int count = 0;
+            while (!IsPlayerVisibleFrom(destination) && count < 200)
+            {
+                destination = FindPointOnEdgeOfScreen();
+                count++;
+            }
             _enemyAgent.Agent.SetDestination(destination);
-
-            yield return new WaitForSeconds(Mathf.Clamp(_enemyAgent.Agent.remainingDistance / _enemyAgent.Agent.speed, 0f, 5f));
-
 
             yield return new WaitWhile(() =>
             {
                 Vector3 screenPoint = _camera.WorldToViewportPoint(_enemyAgent.Agent.destination);
-                if (screenPoint.x < 0f || screenPoint.x > 1f || screenPoint.y < 0f || screenPoint.y > 1f)
+                if (!IsOnScreen(_enemyAgent.Agent.destination, 0.1f))
                 {
-                    // We check if he is close to his destination
-                    if (Vector3.Distance(transform.position, _enemyAgent.Agent.destination) > 2f)
-                    {
-                        return true;
-                    }
                     return false;
                 }
 
                 if (screenPoint.x > 0.3f && screenPoint.x < 0.7f && screenPoint.y > 0.3f && screenPoint.y < 0.7f)
                 {
-                    // Archer in center of screen
                     return false;
                 }
                 return true;
@@ -124,29 +117,46 @@ public class Archer : IEnemy
 
     private Vector3 FindPointOnEdgeOfScreen()
     {
+        float _offset = 0.1f;
         int whichSide = Random.Range(0, 4);
-        float slide = Random.Range(0f, 1f);
+        float slide = Random.Range(_offset, 1 - _offset);
 
         Vector3 randomPointOnEdgeOfScreen = Vector3.zero;
 
         switch (whichSide)
         {
             case 0:
-                randomPointOnEdgeOfScreen = _camera.ViewportToWorldPoint(new Vector3(slide, 0.15f, _camera.transform.position.y));
+                randomPointOnEdgeOfScreen = _camera.ViewportToWorldPoint(new Vector3(slide, _offset, _camera.transform.position.y));
                 break;
             case 1:
-                randomPointOnEdgeOfScreen = _camera.ViewportToWorldPoint(new Vector3(slide, 0.75f, _camera.transform.position.y));
+                randomPointOnEdgeOfScreen = _camera.ViewportToWorldPoint(new Vector3(slide, 1 - _offset, _camera.transform.position.y));
                 break;
             case 2:
-                randomPointOnEdgeOfScreen = _camera.ViewportToWorldPoint(new Vector3(0.15f, slide, _camera.transform.position.y));
+                randomPointOnEdgeOfScreen = _camera.ViewportToWorldPoint(new Vector3(_offset, slide, _camera.transform.position.y));
                 break;
             case 3:
-                randomPointOnEdgeOfScreen = _camera.ViewportToWorldPoint(new Vector3(0.75f, slide, _camera.transform.position.y));
+                randomPointOnEdgeOfScreen = _camera.ViewportToWorldPoint(new Vector3(1 - _offset, slide, _camera.transform.position.y));
                 break;
         }
 
         Vector3 destination = new Vector3(randomPointOnEdgeOfScreen.x, 2f, randomPointOnEdgeOfScreen.z);
         return NavMesh.SamplePosition(destination, out NavMeshHit hit, 10f, NavMesh.AllAreas) ? hit.position : destination;
+    }
+
+    private bool IsPlayerVisibleFrom(Vector3 origin)
+    {
+        Vector3 start = origin + (_gameManager.Player.transform.position - origin).normalized;
+        start.y = origin.y + 1f;
+        Vector3 direction = _gameManager.Player.transform.position - start;
+
+        if (Physics.Raycast(start, direction, out RaycastHit hit))
+        {
+            if (hit.collider.gameObject == _gameManager.Player)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void InstantiateArrow()
@@ -163,9 +173,8 @@ public class Archer : IEnemy
             // Split the -angle to angle range into nb arrow parts
             float angleScatter = angle - (angleRange * (i + 1));
 
-            GameObject arrow = Instantiate(_arrow, _muzzle.position, Quaternion.identity); // TODO: Pooling
+            GameObject arrow = PoolingManager.Instance.SpawnObjectFromPool(_arrow, _muzzle.position, Quaternion.identity);
             arrow.transform.LookAt(_gameManager.Player.transform);
-
             arrow.transform.RotateAround(transform.position, Vector3.up, angleScatter * Mathf.Rad2Deg);
             arrow.GetComponent<Rigidbody>().AddForce(arrow.transform.forward * 400f);
         }

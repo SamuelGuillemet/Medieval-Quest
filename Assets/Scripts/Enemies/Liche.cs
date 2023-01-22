@@ -11,15 +11,16 @@ using WarriorAnimsFREE;
 ///  - La zone inflige 1 dégâts par secondes au personnage s’il se trouve dedans, et soignent de 1 pv par seconde les ennemis n’étant pas des Liches. 
 ///  - Cooldown 10 secondes.
 /// Comportement : 
-///  - S’il peut attaquer, attaque. Sinon se déplace vers un ennemis ayant peu de point de vie. 
+///  - S’il peut attaquer, attaque. 
+///  - Sinon se déplace vers un ennemis ayant peu de point de vie. 
 /// </summary>
 public class Liche : IEnemy
 {
     [SerializeField] private GameObject _damageZone;
     private float _timingDamageZone = 5f;
-    public override void Start()
+    public override void OnEnable()
     {
-        base.Start();
+        base.OnEnable();
 
         MaxHealth = 15;
         _delayBeforeStartingAttack = WarriorTiming.TimingLock(Warrior.Liche);
@@ -29,7 +30,7 @@ public class Liche : IEnemy
 
         _damageZone.SetActive(false);
 
-        _movmentCoroutine = StartCoroutine(MovementRoutine());
+        _movementCoroutine = StartCoroutine(MovementRoutine());
         _attackCoroutine = StartCoroutine(AttackRoutine());
     }
 
@@ -42,6 +43,7 @@ public class Liche : IEnemy
 
     public override IEnumerator AttackRoutine()
     {
+        base.AttackRoutine();
         while (true)
         {
             if (!_couldAttack)
@@ -50,13 +52,15 @@ public class Liche : IEnemy
             }
             else
             {
-                _enemyAgent.Agent.isStopped = true;
+                StopAgent();
                 _enemyAgent.AttackAnimation();
-                yield return new WaitForSeconds(1.5f * _delayBeforeStartingAttack);
+                yield return new WaitForSeconds(.5f * _delayBeforeStartingAttack);
+                _audioSource.PlayOneShot(_audioClipAttack);
+                yield return new WaitForSeconds(_delayBeforeStartingAttack);
 
                 _damageZone.SetActive(true);
 
-                _enemyAgent.Agent.isStopped = false;
+                ResumeAgent();
 
                 yield return new WaitForSeconds(_timingDamageZone);
                 _damageZone.SetActive(false);
@@ -68,21 +72,19 @@ public class Liche : IEnemy
 
     public override IEnumerator MovementRoutine()
     {
-        _enemyAgent.Agent.isStopped = false;
+        ResumeAgent();
         while (true)
         {
             float lowLifePercent = Mathf.Infinity;
-            GameObject lowLifeEnemy = null;
+            IEnemy lowLifeEnemy = null;
 
-            foreach (var enemy in _gameManager.Enemies)
+            foreach (IEnemy enemy in _gameManager.Enemies)
             {
-                IEnemy enemyScript = enemy.GetComponent<IEnemy>();
-
-                if (enemyScript.Warrior != Warrior.Liche)
+                if (enemy.Warrior != Warrior.Liche)
                 {
-                    if (enemyScript.GetHealthInPercent() < lowLifePercent)
+                    if (enemy.GetHealthInPercent() < lowLifePercent)
                     {
-                        lowLifePercent = enemyScript.GetHealthInPercent();
+                        lowLifePercent = enemy.GetHealthInPercent();
                         lowLifeEnemy = enemy;
                     }
                 }
@@ -131,7 +133,7 @@ public class Liche : IEnemy
         while (true)
         {
             if (!_damageZone.activeInHierarchy) yield break;
-            enemy.TakeDamage(-1 * care);
+            enemy.Heal(care);
             yield return new WaitForSeconds(1f);
         }
     }
@@ -141,7 +143,7 @@ public class Liche : IEnemy
         while (true)
         {
             if (!_damageZone.activeInHierarchy) yield break;
-            Debug.Log("Damage on player");
+            _gameManager.OnPlayerDamageTaken?.Invoke(damage);
             yield return new WaitForSeconds(1f);
         }
     }
