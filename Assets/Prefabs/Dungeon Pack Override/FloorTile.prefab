@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5393110922397679837}
   m_Layer: 8
   m_Name: Plane
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295

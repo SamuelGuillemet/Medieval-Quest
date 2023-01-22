@@ -10,6 +10,9 @@ TagManager:
   - DashZone
   - Obstacle
   - Enemy
+  - Shadow
+  - Collide
+  - Ladder
   layers:
   - Default
   - TransparentFX
@@ -20,7 +23,7 @@ TagManager:
   - 
   - 
   - Floor
-  - 
+  - Walkable
   - 
   - 
   - 

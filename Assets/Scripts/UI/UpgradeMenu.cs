@@ -65,9 +65,9 @@ public class UpgradeMenu : MonoBehaviour
                 .gameObject
         );
 
-        if (_gameUI.upgradeCount == 0)
+        if (_gameUI.upgradeCount <= 0)
         {
-            StartCoroutine(DisableUpgradePopup(0.5f));
+            StartCoroutine(DisableUpgradePopup(0.25f));
         }
     }
 
@@ -95,9 +95,15 @@ public class UpgradeMenu : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.E) && _upgradeMenuCanvasGroup.alpha == 1)
+        {
+            StartCoroutine(DisableUpgradePopup(0f));
+        }
+
         if (Input.GetKeyDown(KeyCode.E) && _gameUI.upgradeCount > 0)
         {
             EnableUpgradePopup();
         }
+
     }
 }
