@@ -18,6 +18,7 @@ public class Orb : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         transform.RotateAround(player.transform.position, Vector3.up, player.speedOrb * Time.deltaTime);
         if (enemyTouched == player.maxEnemyTouched) 
         {
