@@ -27,7 +27,7 @@ public class Archer : IEnemy
         MaxHealth = 5;
         _cooldown = 5f;
         _warrior = Warrior.Crossbow;
-        _enemyAgent.Agent.speed = 8f;
+        _enemyAgent.Agent.speed = 5f;
         _enemyAgent.Agent.stoppingDistance = 0.1f;
 
         _muzzle = transform.Find("Muzzle");

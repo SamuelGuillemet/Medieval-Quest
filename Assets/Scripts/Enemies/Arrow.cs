@@ -14,6 +14,11 @@ public class Arrow : MonoBehaviour
             GameManager.Instance.OnPlayerDamageTaken?.Invoke(_damage);
             DisableObject();
         }
+        if (other.gameObject.CompareTag("Mignon"))
+        {
+            other.gameObject.GetComponent<Mignon>().OnDamageTaken(_damage);
+            DisableObject();
+        }
         if (other.gameObject.CompareTag("Obstacle"))
         {
             DisableObject();

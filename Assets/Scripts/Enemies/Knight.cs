@@ -26,10 +26,10 @@ public class Knight : IEnemy
         _delayBeforeStartingAttack = WarriorTiming.TimingLock(Warrior.Knight);
         _warrior = Warrior.Knight;
         _cooldown = 1f;
-        _enemyAgent.Agent.speed = 6f;
+        _enemyAgent.Agent.speed = 3f;
         _enemyAgent.Agent.stoppingDistance = 0.5f;
 
-        _playerAgent = _gameManager.Player.GetComponent<NavMeshAgent>();
+        _playerAgent = _gameManager.Player.GetComponentInParent<NavMeshAgent>();
 
         _movementCoroutine = StartCoroutine(MovementRoutine());
         _attackCoroutine = StartCoroutine(AttackRoutine());
@@ -41,7 +41,7 @@ public class Knight : IEnemy
         base.Update();
         Debug.DrawLine(transform.position, _enemyAgent.Agent.destination, new Color(0.3019608f, 0.3254902f, 0.3529412f));
 
-        _couldAttack = _couldAttack && CouldAttackPlayer() != null;
+        _couldAttack = _couldAttack && CouldAttack() != null;
     }
 
     public override IEnumerator AttackRoutine()
@@ -60,7 +60,8 @@ public class Knight : IEnemy
                 yield return new WaitForSeconds(0.5f * _delayBeforeStartingAttack);
                 _audioSource.PlayOneShot(_audioClipAttack);
 
-                if (CouldAttackPlayer() != null) _gameManager.OnPlayerDamageTaken?.Invoke(5);
+                if (CouldAttack() != null) _gameManager.OnPlayerDamageTaken?.Invoke(5);
+                if (CouldAttack("Mignon") != null) CouldAttack("Mignon").GetComponent<Mignon>().OnDamageTaken(5);
 
                 yield return new WaitForSeconds(_delayBeforeStartingAttack);
 
@@ -89,12 +90,12 @@ public class Knight : IEnemy
         }
     }
 
-    private GameObject CouldAttackPlayer()
+    private GameObject CouldAttack(string tag = "Player")
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position + transform.forward, 1f);
         foreach (Collider collider in colliders)
         {
-            if (collider.gameObject.CompareTag("Player"))
+            if (collider.gameObject.CompareTag(tag))
             {
                 return collider.gameObject;
             }

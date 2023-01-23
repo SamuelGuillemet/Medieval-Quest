@@ -50,10 +50,10 @@ public class IEnemy : MonoBehaviour
         return (float)_health / _maxHealth;
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, float knockback)
     {
         _health = Mathf.Clamp(_health - damage, 0, _maxHealth);
-        _gameManager.OnEnemyDamageTaken?.Invoke(damage, this);
+        _audioManager.PlaySound("EnemyHit");
 
         if (_health <= 0)
         {
@@ -61,8 +61,10 @@ public class IEnemy : MonoBehaviour
         }
         else
         {
-            _audioManager.PlaySound("EnemyHit");
-            StartCoroutine(DamageTakenKnockback((transform.position - _gameManager.Player.transform.position).normalized, damage));
+            if (knockback > 0)
+            {
+                StartCoroutine(DamageTakenKnockback((transform.position - _gameManager.Player.transform.position).normalized, knockback));
+            }
         }
     }
 
@@ -78,7 +80,12 @@ public class IEnemy : MonoBehaviour
         }
     }
 
-    IEnumerator DamageTakenKnockback(Vector3 direction, int strength = 1)
+    public void RepusleEnemy(Vector3 direction, float strenght = 1f)
+    {
+        StartCoroutine(DamageTakenKnockback(direction, strenght));
+    }
+
+    IEnumerator DamageTakenKnockback(Vector3 direction, float strenght = 1f)
     {
         direction.y = 1f;
         _enemyAgent.Agent.enabled = false;
@@ -86,7 +93,7 @@ public class IEnemy : MonoBehaviour
         _couldAttack = false;
         StopCoroutine(_movementCoroutine);
 
-        _enemyAgent.Rigidbody.AddForce(direction * strength * 35f, ForceMode.Impulse);
+        _enemyAgent.Rigidbody.AddForce(direction * 35f * strenght, ForceMode.Impulse);
 
         yield return new WaitForSeconds(0.5f);
         yield return new WaitUntil(() => Physics.Raycast(transform.position, Vector3.down, 1.1f, LayerMask.GetMask("Floor")));
@@ -181,5 +188,18 @@ public class IEnemy : MonoBehaviour
     {
         ResetKnockback();
         StopAllCoroutines();
+    }
+
+    public void FreezeEnemy(float time)
+    {
+        StartCoroutine(FreezeEnemyRoutine(time));
+    }
+
+    IEnumerator FreezeEnemyRoutine(float time = 1f)
+    {
+        Debug.Log("Freeze enemy");
+        DeactivateEnemy();
+        yield return new WaitForSeconds(time);
+        ActivateEnemy();
     }
 }

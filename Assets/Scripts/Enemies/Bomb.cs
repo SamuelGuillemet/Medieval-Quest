@@ -61,6 +61,10 @@ public class Bomb : MonoBehaviour
             {
                 GameManager.Instance.OnPlayerDamageTaken?.Invoke(_damage);
             }
+            if (collider.gameObject.CompareTag("Mignon"))
+            {
+                collider.gameObject.GetComponent<Mignon>().OnDamageTaken(_damage);
+            }
         }
         _exploded = true;
     }
