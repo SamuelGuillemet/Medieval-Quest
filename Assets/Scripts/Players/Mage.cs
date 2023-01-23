@@ -17,7 +17,7 @@ public class Mage : IPlayer
     [SerializeField] public bool orbRepulsion = false;
 
 
-
+    
 
 
     // Start is called before the first frame update
@@ -30,6 +30,7 @@ public class Mage : IPlayer
         _cooldown1 = 2f;
         _cooldown2 = 10f;
         _cooldown3 = 10f;
+
     }
 
     public override IEnumerator Attack1()
@@ -50,6 +51,7 @@ public class Mage : IPlayer
     {
         _canAction2 = false;
         _animator.SetTrigger("ThrowOrb");
+        _audioManager.PlaySound("Orb");
         yield return new WaitForSeconds(_cooldown2);
         _canAction2 = true;
     }
@@ -73,4 +75,10 @@ public class Mage : IPlayer
         _canAction3 = true;
     }
 
+    
+
+    public override void DamageSound()
+    {
+        _audioManager.PlaySound("DamageMage");
+    }
 }

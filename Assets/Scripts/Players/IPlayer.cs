@@ -26,9 +26,9 @@ public class IPlayer : MonoBehaviour
     protected bool _canAction3 = true;
     protected Coroutine _attack3Coroutine;
 
-    //Améliorations Générales 
-    
 
+
+    public AudioManager _audioManager;
 
 
     // Start is called before the first frame update
@@ -36,6 +36,8 @@ public class IPlayer : MonoBehaviour
     {
         _animator = GetComponent<Animator>();
         _playerAgent = GetComponentInParent<PlayerAgent>();
+
+        _audioManager = AudioManager.Instance;
     }
 
     // Update is called once per frame
@@ -70,9 +72,19 @@ public class IPlayer : MonoBehaviour
         yield return null;
     }
 
+
+    
     public void TakeDamage(int amount)
     {
         _health -= amount;
+        DamageSound();
         // TODO : Add event when  health = 0
     }
+
+    public virtual void DamageSound()
+    {
+        
+    }
+
+
 }
