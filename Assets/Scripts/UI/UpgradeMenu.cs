@@ -30,14 +30,13 @@ public class UpgradeMenu : MonoBehaviour
             Debug.Log(sliders[i].GetComponentInChildren<Button>().name);
             buttons[i] = sliders[i].GetComponentInChildren<Button>();
             isMaxed[i] = false;
+            Debug.Log(isMaxed[i].ToString());
         }
-        Debug.Log(sliders.Length);
-        Debug.Log(isMaxed);
     }
 
-    public void Upgrade(Slider slider)
+    public void Upgrade(Slider slider) // Called by button
     {
-        int key;
+        // int key;
         slider.value += 1;
 
         //get index of slider in sliders array
@@ -51,8 +50,7 @@ public class UpgradeMenu : MonoBehaviour
             }
         }
         //depending on the slider, do something
-        key = index;
-        // _gameManager.upgradeValues[key] += 1;
+        //_gameManager.upgradeValues[key] += 1; // TODO
 
         if (slider.value == slider.maxValue)
         {
@@ -76,10 +74,16 @@ public class UpgradeMenu : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(time);
 
-        //disable the upgrade menu
+        //hide the upgrade menu
         _upgradeMenuCanvasGroup.alpha = 0;
         _upgradeMenuCanvasGroup.interactable = false;
         _upgradeMenuCanvasGroup.blocksRaycasts = false;
+
+        //disable all buttons
+        foreach (Button button in buttons)
+        {
+            button.interactable = false;
+        }
 
         Time.timeScale = 1;
     }
@@ -98,14 +102,47 @@ public class UpgradeMenu : MonoBehaviour
 
     private void GetRandomUpgrades()
     {
-        int[] randomNumbers = new int[3];
+        int[] randomNumbers = new int[3] { -1, -1, -1 }; //initialize to impossible values
         int random;
         for (int i = 0; i < randomNumbers.Length; i++)
         {
+            //NOT WORKING BECAUSE OF INFINITE LOOP
             random = Random.Range(0, sliders.Length);
-            if (isMaxed[random])
+            //if the random number is already in the array, try again
+            if (isMaxed[random] || randomNumbers[0] == random || randomNumbers[1] == random || randomNumbers[2] == random)
             {
                 i--;
+                //find how many upgrades are left
+                int upgradesLeft = 0;
+                foreach (bool maxed in isMaxed)
+                {
+                    if (!maxed)
+                    {
+                        upgradesLeft++;
+                    }
+                }
+                //if there is three or less upgrades left, use these last upgrades
+                if (upgradesLeft < 3)
+                {
+                    randomNumbers = new int[upgradesLeft];
+
+                    for (int j = 0; j < randomNumbers.Length; j++)
+                    {
+                        random = Random.Range(0, sliders.Length);
+                        if (isMaxed[random])
+                        {
+                            j--;
+                            continue;
+                        }
+                        randomNumbers[j] = random;
+                    }
+                    break;
+                }
+                if (upgradesLeft == 0)
+                {
+                    Debug.Log("No upgrades left");
+                    return;
+                }
                 continue;
             }
             randomNumbers[i] = random;

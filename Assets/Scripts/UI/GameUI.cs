@@ -8,6 +8,7 @@ public class GameUI : MonoBehaviour
 {
     public int upgradeCount { get; set; }
     public GameObject upgradeImages;
+    private GameManager _gameManager;
 
     [SerializeField]
     private Image _upgradeImage;
@@ -37,8 +38,8 @@ public class GameUI : MonoBehaviour
         _xpBar.value = _xpBar.minValue;
 
         upgradeCount = 0;
+        _gameManager = GameManager.Instance;
 
-        Debug.Log(transform.position);
     }
 
     public void UpdateEnnemiesBar(int enemies)
@@ -60,12 +61,6 @@ public class GameUI : MonoBehaviour
     public void CreateUpgradeImage()
     {
         upgradeCount++;
-        // Instantiate(
-        //     _upgradeImage,
-        //     upgradeImages.transform.position + (5 * upgradeCount) * Vector3.right,
-        //     Quaternion.identity,
-        //     upgradeImages.transform
-        // );
         StartCoroutine(UpgradeAlert());
     }
 
