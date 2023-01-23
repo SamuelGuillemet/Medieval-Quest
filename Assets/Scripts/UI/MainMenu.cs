@@ -9,13 +9,13 @@ public class MainMenu : MonoBehaviour
 
     public void PlayGame()
     {
-        PlayerPrefs.SetString("PreviousScene", SceneManager.GetActiveScene().name);
+        // PlayerPrefs.SetString("PreviousScene", SceneManager.GetActiveScene().name);
         StartCoroutine(_crossFade.LoadSceneCoroutine("CharacterSelectionMenu"));
     }
 
     public void SettingsMenu()
     {
-        PlayerPrefs.SetString("PreviousScene", SceneManager.GetActiveScene().name);
+        // PlayerPrefs.SetString("PreviousScene", SceneManager.GetActiveScene().name);
         StartCoroutine(_crossFade.LoadSceneCoroutine("SettingsMenu"));
     }
 

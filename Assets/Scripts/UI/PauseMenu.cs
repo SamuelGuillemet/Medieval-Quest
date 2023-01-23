@@ -33,10 +33,12 @@ public class PauseMenu : MonoBehaviour
             if (_isPaused)
             {
                 ResumeGame();
+                AudioListener.pause = false;
             }
             else
             {
                 PauseGame();
+                AudioListener.pause = true;
             }
         }
     }
