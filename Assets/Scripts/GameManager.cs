@@ -6,8 +6,8 @@ using UnityEngine.Events;
 public class GameManager : MonoBehaviour
 {
     public PlayerType SelectedPlayer = PlayerType.None;
-    private GameObject _player;
-    public GameObject Player { get => _player; set => _player = value; }
+    private IPlayer _player;
+    public IPlayer Player { get => _player; set => _player = value; }
 
     private static GameManager _instance;
     public static GameManager Instance { get { if (_instance == null) _instance = GameObject.FindObjectOfType<GameManager>(); return _instance; } }
@@ -28,9 +28,11 @@ public class GameManager : MonoBehaviour
     public List<IEnemy> Enemies;
 
     public UnityEventIEnemy OnEnemyKilled;
-    public UnityEventIntIEnemy OnEnemyDamageTaken;
+    public UnityEventIntIEnemyFloat OnEnemyDamageTaken;
     public UnityEventInt OnPlayerDamageTaken;
+    public UnityEventInt OnPlayerHealed;
     public UnityEventExperienceOrb OnOrbCollected;
+    public UnityEventInt OnPlayerUpgrade;
 
     private int _playerExperience = 0;
     public int PlayerExperience { get => _playerExperience; set => _playerExperience = value; }
@@ -57,12 +59,14 @@ public class GameManager : MonoBehaviour
         _mapGenerator.GenerateMap();
 
         _enemySpawnZones = FindObjectsOfType<EnemySpawnZone>();
-        _player = GameObject.FindGameObjectWithTag("Player");
+        _player = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<IPlayer>();
 
         OnEnemyKilled.AddListener(OnEnemyKilledCallback);
         OnEnemyDamageTaken.AddListener(OnEnemyDamagedCallback);
         OnPlayerDamageTaken.AddListener(OnPlayerDamagedCallback);
+        OnPlayerHealed.AddListener(OnPlayerHealedCallback);
         OnOrbCollected.AddListener(OnOrbCollectedCallback);
+        OnPlayerUpgrade.AddListener(OnPlayerUpgradeCallback);
 
         _audioManager = AudioManager.Instance;
     }
@@ -119,14 +123,25 @@ public class GameManager : MonoBehaviour
         StartCoroutine(SpawnExperienceOrb(enemy.transform.position));
     }
 
-    private void OnEnemyDamagedCallback(int damage, IEnemy enemy)
+    private void OnEnemyDamagedCallback(int damage, IEnemy enemy, float repuslionForce)
     {
+        enemy.TakeDamage(damage, repuslionForce);
         Debug.Log("Enemy: " + enemy.name + " - Health: " + enemy.Health);
     }
 
     private void OnPlayerDamagedCallback(int damage)
     {
-        Debug.Log("Player: " + Player.name + " - Damage: " + damage);
+        _player.TakeDamage(damage);
+        Debug.Log("Player: " + Player.name + " - Health: " + _player.Health);
+        _gameUI.UpdateHealthBar(_player.Health);
+
+    }
+
+    private void OnPlayerHealedCallback(int heal)
+    {
+        _player.Heal(heal);
+        Debug.Log("Player: " + Player.name + " - Health: " + _player.Health);
+        _gameUI.UpdateHealthBar(_player.Health);
     }
 
     private void OnOrbCollectedCallback(ExperienceOrb orb)
@@ -143,6 +158,11 @@ public class GameManager : MonoBehaviour
         }
         _gameUI.UpdateExperienceBar(PlayerExperience, PlayerExperienceToNextLevel);
         Debug.Log("Experience: " + PlayerExperience + " / " + PlayerExperienceToNextLevel + " - Level: " + PlayerLevel);
+    }
+
+    private void OnPlayerUpgradeCallback(int key)
+    {
+        _player.Upgrade(key);
     }
 
     IEnumerator SpawnExperienceOrb(Vector3 position)
@@ -215,6 +235,6 @@ public enum PlayerType
 }
 
 [System.Serializable] public class UnityEventIEnemy : UnityEvent<IEnemy> { }
-[System.Serializable] public class UnityEventIntIEnemy : UnityEvent<int, IEnemy> { }
+[System.Serializable] public class UnityEventIntIEnemyFloat : UnityEvent<int, IEnemy, float> { }
 [System.Serializable] public class UnityEventInt : UnityEvent<int> { }
 [System.Serializable] public class UnityEventExperienceOrb : UnityEvent<ExperienceOrb> { }

@@ -15,11 +15,9 @@ public class GameUI : MonoBehaviour
     [SerializeField] private Slider _enemiesBar;
     [SerializeField] private TMPro.TMP_Text _waveText;
 
-    // private IPlayer _player;
-    void Awake()
+    void Start()
     {
-
-        // _healthBar.maxValue = _player.MaxHealth;
+        _healthBar.maxValue = GameManager.Instance.Player.MaxHealth;
         _healthBar.value = _healthBar.maxValue;
         _enemiesBar.value = _enemiesBar.minValue;
 
@@ -33,7 +31,7 @@ public class GameUI : MonoBehaviour
         _enemiesBar.value = enemies;
     }
 
-    public void UpdateHealthBar(float health) //or int ?
+    public void UpdateHealthBar(int health)
     {
         _healthBar.value = health;
     }

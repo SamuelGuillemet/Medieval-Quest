@@ -21,6 +21,11 @@ public class AudioManager : MonoBehaviour
         _audioSource.PlayOneShot(clip);
     }
 
+    public void StopSound()
+    {
+        _audioSource.Stop();
+    }
+
 }
 
 [System.Serializable]
