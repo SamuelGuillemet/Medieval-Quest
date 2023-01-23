@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Arrow : MonoBehaviour
+public class ArrowPlayer : MonoBehaviour
 {
 
     public float speed = 40f;

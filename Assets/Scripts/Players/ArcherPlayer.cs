@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Archer : IPlayer
+public class ArcherArcherPlayer: IPlayer
 {   
-
-
-    [SerializeField] private Arrow arrowPrefab;
+    [SerializeField] private ArrowPlayer arrowPrefab;
     [SerializeField] public float damage = 10;
     [SerializeField] public int maxEnemyTouched;
 
@@ -37,7 +35,7 @@ public class Archer : IPlayer
 
     public void ThrowArrow()
     {
-        Arrow arrow = Instantiate(arrowPrefab, transform.position + transform.forward + transform.forward + new Vector3(0,2,0), transform.rotation);
+        ArrowPlayer arrow = Instantiate(arrowPrefab, transform.position + transform.forward + transform.forward + new Vector3(0,2,0), transform.rotation);
         arrow.transform.right = -transform.forward;
         arrow.damage = damage;
         arrow.maxEnemyTouched = maxEnemyTouched;

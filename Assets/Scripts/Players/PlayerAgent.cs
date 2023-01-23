@@ -141,6 +141,9 @@ public class PlayerAgent : MonoBehaviour
         if (_agentRange == AgentRangeMode.Dash)
         {
             origin *= 5f;
+        } else
+        {
+            origin *= 1.5f;
         }
 
         if (_tryToClimb) origin.y = 10f;
