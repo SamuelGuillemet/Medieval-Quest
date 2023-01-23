@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using WarriorAnimsFREE;
 
-
 [RequireComponent(typeof(EnemyAgent))]
 public class IEnemy : MonoBehaviour
 {
@@ -17,16 +16,36 @@ public class IEnemy : MonoBehaviour
     protected Camera _camera;
     protected EnemyAgent _enemyAgent;
     protected AudioSource _audioSource;
-    [SerializeField] protected AudioClip _audioClipAttack;
+
+    [SerializeField]
+    protected AudioClip _audioClipAttack;
     protected Warrior _warrior = Warrior.Archer;
 
-    public int MaxHealth { set => _maxHealth = _health = value; }
-    public int Health { get => _health; set => _health = value; }
-    public Warrior Warrior { get => _warrior; set => _warrior = value; }
-    public EnemyAgent EnemyAgent { get => _enemyAgent; set => _enemyAgent = value; }
+    public int MaxHealth
+    {
+        set => _maxHealth = _health = value;
+    }
+    public int Health
+    {
+        get => _health;
+        set => _health = value;
+    }
+    public Warrior Warrior
+    {
+        get => _warrior;
+        set => _warrior = value;
+    }
+    public EnemyAgent EnemyAgent
+    {
+        get => _enemyAgent;
+        set => _enemyAgent = value;
+    }
 
     protected Coroutine _attackCoroutine;
     protected Coroutine _movementCoroutine;
+
+    public EnemyHealthBar prefabHealthBar;
+    public Canvas canvas;
 
     public virtual void OnEnable()
     {
@@ -35,6 +54,13 @@ public class IEnemy : MonoBehaviour
         _audioManager = AudioManager.Instance;
         _camera = Camera.main;
         _audioSource = GetComponent<AudioSource>();
+
+        canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
+
+        prefabHealthBar.target = transform;
+        prefabHealthBar.healthBar.maxValue = _maxHealth;
+        prefabHealthBar.healthBar.value = _maxHealth;
+        Instantiate(prefabHealthBar, transform.position, Quaternion.identity, canvas.transform);
 
         _couldAttack = false;
     }
@@ -58,11 +84,18 @@ public class IEnemy : MonoBehaviour
         if (_health <= 0)
         {
             _gameManager.OnEnemyKilled.Invoke(this);
+            //remove health bar
         }
         else
         {
             _audioManager.PlaySound("EnemyHit");
-            StartCoroutine(DamageTakenKnockback((transform.position - _gameManager.Player.transform.position).normalized, damage));
+            StartCoroutine(
+                DamageTakenKnockback(
+                    (transform.position - _gameManager.Player.transform.position).normalized,
+                    damage
+                )
+            );
+            prefabHealthBar.healthBar.value = _health;
         }
     }
 
@@ -89,7 +122,10 @@ public class IEnemy : MonoBehaviour
         _enemyAgent.Rigidbody.AddForce(direction * strength * 35f, ForceMode.Impulse);
 
         yield return new WaitForSeconds(0.5f);
-        yield return new WaitUntil(() => Physics.Raycast(transform.position, Vector3.down, 1.1f, LayerMask.GetMask("Floor")));
+        yield return new WaitUntil(
+            () =>
+                Physics.Raycast(transform.position, Vector3.down, 1.1f, LayerMask.GetMask("Floor"))
+        );
         ResetKnockback();
         _movementCoroutine = StartCoroutine(MovementRoutine());
         _couldAttack = true;
@@ -174,7 +210,10 @@ public class IEnemy : MonoBehaviour
     protected bool IsOnScreen(Vector3 position, float offset = 0f)
     {
         Vector3 screenPoint = _camera.WorldToViewportPoint(position);
-        return screenPoint.x > 0f + offset && screenPoint.x < 1f - offset && screenPoint.y > 0f + offset && screenPoint.y < 1f - 2f * offset;
+        return screenPoint.x > 0f + offset
+            && screenPoint.x < 1f - offset
+            && screenPoint.y > 0f + offset
+            && screenPoint.y < 1f - 2f * offset;
     }
 
     private void OnDisable()

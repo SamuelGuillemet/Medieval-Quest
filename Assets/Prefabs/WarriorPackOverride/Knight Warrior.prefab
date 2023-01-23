@@ -361,6 +361,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _audioClipAttack: {fileID: 8300000, guid: 141394d57378a9f42b493537408e8653, type: 3}
+  prefabHealthBar: {fileID: 6247241294506537266, guid: 4e8d245ee285b06419ac7a6ed1504964,
+    type: 3}
+  canvas: {fileID: 0}
 --- !u!82 &3150864031953274612
 AudioSource:
   m_ObjectHideFlags: 0

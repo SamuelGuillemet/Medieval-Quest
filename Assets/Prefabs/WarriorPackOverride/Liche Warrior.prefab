@@ -6852,6 +6852,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _audioClipAttack: {fileID: 8300000, guid: db5cc56aee8408b4d916cd2b5fc6db10, type: 3}
+  HealthBarPrefab: {fileID: 0}
+  healthPanelRect: {fileID: 0}
   _damageZone: {fileID: 652701584}
 --- !u!82 &4511196149835182335
 AudioSource:

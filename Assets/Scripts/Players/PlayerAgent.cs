@@ -12,19 +12,22 @@ public class PlayerAgent : MonoBehaviour
         Dash
     }
 
-    [SerializeField] Camera _cam;
+    [SerializeField]
+    Camera _cam;
     private float _horizontalInput;
     private float _verticalInput;
 
     private bool _tryToClimb = false;
     private AgentRangeMode _agentRange = AgentRangeMode.Walk;
+
     // Return -1f for AgentRangeMode.Walk and -0.1f pour AgentRangeMode.Dash
     private float AgentRange => _agentRange == AgentRangeMode.Walk ? -1f : -0.1f;
 
     private NavMeshAgent _agent;
     public NavMeshAgent Agent { get => _agent; }
 
-
+    [SerializeField]
+    private GameObject _damageOutputPrefab;
     Animator _animator;
 
 
@@ -40,7 +43,6 @@ public class PlayerAgent : MonoBehaviour
         _agent.stoppingDistance = 0.1f;
 
         _agent.updateRotation = false;
-
     }
 
     // Update is called once per frame
@@ -49,7 +51,11 @@ public class PlayerAgent : MonoBehaviour
         CalculateDestinationWithInputFromTopWorld();
         UpdateRotation();
 
-        _cam.transform.position = new Vector3(x: transform.position.x, y: 33, z: transform.position.z - 10);
+        _cam.transform.position = new Vector3(
+            x: transform.position.x,
+            y: 33,
+            z: transform.position.z - 10
+        );
 
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
@@ -60,6 +66,24 @@ public class PlayerAgent : MonoBehaviour
             _agentRange = AgentRangeMode.Walk;
         }
 
+        if (_animator)
+        {
+            AdjustAnimations();
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                _warriorController.Attack1();
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            DamageOutput.Create(
+                _damageOutputPrefab,
+                position: transform.position,
+                damage: UnityEngine.Random.Range(1, 100)
+            );
+        }
     }
 
 
@@ -88,19 +112,9 @@ public class PlayerAgent : MonoBehaviour
         }
     }
 
-    private void UpdateAnimations() {
-        Vector3 input = new Vector3(_horizontalInput, 0, _verticalInput);
-        Vector3 animspeed = new Vector3(Vector3.Dot(input, transform.forward), 0, Vector3.Dot(input, transform.right));
-
-         
-        float horizontalSpeed = -animspeed.x;
-        float verticalSpeed = -animspeed.z;
-
-        _animator.SetFloat("HorizontalSpeed", horizontalSpeed * (_agent.velocity.magnitude / _agent.speed));
-        _animator.SetFloat("VerticalSpeed", verticalSpeed * (_agent.velocity.magnitude / _agent.speed));
-    }
-
-    [Obsolete("Use CalculateDestinationWithInputFromTopWorld instead. This function was deprecated because it is not working properly.")]
+    [Obsolete(
+        "Use CalculateDestinationWithInputFromTopWorld instead. This function was deprecated because it is not working properly."
+    )]
     private void CalculateDestinationWithRayFromThePlayer()
     {
         _horizontalInput = Input.GetAxis("Horizontal");
@@ -112,22 +126,35 @@ public class PlayerAgent : MonoBehaviour
 
         Debug.DrawRay(transform.position, direction, Color.green);
 
-
         // Compute a raycast from the player with the direction to get the y position of the ground to set the right y postion for the agent
         RaycastHit hit;
 
         if (Physics.Raycast(transform.position, direction, out hit))
         {
-            Vector3 destination = new Vector3(transform.position.x + _horizontalInput, hit.point.y, transform.position.z + _verticalInput);
+            Vector3 destination = new Vector3(
+                transform.position.x + _horizontalInput,
+                hit.point.y,
+                transform.position.z + _verticalInput
+            );
 
-            if (_agentRange == AgentRangeMode.Dash) destination = hit.point;
+            if (_agentRange == AgentRangeMode.Dash)
+                destination = hit.point;
 
             _agent.SetDestination(destination);
 
             Debug.DrawLine(transform.position, destination, Color.blue);
         }
 
-        UpdateAnimations();
+        // Quaternion rotation = transform.rotation;
+
+        // Vector3 input = new Vector3(_horizontalInput, 0, _verticalInput);
+        // Vector3 animspeed = new Vector3(Vector3.Dot(input, transform.forward), 0, Vector3.Dot(input, transform.right));
+
+        // float horizontalSpeed = -animspeed.x;
+        // float verticalSpeed = -animspeed.z;
+
+        // _animator.SetFloat("HorizontalSpeed", horizontalSpeed * (_agent.velocity.magnitude / _agent.speed));
+        // _animator.SetFloat("VerticalSpeed", verticalSpeed * (_agent.velocity.magnitude / _agent.speed));
     }
 
     private void CalculateDestinationWithInputFromTopWorld()
@@ -138,15 +165,20 @@ public class PlayerAgent : MonoBehaviour
         // Calculate the direction of the movement based on input and rotation
         Vector3 origin = new Vector3(_horizontalInput, 0f, _verticalInput);
 
+        if (Mathf.Abs(_horizontalInput) < 0.1f && Mathf.Abs(_verticalInput) < 0.1f)
+            return;
+
         if (_agentRange == AgentRangeMode.Dash)
         {
             origin *= 5f;
-        } else
+        }
+        else
         {
             origin *= 1.5f;
         }
 
-        if (_tryToClimb) origin.y = 10f;
+        if (_tryToClimb)
+            origin.y = 10f;
 
         origin += transform.position;
 
@@ -157,7 +189,6 @@ public class PlayerAgent : MonoBehaviour
 
             Debug.DrawLine(transform.position, destination, Color.blue);
             _agent.SetDestination(destination);
-
         }
 
         UpdateAnimations();

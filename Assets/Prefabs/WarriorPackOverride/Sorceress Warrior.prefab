@@ -145,6 +145,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _audioClipAttack: {fileID: 8300000, guid: dbab49b6aedea6142b7927ca21b3fe15, type: 3}
+  prefabHealthBar: {fileID: 6247241294506537266, guid: 4e8d245ee285b06419ac7a6ed1504964,
+    type: 3}
+  canvas: {fileID: 0}
   _bomb: {fileID: 7281072744222633340, guid: ace604e943e5eea449b113a5f8c9d6c9, type: 3}
 --- !u!82 &1943040270187871227
 AudioSource:
@@ -285,7 +288,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.06969765, y: -0.054000806, z: -0.0000000123236505}
+  m_ConnectedAnchor: {x: 0.06969765, y: -0.054001383, z: -0.000000012326028}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -346,7 +349,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.27091545, y: 0.00000034746628, z: 0.000000029802322}
+  m_ConnectedAnchor: {x: 0.27091497, y: 0.0000003754334, z: 0.000000029802322}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -407,7 +410,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.27179015, y: 0.0000003604553, z: 0.000000059604645}
+  m_ConnectedAnchor: {x: 0.27179086, y: 0.00000040511796, z: 0.000000059604645}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
