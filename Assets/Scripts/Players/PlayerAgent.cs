@@ -36,7 +36,7 @@ public class PlayerAgent : MonoBehaviour
 
         _agent.angularSpeed = 0f;
         _agent.acceleration = 60f;
-        _agent.speed = 5f;
+        _agent.speed = 7f;
         _agent.stoppingDistance = 0.1f;
 
         _agent.updateRotation = false;
@@ -88,11 +88,12 @@ public class PlayerAgent : MonoBehaviour
         }
     }
 
-    private void UpdateAnimations() {
+    private void UpdateAnimations()
+    {
         Vector3 input = new Vector3(_horizontalInput, 0, _verticalInput);
         Vector3 animspeed = new Vector3(Vector3.Dot(input, transform.forward), 0, Vector3.Dot(input, transform.right));
 
-         
+
         float horizontalSpeed = -animspeed.x;
         float verticalSpeed = -animspeed.z;
 
@@ -141,7 +142,8 @@ public class PlayerAgent : MonoBehaviour
         if (_agentRange == AgentRangeMode.Dash)
         {
             origin *= 5f;
-        } else
+        }
+        else
         {
             origin *= 1.5f;
         }

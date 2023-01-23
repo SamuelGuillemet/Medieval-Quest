@@ -6,10 +6,12 @@ public class IPlayer : MonoBehaviour
 {
     protected Animator _animator;
     protected PlayerAgent _playerAgent;
+    protected GameManager _gameManager;
 
     protected int _health;
     protected int _maxHealth;
-    public int MaxHealth { set => _health = _health = value; }
+    public int MaxHealth { set => _maxHealth = _health = value; get => _maxHealth; }
+    public int Health { get => _health; }
 
     // Attack 1
     protected float _cooldown1;
@@ -26,14 +28,13 @@ public class IPlayer : MonoBehaviour
     protected bool _canAction3 = true;
     protected Coroutine _attack3Coroutine;
 
-    //Améliorations Générales 
-    
 
 
 
     // Start is called before the first frame update
     public virtual void Start()
     {
+        _gameManager = GameManager.Instance;
         _animator = GetComponent<Animator>();
         _playerAgent = GetComponentInParent<PlayerAgent>();
     }
@@ -47,7 +48,7 @@ public class IPlayer : MonoBehaviour
         }
         if (Input.GetMouseButton(1) && _canAction2)
         {
-            _attack2Coroutine =  StartCoroutine(Attack2());
+            _attack2Coroutine = StartCoroutine(Attack2());
         }
         if (Input.GetKey(KeyCode.Space) && _canAction3)
         {
@@ -75,4 +76,85 @@ public class IPlayer : MonoBehaviour
         _health -= amount;
         // TODO : Add event when  health = 0
     }
+
+    public void Heal(int amount)
+    {
+        _health += amount;
+        if (_health > _maxHealth)
+        {
+            _health = _maxHealth;
+        }
+    }
+
+    public void Upgrade(int key)
+    {
+        switch (key)
+        {
+            case 1:
+                GainSpeed();
+                break;
+            case 2:
+                ReduceCooldownAttack1();
+                break;
+            case 3:
+                ReduceCooldownAttack2();
+                break;
+            case 4:
+                ReduceCooldownAttack3();
+                break;
+            case 5:
+                GainHealth();
+                break;
+            case 6:
+                SpecificUpgrade1();
+                break;
+            case 7:
+                SpecificUpgrade2();
+                break;
+            case 8:
+                SpecificUpgrade3();
+                break;
+            case 9:
+                SpecificUpgrade4();
+                break;
+            case 10:
+                SpecificUpgrade5();
+                break;
+        }
+    }
+
+    private void ReduceCooldownAttack1()
+    {
+        _cooldown1 -= 0.1f;
+    }
+
+    private void ReduceCooldownAttack2()
+    {
+        _cooldown2 -= 0.2f;
+    }
+
+    private void ReduceCooldownAttack3()
+    {
+        _cooldown3 -= 0.5f;
+    }
+
+    private void GainSpeed()
+    {
+        _playerAgent.Agent.speed += 0.25f;
+    }
+
+    private void GainHealth()
+    {
+        _gameManager.OnPlayerHealed?.Invoke(_maxHealth - _health);
+    }
+
+    public virtual void SpecificUpgrade1() { }
+
+    public virtual void SpecificUpgrade2() { }
+
+    public virtual void SpecificUpgrade3() { }
+
+    public virtual void SpecificUpgrade4() { }
+
+    public virtual void SpecificUpgrade5() { }
 }
