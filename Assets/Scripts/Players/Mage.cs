@@ -16,8 +16,10 @@ public class Mage : IPlayer
     [SerializeField] public float speedOrb = 300f;
     [SerializeField] public bool orbRepulsion = false;
 
-
-    
+    [SerializeField] public float lengthWall = 1f;
+    [SerializeField] private Material IceMaterial;
+    [SerializeField] private bool WallMakedamage = false;
+    [SerializeField] private float wallDamage = 1f;
 
 
     // Start is called before the first frame update
@@ -71,11 +73,33 @@ public class Mage : IPlayer
     public override IEnumerator Attack3()
     {
         _canAction3 = false;
+        _animator.SetTrigger("IceWall");
         yield return new WaitForSeconds(_cooldown3);
         _canAction3 = true;
     }
 
-    
+    public void IceWall()
+    {
+        GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        cube.transform.position = transform.position + 4 * transform.forward;
+        cube.transform.localScale= new Vector3(lengthWall, 6.5f, 0.2f);
+        cube.transform.rotation = transform.rotation;
+        _audioManager.PlaySound("IceWall");
+        cube.GetComponent<Renderer>().material = IceMaterial;
+        if (WallMakedamage)
+        {
+            Collider[] cols = Physics.OverlapSphere(cube.transform.position, lengthWall);
+            foreach (Collider col in cols)
+            {
+                if (col.gameObject.tag == "Enemy")
+                {
+                    //Make damage to enemy with WallDamage
+                }
+            }
+        }
+        Destroy(cube, 5);
+        //cube.transform.localScale()
+    }
 
     public override void DamageSound()
     {

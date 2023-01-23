@@ -804,6 +804,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16cab16bdaba7554ab50879dbc400184, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _audioManager: {fileID: 0}
   fireBallPrefab: {fileID: -1907412266644432787, guid: 8f18e1d8c46c51f429429815455062fc,
     type: 3}
   attack1Damage: 5
@@ -813,6 +814,9 @@ MonoBehaviour:
   attack2Duration: 5
   maxEnemyTouched: 5
   speedOrb: 150
+  orbRepulsion: 0
+  lengthWall: 1
+  IceMaterial: {fileID: 2100000, guid: eff9bd1fc3971e7499e63b512110dfef, type: 2}
 --- !u!1 &1975527702605722605
 GameObject:
   m_ObjectHideFlags: 0
