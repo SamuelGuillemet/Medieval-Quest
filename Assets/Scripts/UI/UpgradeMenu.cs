@@ -7,56 +7,57 @@ public class UpgradeMenu : MonoBehaviour
 {
     private CanvasGroup _upgradeMenuCanvasGroup;
     private GameUI _gameUI;
+    private GameManager _gameManager;
+
+    Slider[] sliders;
+    Button[] buttons;
+    bool[] isMaxed;
+
 
     void Awake()
     {
         StartCoroutine(DisableUpgradePopup(0f));
 
+        _gameManager = GameManager.Instance;
         _gameUI = FindObjectOfType<GameUI>();
         _upgradeMenuCanvasGroup = GetComponent<CanvasGroup>();
+
+        sliders = GetComponentsInChildren<Slider>();
+        buttons = new Button[sliders.Length];
+        isMaxed = new bool[sliders.Length];
+        for (int i = 0; i < sliders.Length; i++)
+        {
+            Debug.Log(sliders[i].GetComponentInChildren<Button>().name);
+            buttons[i] = sliders[i].GetComponentInChildren<Button>();
+            isMaxed[i] = false;
+        }
+        Debug.Log(sliders.Length);
+        Debug.Log(isMaxed);
     }
 
     public void Upgrade(Slider slider)
     {
+        int key;
         slider.value += 1;
-        //depending on the slider, do something
-        switch (slider.name)
+
+        //get index of slider in sliders array
+        int index = 0;
+        for (int i = 0; i < sliders.Length; i++)
         {
-            case "MovementSpeed":
-                //do something
+            if (sliders[i] == slider)
+            {
+                index = i;
                 break;
-            case "Cooldown1":
-                //do something
-                break;
-            case "Cooldown2":
-                //do something
-                break;
-            case "Cooldown3":
-                //do something
-                break;
-            case "MaxHP":
-                //do something
-                break;
-            case "Upgrade1":
-                //do something
-                break;
-            case "Upgrade2":
-                //do something
-                break;
-            case "Upgrade3":
-                //do something
-                break;
-            case "Upgrade4":
-                //do something
-                break;
-            case "Upgrade5":
-                //do something
-                break;
+            }
         }
+        //depending on the slider, do something
+        key = index;
+        // _gameManager.upgradeValues[key] += 1;
 
         if (slider.value == slider.maxValue)
         {
             slider.transform.gameObject.GetComponentInChildren<Button>().interactable = false;
+            isMaxed[index] = true;
         }
         _gameUI.upgradeCount--;
         Destroy(
@@ -91,6 +92,28 @@ public class UpgradeMenu : MonoBehaviour
         _upgradeMenuCanvasGroup.alpha = 1;
         _upgradeMenuCanvasGroup.interactable = true;
         _upgradeMenuCanvasGroup.blocksRaycasts = true;
+
+        GetRandomUpgrades();
+    }
+
+    private void GetRandomUpgrades()
+    {
+        int[] randomNumbers = new int[3];
+        int random;
+        for (int i = 0; i < randomNumbers.Length; i++)
+        {
+            random = Random.Range(0, sliders.Length);
+            if (isMaxed[random])
+            {
+                i--;
+                continue;
+            }
+            randomNumbers[i] = random;
+        }
+        foreach (int buttonIndex in randomNumbers)
+        {
+            buttons[buttonIndex].interactable = true;
+        }
     }
 
     private void Update()
