@@ -62,7 +62,7 @@ AnimatorStateMachine:
     m_Position: {x: 254.32281, y: 183.69307, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1174833383481751381}
-    m_Position: {x: 422.74744, y: 55.63466, z: 0}
+    m_Position: {x: 420, y: 60, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
   - {fileID: 7579105001817739049}
@@ -341,7 +341,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Zombie Attack
-  m_Speed: 1
+  m_Speed: 3
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -527175742337993660}
