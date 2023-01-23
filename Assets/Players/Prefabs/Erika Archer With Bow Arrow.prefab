@@ -1951,12 +1951,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f257d621c28de2846af508ca13fd3800, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arrowPrefab: {fileID: 3222712092134979871, guid: dcd3d9eafdae3e846b307b30e3653688,
+  _arrowPrefab: {fileID: 3222712092134979871, guid: dcd3d9eafdae3e846b307b30e3653688,
     type: 3}
-  damage: 10
-  maxEnemyTouched: 0
-  trapPrefab: {fileID: 1637446126582564, guid: a1644dd8880d0594d970514153034e86, type: 3}
-  action3Duration: 3
+  _trapPrefab: {fileID: 114425410707371642, guid: a1644dd8880d0594d970514153034e86,
+    type: 3}
 --- !u!1 &213124896466751159
 GameObject:
   m_ObjectHideFlags: 0
