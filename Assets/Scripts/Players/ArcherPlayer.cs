@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ArcherArcherPlayer: IPlayer
+public class ArcherPlayer: IPlayer
 {   
     [SerializeField] private ArrowPlayer arrowPrefab;
     [SerializeField] public float damage = 10;
@@ -29,6 +29,7 @@ public class ArcherArcherPlayer: IPlayer
     {
         _canAction1 = false;
         _animator.SetTrigger("Shoot");
+        _audioManager.PlaySound("Arrow");
         yield return new WaitForSeconds(_cooldown1);
         _canAction1 = true;
     }
@@ -53,6 +54,7 @@ public class ArcherArcherPlayer: IPlayer
     public void PlaceTrap()
     {
         GameObject trap = Instantiate(trapPrefab, transform.position , new Quaternion(0,0,0,0));
+        _audioManager.PlaySound("PlaceTrapDoor");
     }
 
     public void SwitchMovement()
@@ -72,11 +74,13 @@ public class ArcherArcherPlayer: IPlayer
 
     private void Action3()
     {
+        _audioManager.PlaySound("Action3Archer");
         _playerAgent.Agent.speed *= 2f;
         _cooldown1 /= 2f;
     }
     private void UnAction3()
     {
+        _audioManager.Stop();
         _playerAgent.Agent.speed /= 2f;
         _cooldown1 *= 2f;
     }

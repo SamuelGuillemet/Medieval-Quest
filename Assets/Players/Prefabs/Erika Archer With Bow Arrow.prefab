@@ -1951,6 +1951,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f257d621c28de2846af508ca13fd3800, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _audioManager: {fileID: 0}
   arrowPrefab: {fileID: 3222712092134979871, guid: dcd3d9eafdae3e846b307b30e3653688,
     type: 3}
   damage: 10
