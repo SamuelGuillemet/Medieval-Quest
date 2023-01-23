@@ -5,9 +5,9 @@ using UnityEngine;
 public class Orb : MonoBehaviour
 {
         
-    private Mage player;
+    [SerializeField] private Mage player;
 
-    private int enemyTouched;
+    [SerializeField] private int enemyTouched;
 
     // Start is called before the first frame update
     void Start()
@@ -32,8 +32,12 @@ public class Orb : MonoBehaviour
       
         if (infoCollision.gameObject.tag == "Enemy")
         {
-            //makeDamageTo enemy
+            // TODO : makeDamageTo 
             enemyTouched += 1;
+            if (player.orbRepulsion)
+            {
+                // TODO : repulse enemy
+            }
         }
 
     }

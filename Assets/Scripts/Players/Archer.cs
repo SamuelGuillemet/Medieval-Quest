@@ -6,16 +6,13 @@ public class Archer : IPlayer
 {   
 
 
-    // TODO : Serializes fields
-
-
     [SerializeField] private Arrow arrowPrefab;
-    public float damage = 10;
-    public int maxEnemyTouched;
+    [SerializeField] public float damage = 10;
+    [SerializeField] public int maxEnemyTouched;
 
-    public GameObject trapPrefab;
+    [SerializeField] public GameObject trapPrefab;
 
-    public float action3Duration = 3f;
+    [SerializeField] public float action3Duration = 3f;
 
     // Start is called before the first frame update
     public override void Start()

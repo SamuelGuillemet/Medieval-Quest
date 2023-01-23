@@ -6,17 +6,17 @@ public class Mage : IPlayer
 {
 
 
-    // TODO : Serializes fields
-
-
     [SerializeField] private FireBall fireBallPrefab;
     [SerializeField] private float attack1Damage = 5f;
-    public GameObject hand;
+    [SerializeField] public GameObject hand;
 
     [SerializeField] private Orb orbPrefab;
     [SerializeField] private float attack2Duration = 5f;
     [SerializeField] public int maxEnemyTouched;
     [SerializeField] public float speedOrb = 300f;
+    [SerializeField] public bool orbRepulsion = false;
+
+
 
 
 
