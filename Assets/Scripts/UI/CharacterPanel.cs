@@ -21,6 +21,8 @@ public class CharacterPanel : MonoBehaviour
         _gameManager = GameManager.Instance; // TODO Save this 
         _medalImage.enabled = false;
 
+        SetSelectedPlayer();
+
         if (!PlayerPrefs.HasKey(_gameManager.SelectedPlayer.ToString() + "GamesPlayed"))
         {
             PlayerPrefs.SetInt(_gameManager.SelectedPlayer.ToString() + "GamesPlayed", 0);
@@ -50,31 +52,31 @@ public class CharacterPanel : MonoBehaviour
 
     private void SetWavesText(int wave)
     {
-        _wavesText.text = "Nombre de vagues maximum vaincues : " + wave;
+        _wavesText.text = "Meilleure vague vaincue : " + wave;
     }
 
     private void SetGamesText(int games)
     {
-        _gamesText.text = "Nombre de parties jouées : " + games;
+        _gamesText.text = "Parties jouées : " + games;
     }
 
-    private void SetWinsText(int win)
+    private void SetWinsText(int wins)
     {
-        _winsText.text = "Nombre de parties gagnées : " + win;
+        _winsText.text = "Parties gagnées : " + wins;
     }
 
-    public void SetSelectedPlayer() // Called by the Sélectionner button
+    public void SetSelectedPlayer()
     {
         Debug.Log(_characterModel.name);
         switch (_characterModel.name)
         {
-            case "Warrior":
+            case "Demon T Wiezzorek":
                 _gameManager.SelectedPlayer = PlayerType.Guerrier;
                 break;
-            case "Archer":
+            case "Erika Archer With Bow Arrow":
                 _gameManager.SelectedPlayer = PlayerType.Archer;
                 break;
-            case "Wizard":
+            case "Ganfaul M Aure":
                 _gameManager.SelectedPlayer = PlayerType.Mage;
                 break;
             default:

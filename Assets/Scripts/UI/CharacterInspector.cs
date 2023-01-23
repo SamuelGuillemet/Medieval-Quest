@@ -9,7 +9,7 @@ public class CharacterInspector : MonoBehaviour
     private void OnEnable()
     {
         _isInspected = false;
-        gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
+        gameObject.transform.rotation = Quaternion.Euler(0, 180, 0);
     }
 
     private void OnMouseDrag()
