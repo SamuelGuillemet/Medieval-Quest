@@ -1536,7 +1536,7 @@ GameObject:
   - component: {fileID: 2301225043393355572}
   - component: {fileID: 2301225043393355579}
   m_Layer: 5
-  m_Name: SpinAttack
+  m_Name: SummonAttack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2873,7 +2873,7 @@ RectTransform:
   - {fileID: 2301225044204585329}
   - {fileID: 2301225043268673875}
   m_Father: {fileID: 2301225044565575118}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -5769,7 +5769,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a2134d54309b44045a00e49fc906bd2a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: df816143acf817047ad46d4aa7ae0566, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -6239,7 +6239,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2301225044046969811}
   m_Layer: 0
-  m_Name: SoldierAbilities
+  m_Name: DemonAbilities
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6260,7 +6260,7 @@ RectTransform:
   - {fileID: 2301225044124112635}
   - {fileID: 2301225043393355572}
   m_Father: {fileID: 2301225044565575118}
-  m_RootOrder: 5
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -6700,7 +6700,7 @@ GameObject:
   - component: {fileID: 2301225044124112635}
   - component: {fileID: 2301225044124112634}
   m_Layer: 5
-  m_Name: DashAttack
+  m_Name: ShockWaveAttack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10166,9 +10166,9 @@ RectTransform:
   - {fileID: 2301225044906392928}
   - {fileID: 2301225044017998731}
   - {fileID: 2301225043277750481}
-  - {fileID: 2301225044046969811}
   - {fileID: 2301225045104472742}
   - {fileID: 2301225043565884978}
+  - {fileID: 2301225044046969811}
   m_Father: {fileID: 2301225043614953481}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10495,7 +10495,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 511c8bc9d1b311e4da262990b15eb364, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 121700710300d8744a5848d38ed5d74c, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -12707,7 +12707,7 @@ GameObject:
   - component: {fileID: 2301225044864244862}
   - component: {fileID: 2301225044864244861}
   m_Layer: 5
-  m_Name: SwordAttack
+  m_Name: GroundSmashAttack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13365,7 +13365,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0ee92b0c4be60a34cb3327c469063756, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2ea59f226728ade4789e5b43106f481c, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -14469,7 +14469,7 @@ RectTransform:
   - {fileID: 2301225044641611421}
   - {fileID: 2301225043635589811}
   m_Father: {fileID: 2301225044565575118}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
