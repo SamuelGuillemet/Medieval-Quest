@@ -6,8 +6,8 @@ using UnityEngine.Events;
 public class GameManager : MonoBehaviour
 {
     public PlayerType SelectedPlayer = PlayerType.None;
-    private GameObject _player;
-    public GameObject Player { get => _player; set => _player = value; }
+    private IPlayer _player;
+    public IPlayer Player { get => _player; set => _player = value; }
 
     private static GameManager _instance;
     public static GameManager Instance { get { if (_instance == null) _instance = GameObject.FindObjectOfType<GameManager>(); return _instance; } }
@@ -15,7 +15,6 @@ public class GameManager : MonoBehaviour
 
     private PrefabsGenerator _prefabsGenerator;
 
-    [SerializeField]
     private int _seed = 1;
 
     private int _numberOfEnemies = 0;
@@ -27,10 +26,13 @@ public class GameManager : MonoBehaviour
 
     public List<IEnemy> Enemies;
 
-    public UnityEventIEnemy OnEnemyKilled;
-    public UnityEventIntIEnemy OnEnemyDamageTaken;
-    public UnityEventInt OnPlayerDamageTaken;
-    public UnityEventExperienceOrb OnOrbCollected;
+    [HideInInspector] public UnityEventIEnemy OnEnemyKilled;
+    [HideInInspector] public UnityEventIntIEnemyFloat OnEnemyDamageTaken;
+    [HideInInspector] public UnityEventInt OnPlayerDamageTaken;
+    [HideInInspector] public UnityEventInt OnPlayerHealed;
+    [HideInInspector] public UnityEventExperienceOrb OnOrbCollected;
+    [HideInInspector] public UnityEventInt OnPlayerUpgrade;
+    [HideInInspector] public UnityEvent OnPlayerDeath;
 
     private int _playerExperience = 0;
     public int PlayerExperience { get => _playerExperience; set => _playerExperience = value; }
@@ -41,8 +43,43 @@ public class GameManager : MonoBehaviour
     private AudioManager _audioManager;
 
     private GameUI _gameUI;
+    [SerializeField] private GameObject _damageOutputPrefab;
+
+    private SaveBetwenScene _saveBetwenScene;
+
+    [Space(10)]
+    [Header("Prefabs for player")]
+    [SerializeField] private GameObject _archerPrefab;
+    [SerializeField] private GameObject _demonPrefab;
+    [SerializeField] private GameObject _magePrefab;
 
     void Awake()
+    {
+        _saveBetwenScene = SaveBetwenScene.Instance;
+
+        if (_saveBetwenScene.SelectedPlayer == PlayerType.None && SelectedPlayer == PlayerType.None)
+            _saveBetwenScene.SelectedPlayer = PlayerType.Archer;
+
+        SelectedPlayer = _saveBetwenScene.SelectedPlayer;
+        GameObject player = null;
+        // TODO: Fix the size of the map
+        switch (SelectedPlayer)
+        {
+            case PlayerType.Archer:
+                player = Instantiate(_archerPrefab, new Vector3(40, 4, 40), Quaternion.identity);
+                break;
+            case PlayerType.Demon:
+                player = Instantiate(_demonPrefab, new Vector3(40, 4, 40), Quaternion.identity);
+                break;
+            case PlayerType.Mage:
+                player = Instantiate(_magePrefab, new Vector3(40, 4, 40), Quaternion.identity);
+                break;
+        }
+
+        _seed = Random.Range(0, 10000);
+    }
+
+    void OnEnable()
     {
         Enemies = new List<IEnemy>();
 
@@ -57,12 +94,15 @@ public class GameManager : MonoBehaviour
         _mapGenerator.GenerateMap();
 
         _enemySpawnZones = FindObjectsOfType<EnemySpawnZone>();
-        _player = GameObject.FindGameObjectWithTag("Player");
+        _player = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<IPlayer>();
 
         OnEnemyKilled.AddListener(OnEnemyKilledCallback);
         OnEnemyDamageTaken.AddListener(OnEnemyDamagedCallback);
         OnPlayerDamageTaken.AddListener(OnPlayerDamagedCallback);
+        OnPlayerHealed.AddListener(OnPlayerHealedCallback);
         OnOrbCollected.AddListener(OnOrbCollectedCallback);
+        OnPlayerUpgrade.AddListener(OnPlayerUpgradeCallback);
+        OnPlayerDeath.AddListener(OnPlayerDeathCallback);
 
         _audioManager = AudioManager.Instance;
     }
@@ -76,7 +116,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator EnemiesWave()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
         while (WaveNumber < _fibonnaciSuite.Length)
         {
             _gameUI.UpdateWaveText(WaveNumber, _fibonnaciSuite[WaveNumber]);
@@ -107,6 +147,7 @@ public class GameManager : MonoBehaviour
             yield return new WaitUntil(() => _numberOfEnemies == 0);
             yield return new WaitForSeconds(5f);
         }
+        _gameUI.Victory();
     }
 
     private void OnEnemyKilledCallback(IEnemy enemy)
@@ -119,14 +160,27 @@ public class GameManager : MonoBehaviour
         StartCoroutine(SpawnExperienceOrb(enemy.transform.position));
     }
 
-    private void OnEnemyDamagedCallback(int damage, IEnemy enemy)
+    private void OnEnemyDamagedCallback(int damage, IEnemy enemy, float repuslionForce)
     {
+        enemy.TakeDamage(damage, repuslionForce);
         Debug.Log("Enemy: " + enemy.name + " - Health: " + enemy.Health);
+
+        DamageOutput.Create(_damageOutputPrefab, Player.transform.position, damage);
     }
 
     private void OnPlayerDamagedCallback(int damage)
     {
-        Debug.Log("Player: " + Player.name + " - Damage: " + damage);
+        _player.TakeDamage(damage);
+        Debug.Log("Player: " + Player.name + " - Health: " + _player.Health);
+        _gameUI.UpdateHealthBar(_player.Health);
+
+    }
+
+    private void OnPlayerHealedCallback(int heal)
+    {
+        _player.Heal(heal);
+        Debug.Log("Player: " + Player.name + " - Health: " + _player.Health);
+        _gameUI.UpdateHealthBar(_player.Health);
     }
 
     private void OnOrbCollectedCallback(ExperienceOrb orb)
@@ -143,6 +197,16 @@ public class GameManager : MonoBehaviour
         }
         _gameUI.UpdateExperienceBar(PlayerExperience, PlayerExperienceToNextLevel);
         Debug.Log("Experience: " + PlayerExperience + " / " + PlayerExperienceToNextLevel + " - Level: " + PlayerLevel);
+    }
+
+    private void OnPlayerUpgradeCallback(int key)
+    {
+        _player.Upgrade(key);
+    }
+
+    private void OnPlayerDeathCallback()
+    {
+        _gameUI.Defeat();
     }
 
     IEnumerator SpawnExperienceOrb(Vector3 position)
@@ -210,11 +274,11 @@ public enum PlayerType
 {
     None,
     Archer,
-    Guerrier,
+    Demon,
     Mage
 }
 
 [System.Serializable] public class UnityEventIEnemy : UnityEvent<IEnemy> { }
-[System.Serializable] public class UnityEventIntIEnemy : UnityEvent<int, IEnemy> { }
+[System.Serializable] public class UnityEventIntIEnemyFloat : UnityEvent<int, IEnemy, float> { }
 [System.Serializable] public class UnityEventInt : UnityEvent<int> { }
 [System.Serializable] public class UnityEventExperienceOrb : UnityEvent<ExperienceOrb> { }

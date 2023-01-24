@@ -14,35 +14,37 @@ public class CharacterPanel : MonoBehaviour
     [SerializeField] private TMPro.TextMeshProUGUI _gamesText;
 
     [SerializeField] private TMPro.TextMeshProUGUI _winsText;
-    private GameManager _gameManager;
+    private SaveBetwenScene _saveBetwenScene;
 
     private void Start()
     {
-        _gameManager = GameManager.Instance; // TODO Save this 
+        _saveBetwenScene = SaveBetwenScene.Instance;
         _medalImage.enabled = false;
 
-        if (!PlayerPrefs.HasKey(_gameManager.SelectedPlayer.ToString() + "GamesPlayed"))
+        SetSelectedPlayer();
+
+        if (!PlayerPrefs.HasKey(_saveBetwenScene.SelectedPlayer.ToString() + "GamesPlayed"))
         {
-            PlayerPrefs.SetInt(_gameManager.SelectedPlayer.ToString() + "GamesPlayed", 0);
+            PlayerPrefs.SetInt(_saveBetwenScene.SelectedPlayer.ToString() + "GamesPlayed", 0);
         }
 
-        if (!PlayerPrefs.HasKey(_gameManager.SelectedPlayer.ToString() + "MaxWave"))
+        if (!PlayerPrefs.HasKey(_saveBetwenScene.SelectedPlayer.ToString() + "MaxWave"))
         {
-            PlayerPrefs.SetInt(_gameManager.SelectedPlayer.ToString() + "MaxWave", 0);
+            PlayerPrefs.SetInt(_saveBetwenScene.SelectedPlayer.ToString() + "MaxWave", 0);
         }
 
-        if (!PlayerPrefs.HasKey(_gameManager.SelectedPlayer.ToString() + "GamesWon"))
+        if (!PlayerPrefs.HasKey(_saveBetwenScene.SelectedPlayer.ToString() + "GamesWon"))
         {
-            PlayerPrefs.SetInt(_gameManager.SelectedPlayer.ToString() + "GamesWon", 0);
+            PlayerPrefs.SetInt(_saveBetwenScene.SelectedPlayer.ToString() + "GamesWon", 0);
         }
 
         PlayerPrefs.Save();
 
-        SetGamesText(PlayerPrefs.GetInt(_gameManager.SelectedPlayer.ToString() + "GamesPlayed"));
-        SetWavesText(PlayerPrefs.GetInt(_gameManager.SelectedPlayer.ToString() + "MaxWave"));
-        SetWinsText(PlayerPrefs.GetInt(_gameManager.SelectedPlayer.ToString() + "GamesWon"));
+        SetGamesText(PlayerPrefs.GetInt(_saveBetwenScene.SelectedPlayer.ToString() + "GamesPlayed"));
+        SetWavesText(PlayerPrefs.GetInt(_saveBetwenScene.SelectedPlayer.ToString() + "MaxWave"));
+        SetWinsText(PlayerPrefs.GetInt(_saveBetwenScene.SelectedPlayer.ToString() + "GamesWon"));
 
-        if (PlayerPrefs.GetInt(_gameManager.SelectedPlayer.ToString() + "GamesWon") > 0)
+        if (PlayerPrefs.GetInt(_saveBetwenScene.SelectedPlayer.ToString() + "GamesWon") > 0)
         {
             _medalImage.enabled = true;
         }
@@ -50,32 +52,32 @@ public class CharacterPanel : MonoBehaviour
 
     private void SetWavesText(int wave)
     {
-        _wavesText.text = "Nombre de vagues maximum vaincues : " + wave;
+        _wavesText.text = "Meilleure vague vaincue : " + wave;
     }
 
     private void SetGamesText(int games)
     {
-        _gamesText.text = "Nombre de parties jouées : " + games;
+        _gamesText.text = "Parties jouées : " + games;
     }
 
-    private void SetWinsText(int win)
+    private void SetWinsText(int wins)
     {
-        _winsText.text = "Nombre de parties gagnées : " + win;
+        _winsText.text = "Parties gagnées : " + wins;
     }
 
-    public void SetSelectedPlayer() // Called by the Sélectionner button
+    public void SetSelectedPlayer()
     {
         Debug.Log(_characterModel.name);
         switch (_characterModel.name)
         {
-            case "Warrior":
-                _gameManager.SelectedPlayer = PlayerType.Guerrier;
+            case "Demon T Wiezzorek":
+                _saveBetwenScene.SelectedPlayer = PlayerType.Demon;
                 break;
-            case "Archer":
-                _gameManager.SelectedPlayer = PlayerType.Archer;
+            case "Erika Archer With Bow Arrow":
+                _saveBetwenScene.SelectedPlayer = PlayerType.Archer;
                 break;
-            case "Wizard":
-                _gameManager.SelectedPlayer = PlayerType.Mage;
+            case "Ganfaul M Aure":
+                _saveBetwenScene.SelectedPlayer = PlayerType.Mage;
                 break;
             default:
                 break;

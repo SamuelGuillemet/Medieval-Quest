@@ -4,40 +4,38 @@ using UnityEngine;
 
 public class Orb : MonoBehaviour
 {
-        
-    [SerializeField] private Mage player;
+    private Mage _player;
+    private int enemyTouched;
+    private float _speed = 300f;
+    private int _damage = 2;
+    private float _orbRepulsion;
+    public float OrbRepulsion { set => _orbRepulsion = value; }
 
-    [SerializeField] private int enemyTouched;
-
-    // Start is called before the first frame update
     void Start()
     {
-        player = GetComponentInParent<Mage>();
+        _player = (Mage)GameManager.Instance.Player;
+        enemyTouched = 0;
     }
+
 
     // Update is called once per frame
     void Update()
     {
-        
-        transform.RotateAround(player.transform.position, Vector3.up, player.speedOrb * Time.deltaTime);
-        if (enemyTouched == player.maxEnemyTouched) 
+        transform.RotateAround(_player.transform.position, Vector3.up, _speed * Time.deltaTime);
+
+        if (enemyTouched == _player.MaxEnemyTouched)
         {
-            Destroy(gameObject);
+            Destroy(gameObject); // TODO Pooling
         }
 
     }
-
-    void OnCollisionEnter(Collision infoCollision)
+    private void OnTriggerEnter(Collider other)
     {
-      
-        if (infoCollision.gameObject.tag == "Enemy")
+        if (other.gameObject.tag == "Enemy")
         {
-            // TODO : makeDamageTo 
+            IEnemy enemy = other.gameObject.GetComponent<IEnemy>();
+            GameManager.Instance.OnEnemyDamageTaken?.Invoke(_damage, enemy, _orbRepulsion);
             enemyTouched += 1;
-            if (player.orbRepulsion)
-            {
-                // TODO : repulse enemy
-            }
         }
 
     }

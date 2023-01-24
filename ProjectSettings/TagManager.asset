@@ -16,6 +16,7 @@ TagManager:
   - Fire
   - Arrow
   - FireBall
+  - Mignon
   layers:
   - Default
   - TransparentFX
@@ -27,7 +28,7 @@ TagManager:
   - 
   - Floor
   - Walkable
-  - 
+  - FireLayer
   - 
   - 
   - 

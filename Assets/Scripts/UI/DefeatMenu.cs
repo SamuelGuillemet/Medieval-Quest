@@ -18,22 +18,7 @@ public class DefeatMenu : MonoBehaviour
 
     void Awake()
     {
-
-        // _crossFade = GameObject.Find("CrossFade").GetComponent<CrossFade>();
-        // _pauseMenuCanvasGroup = GameObject.Find("PauseMenu").GetComponent<CanvasGroup>();
-        // _upgradeMenuCanvasGroup = GameObject.Find("UpgradeMenu").GetComponent<CanvasGroup>();
-
-        // _endGameBackgroundCanvasGroup = GameObject
-        //     .Find("EndGameBackground")
-        //     .GetComponent<CanvasGroup>();
-
         _defeatMenuCanvasGroup = GetComponent<CanvasGroup>();
-        // _victoryMenuCanvasGroup = GameObject.Find("VictoryMenu").GetComponent<CanvasGroup>();
-
-        // _uitimer = GameObject.Find("Timer").GetComponentInParent<UITimer>();
-
-        // _finalTime = GameObject.Find("FinalTime").GetComponentInChildren<TMPro.TMP_Text>();
-        // _wavesText = GameObject.Find("Waves").GetComponentInChildren<TMPro.TMP_Text>();
 
         HideDefeatMenu();
     }

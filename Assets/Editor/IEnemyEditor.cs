@@ -40,7 +40,7 @@ public class IEnemyEditor : Editor
         EditorGUILayout.LabelField("Health: " + iEnemy.Health);
         if (GUILayout.Button("TakeDamage"))
         {
-            iEnemy.TakeDamage(2);
+            GameManager.Instance.OnEnemyDamageTaken?.Invoke(3, iEnemy, 1);
         }
     }
 }

@@ -50,6 +50,30 @@ MonoBehaviour:
     Clip: {fileID: 8300000, guid: df91c1776de0f6f4396437d787d361b9, type: 3}
   - Name: EnemyHit
     Clip: {fileID: 8300000, guid: 5bbdb3434ed8ae84aa08aa3e06cc210f, type: 3}
+  - Name: DamageMage
+    Clip: {fileID: 8300000, guid: 2b7fb8447fe4827459a61b5d8c7ed4fa, type: 3}
+  - Name: Orb
+    Clip: {fileID: 8300000, guid: afa4875a12473d34ba363470216aa410, type: 3}
+  - Name: IceWall
+    Clip: {fileID: 8300000, guid: d2f98123de5926e409efcd989ce07e3a, type: 3}
+  - Name: DamageArcher
+    Clip: {fileID: 8300000, guid: 4835ad6bdd674744fbffdb6ed1fa640a, type: 3}
+  - Name: PlaceTrapDoor
+    Clip: {fileID: 8300000, guid: 79de01d07b5c1bd4d8e446bf1be172b0, type: 3}
+  - Name: Arrow
+    Clip: {fileID: 8300000, guid: 99b5998f52802e9468d98d73b56e7c01, type: 3}
+  - Name: Action3Archer
+    Clip: {fileID: 8300000, guid: 6e2f11d22a4cee847990decb96a5caf7, type: 3}
+  - Name: AttackDemon
+    Clip: {fileID: 8300000, guid: 3e6647cdc919eb644b1ddf531efc60c6, type: 3}
+  - Name: DamageDemon
+    Clip: {fileID: 8300000, guid: af8a41b37cbf56741a92ac523c51f813, type: 3}
+  - Name: DemonChocWave
+    Clip: {fileID: 8300000, guid: 09ff1d237a8ad9345b19666aa4b2c4e4, type: 3}
+  - Name: DemonSummon
+    Clip: {fileID: 8300000, guid: 5003e21deba48174da0dba5c7cb8d2a0, type: 3}
+  - Name: TrapDoor
+    Clip: {fileID: 8300000, guid: b08203f219bd0fa4889303624fdd0ac6, type: 3}
 --- !u!82 &7304964852204433821
 AudioSource:
   m_ObjectHideFlags: 0

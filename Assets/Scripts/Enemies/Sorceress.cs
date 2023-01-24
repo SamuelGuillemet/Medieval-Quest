@@ -26,7 +26,7 @@ public class Sorceress : IEnemy
         _cooldown = 10f;
         _warrior = Warrior.Sorceress;
         _delayBeforeStartingAttack = WarriorTiming.TimingLock(Warrior.Sorceress);
-        _enemyAgent.Agent.speed = 10f;
+        _enemyAgent.Agent.speed = 7f;
         _enemyAgent.Agent.stoppingDistance = 0.5f;
 
 

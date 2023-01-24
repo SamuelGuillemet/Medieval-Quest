@@ -114,6 +114,10 @@ public class Liche : IEnemy
         {
             StartCoroutine(EffectDamageZoneOnEnemy(other.gameObject.GetComponent<IEnemy>(), 1));
         }
+        if (other.gameObject.CompareTag("Mignon"))
+        {
+            StartCoroutine(EffectDamageZoneOnMignon(other.gameObject.GetComponent<Mignon>(), 1));
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -125,6 +129,10 @@ public class Liche : IEnemy
         if (other.gameObject.CompareTag("Enemy"))
         {
             StopCoroutine(EffectDamageZoneOnEnemy(other.gameObject.GetComponent<IEnemy>(), 1));
+        }
+        if (other.gameObject.CompareTag("Mignon"))
+        {
+            StopCoroutine(EffectDamageZoneOnMignon(other.gameObject.GetComponent<Mignon>(), 1));
         }
     }
 
@@ -144,6 +152,16 @@ public class Liche : IEnemy
         {
             if (!_damageZone.activeInHierarchy) yield break;
             _gameManager.OnPlayerDamageTaken?.Invoke(damage);
+            yield return new WaitForSeconds(1f);
+        }
+    }
+
+    IEnumerator EffectDamageZoneOnMignon(Mignon mignon, int damage)
+    {
+        while (true)
+        {
+            if (!_damageZone.activeInHierarchy) yield break;
+            mignon.OnDamageTaken(damage);
             yield return new WaitForSeconds(1f);
         }
     }

@@ -44,8 +44,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SelectedPlayer: 0
-  _numberOfEnemySpawnZone: 8
   _seed: 7
+  _numberOfEnemySpawnZone: 8
   WaveNumber: 0
   Enemies: []
   OnEnemyKilled:
@@ -57,6 +57,23 @@ MonoBehaviour:
   OnPlayerDamageTaken:
     m_PersistentCalls:
       m_Calls: []
+  OnPlayerHealed:
+    m_PersistentCalls:
+      m_Calls: []
   OnOrbCollected:
     m_PersistentCalls:
       m_Calls: []
+  OnPlayerUpgrade:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPlayerDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  _damageOutputPrefab: {fileID: 8063309634391806487, guid: 53c8ff993e9a4494e93026257066a835,
+    type: 3}
+  _archerPrefab: {fileID: 3183756341171776244, guid: e9d61b86df316f84c960b05e386a1865,
+    type: 3}
+  _demonPrefab: {fileID: 273972285178452110, guid: f1aa3163a050a674ea349a47ed25129c,
+    type: 3}
+  _magePrefab: {fileID: 1966662942312923135, guid: 482468a82178ede4887706bac9a4d0dc,
+    type: 3}

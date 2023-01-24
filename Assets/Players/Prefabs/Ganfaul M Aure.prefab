@@ -609,7 +609,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1593388536015788230}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.21, y: 2.52, z: 2.1}
+  m_LocalPosition: {x: 0, y: 2.13, z: 1.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1267309279869684782}
@@ -763,7 +763,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1935901051207030420}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -804,15 +804,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16cab16bdaba7554ab50879dbc400184, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireBallPrefab: {fileID: -1907412266644432787, guid: 8f18e1d8c46c51f429429815455062fc,
+  _fireBallPrefab: {fileID: 1534740078357614437, guid: 8e2218927e522eb47a75fea966877ff7,
     type: 3}
-  attack1Damage: 5
-  hand: {fileID: 1593388536015788230}
-  orbPrefab: {fileID: -7495085118743877815, guid: 8aeb2c0224fe763499eed3ec0587162b,
+  _orbPrefab: {fileID: -7495085118743877815, guid: 8aeb2c0224fe763499eed3ec0587162b,
     type: 3}
-  attack2Duration: 5
-  maxEnemyTouched: 5
-  speedOrb: 150
+  _wallPrefab: {fileID: 5281554715821619739, guid: d709d0d18af7eeb49843585e7f913154,
+    type: 3}
+  _hand: {fileID: 1593388536015788230}
 --- !u!1 &1975527702605722605
 GameObject:
   m_ObjectHideFlags: 0

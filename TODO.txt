@@ -1,0 +1,10 @@
+Abilities // Fix
+Cooldown // Fix
+Victory screen // Fix
+Defeat screen // Fix
+Choix perso // Fix
+Disable input upgrade menu // Fix
+rotation mage orb // Semi-Fix
+Sound + Fix multipistes
+Trap // Fix
+Upgrade popup // Fix

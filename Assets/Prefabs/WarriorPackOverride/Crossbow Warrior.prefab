@@ -389,6 +389,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _audioClipAttack: {fileID: 8300000, guid: 3444a3c4a56cc254ba21e44dd32d7cf7, type: 3}
+  _prefabHealthBar: {fileID: 6247241294506537266, guid: 4e8d245ee285b06419ac7a6ed1504964,
+    type: 3}
   _arrow: {fileID: 3467091762047497898, guid: 50c29d1e186b8e0438b4a9fc4b5acedc, type: 3}
 --- !u!82 &214300052
 AudioSource:

@@ -729,6 +729,10 @@ MonoBehaviour:
   _qualityDropdown: {fileID: 739237828}
   _fullscreenToggle: {fileID: 691456330}
   _volumeSlider: {fileID: 1798326450}
+  _musicSlider: {fileID: 1979599919}
+  _musicMixer: {fileID: 24100000, guid: ab773c2fdae671542a2dae4505704ef5, type: 2}
+  _sfxSlider: {fileID: 1518836867}
+  _sfxMixer: {fileID: 24100000, guid: 00f5f69b394195d45879f87afacbd352, type: 2}
   _saveButton: {fileID: 917728609}
   _crossFade: {fileID: 1130135159}
 --- !u!1 &175954040
@@ -2500,7 +2504,6 @@ GameObject:
   m_Component:
   - component: {fileID: 823041933}
   - component: {fileID: 823041932}
-  - component: {fileID: 823041931}
   - component: {fileID: 823041934}
   m_Layer: 0
   m_Name: Main Camera
@@ -2509,14 +2512,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &823041931
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 823041930}
-  m_Enabled: 1
 --- !u!20 &823041932
 Camera:
   m_ObjectHideFlags: 0
@@ -3660,12 +3655,12 @@ PrefabInstance:
     - target: {fileID: 7762845261741444346, guid: 04787f43c9740cf4892996c7bd5aa1a8,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: -268.2433
+      value: 0.00024414062
       objectReference: {fileID: 0}
     - target: {fileID: 7762845261741444346, guid: 04787f43c9740cf4892996c7bd5aa1a8,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: -150.66418
+      value: -0.00024414062
       objectReference: {fileID: 0}
     - target: {fileID: 7762845261741444346, guid: 04787f43c9740cf4892996c7bd5aa1a8,
         type: 3}
@@ -3705,7 +3700,7 @@ PrefabInstance:
     - target: {fileID: 7762845261741444346, guid: 04787f43c9740cf4892996c7bd5aa1a8,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -0.000061035156
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7762845261741444346, guid: 04787f43c9740cf4892996c7bd5aa1a8,
         type: 3}
@@ -4685,10 +4680,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 634256059}
   m_HandleRect: {fileID: 1694227435}
   m_Direction: 0
-  m_MinValue: 0
+  m_MinValue: 0.0001
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 0.001
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -5710,10 +5705,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 1620437380}
   m_HandleRect: {fileID: 23516008}
   m_Direction: 0
-  m_MinValue: 0
+  m_MinValue: 0.0001
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 0.001
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:

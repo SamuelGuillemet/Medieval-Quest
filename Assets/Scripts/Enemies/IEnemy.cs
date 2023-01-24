@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using WarriorAnimsFREE;
 
-
 [RequireComponent(typeof(EnemyAgent))]
 public class IEnemy : MonoBehaviour
 {
@@ -17,16 +16,37 @@ public class IEnemy : MonoBehaviour
     protected Camera _camera;
     protected EnemyAgent _enemyAgent;
     protected AudioSource _audioSource;
-    [SerializeField] protected AudioClip _audioClipAttack;
+
+    [SerializeField]
+    protected AudioClip _audioClipAttack;
     protected Warrior _warrior = Warrior.Archer;
 
-    public int MaxHealth { set => _maxHealth = _health = value; }
-    public int Health { get => _health; set => _health = value; }
-    public Warrior Warrior { get => _warrior; set => _warrior = value; }
-    public EnemyAgent EnemyAgent { get => _enemyAgent; set => _enemyAgent = value; }
+    public int MaxHealth
+    {
+        set => _maxHealth = _health = value;
+    }
+    public int Health
+    {
+        get => _health;
+        set => _health = value;
+    }
+    public Warrior Warrior
+    {
+        get => _warrior;
+        set => _warrior = value;
+    }
+    public EnemyAgent EnemyAgent
+    {
+        get => _enemyAgent;
+        set => _enemyAgent = value;
+    }
 
     protected Coroutine _attackCoroutine;
     protected Coroutine _movementCoroutine;
+
+    [SerializeField] private EnemyHealthBar _prefabHealthBar;
+    private Canvas _canvas;
+    private EnemyHealthBar healthBar;
 
     public virtual void OnEnable()
     {
@@ -36,6 +56,11 @@ public class IEnemy : MonoBehaviour
         _camera = Camera.main;
         _audioSource = GetComponent<AudioSource>();
 
+        _canvas = GameObject.Find("EnemyHealthBarCanvas").GetComponent<Canvas>();
+
+        healthBar = Instantiate(_prefabHealthBar, transform.position, Quaternion.identity, _canvas.transform);
+        healthBar.target = transform;
+
         _couldAttack = false;
     }
 
@@ -43,6 +68,8 @@ public class IEnemy : MonoBehaviour
     {
         // Could not attack if outside of camera view
         _couldAttack = IsOnScreen(transform.position, 0.05f);
+        healthBar.healthBar.maxValue = _maxHealth;
+        healthBar.healthBar.value = _health;
     }
 
     public float GetHealthInPercent()
@@ -50,10 +77,10 @@ public class IEnemy : MonoBehaviour
         return (float)_health / _maxHealth;
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, float knockback)
     {
         _health = Mathf.Clamp(_health - damage, 0, _maxHealth);
-        _gameManager.OnEnemyDamageTaken?.Invoke(damage, this);
+        _audioManager.PlaySound("EnemyHit");
 
         if (_health <= 0)
         {
@@ -61,8 +88,10 @@ public class IEnemy : MonoBehaviour
         }
         else
         {
-            _audioManager.PlaySound("EnemyHit");
-            StartCoroutine(DamageTakenKnockback((transform.position - _gameManager.Player.transform.position).normalized, damage));
+            if (knockback > 0)
+            {
+                StartCoroutine(DamageTakenKnockback((transform.position - _gameManager.Player.transform.position).normalized, knockback));
+            }
         }
     }
 
@@ -78,7 +107,12 @@ public class IEnemy : MonoBehaviour
         }
     }
 
-    IEnumerator DamageTakenKnockback(Vector3 direction, int strength = 1)
+    public void RepusleEnemy(Vector3 direction, float strenght = 1f)
+    {
+        StartCoroutine(DamageTakenKnockback(direction, strenght));
+    }
+
+    IEnumerator DamageTakenKnockback(Vector3 direction, float strenght = 1f)
     {
         direction.y = 1f;
         _enemyAgent.Agent.enabled = false;
@@ -86,10 +120,13 @@ public class IEnemy : MonoBehaviour
         _couldAttack = false;
         StopCoroutine(_movementCoroutine);
 
-        _enemyAgent.Rigidbody.AddForce(direction * strength * 35f, ForceMode.Impulse);
+        _enemyAgent.Rigidbody.AddForce(direction * 35f * strenght, ForceMode.Impulse);
 
         yield return new WaitForSeconds(0.5f);
-        yield return new WaitUntil(() => Physics.Raycast(transform.position, Vector3.down, 1.1f, LayerMask.GetMask("Floor")));
+        yield return new WaitUntil(
+            () =>
+                Physics.Raycast(transform.position, Vector3.down, 1.1f, LayerMask.GetMask("Floor"))
+        );
         ResetKnockback();
         _movementCoroutine = StartCoroutine(MovementRoutine());
         _couldAttack = true;
@@ -174,12 +211,30 @@ public class IEnemy : MonoBehaviour
     protected bool IsOnScreen(Vector3 position, float offset = 0f)
     {
         Vector3 screenPoint = _camera.WorldToViewportPoint(position);
-        return screenPoint.x > 0f + offset && screenPoint.x < 1f - offset && screenPoint.y > 0f + offset && screenPoint.y < 1f - 2f * offset;
+        return screenPoint.x > 0f + offset
+            && screenPoint.x < 1f - offset
+            && screenPoint.y > 0f + offset
+            && screenPoint.y < 1f - 2f * offset;
     }
 
     private void OnDisable()
     {
         ResetKnockback();
         StopAllCoroutines();
+        if (healthBar != null) Destroy(healthBar.gameObject);
+    }
+
+    public void FreezeEnemy(float time)
+    {
+        StartCoroutine(FreezeEnemyRoutine(time));
+    }
+
+    IEnumerator FreezeEnemyRoutine(float time = 0.8f)
+    {
+        _enemyAgent.Agent.isStopped = true;
+        StopCoroutine(_attackCoroutine);
+        yield return new WaitForSeconds(time);
+        _enemyAgent.Agent.isStopped = false;
+        _attackCoroutine = StartCoroutine(AttackRoutine());
     }
 }

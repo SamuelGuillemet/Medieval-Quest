@@ -1690,7 +1690,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 25386a188e4c7fc4bba0f13dfb042645, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
@@ -1708,8 +1708,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fca80aa7d5da6544d95ee95dc2bbaeb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 2
-  attackRadius: 2
+  mignonPrefab: {fileID: 4458354732880621564, guid: f73c3eb3e9e91f346935750d67b0335c,
+    type: 3}
 --- !u!1 &4298000075718570044
 GameObject:
   m_ObjectHideFlags: 0

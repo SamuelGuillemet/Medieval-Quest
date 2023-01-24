@@ -4,24 +4,42 @@ using UnityEngine;
 
 public class FireBall : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private int _damage;
+    public int Damage { set => _damage = value; }
+    [SerializeField] GameObject _explosion;
+    [SerializeField] Rigidbody _rigidbody;
+    [SerializeField] Renderer _renderer;
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter(Collider other)
     {
-        
-    }
-
-    void OnCollisionEnter(Collision infoCollision)
-    {
-        if (infoCollision.gameObject.tag == "Enemy")
+        if (other.gameObject.tag == "Player")
         {
-            //make damage
+            return;
         }
+        if (other.gameObject.tag == "Enemy")
+        {
+            IEnemy _enemy = other.gameObject.GetComponent<IEnemy>();
+            GameManager.Instance.OnEnemyDamageTaken?.Invoke(_damage, _enemy, 2);
+        }
+        Explode();
+    }
 
+    void Explode()
+    {
+        _explosion.SetActive(true);
+        _rigidbody.velocity = Vector3.zero;
+        _renderer.enabled = false;
+        Destroy(gameObject, 0.5f);
+    }
+
+    public void SetMovement()
+    {
+        _rigidbody.AddForce(transform.forward * 800f);
+    }
+
+    private void OnDisable()
+    {
+        _explosion.SetActive(false);
+        _renderer.enabled = true;
     }
 }

@@ -7,14 +7,13 @@ using UnityEngine.UI;
 public class CharacterSelection : MonoBehaviour
 {
     private GameObject[] _charactersPanels;
-    private GameObject[] _scoreTabs;
     [SerializeField] private CrossFade _crossFade;
     private int _currentCharacterIndex;
-    private GameManager _gameManager;
+    private SaveBetwenScene _saveBetwenScene;
 
     private void Awake()
     {
-        _gameManager = GameManager.Instance;
+        _saveBetwenScene = SaveBetwenScene.Instance;
 
         if (PlayerPrefs.HasKey("CharacterIndex"))
         {
@@ -51,8 +50,8 @@ public class CharacterSelection : MonoBehaviour
 
     private void SaveCharacterandAbilities()
     {
-        PlayerPrefs.SetString("Character", _charactersPanels[_currentCharacterIndex].name);
-        // _gameManager.SelectedPlayer = (SelectedPlayer) currentCharacterIndex;
+        _saveBetwenScene.characterIndex = _currentCharacterIndex;
+
     }
 
     public void NextCharacter()

@@ -17,7 +17,7 @@ public class Bomb : MonoBehaviour
 
     public void SetTarget(Transform target)
     {
-        Vector3 direction = target.position - Vector3.up - transform.position;
+        Vector3 direction = target.position - transform.position;
         direction = direction.normalized * 12f;
         _rigidbody.AddForce(direction, ForceMode.Impulse);
     }
@@ -60,6 +60,10 @@ public class Bomb : MonoBehaviour
             if (collider.gameObject.CompareTag("Player"))
             {
                 GameManager.Instance.OnPlayerDamageTaken?.Invoke(_damage);
+            }
+            if (collider.gameObject.CompareTag("Mignon"))
+            {
+                collider.gameObject.GetComponent<Mignon>().OnDamageTaken(_damage);
             }
         }
         _exploded = true;
