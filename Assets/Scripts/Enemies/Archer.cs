@@ -51,9 +51,9 @@ public class Archer : IEnemy
                 StartCoroutine(FacePlayer(2f));
             }
 
-            Vector3 start = _enemyAgent.Agent.destination + (_gameManager.Player.transform.position - _enemyAgent.Agent.destination).normalized;
+            Vector3 start = _enemyAgent.Agent.destination + (_gameManager.Player.transform.position + Vector3.up - _enemyAgent.Agent.destination).normalized;
             start.y = _enemyAgent.Agent.destination.y + 1f;
-            Vector3 direction = _gameManager.Player.transform.position - start;
+            Vector3 direction = _gameManager.Player.transform.position + Vector3.up - start;
             Debug.DrawRay(start, direction, Color.white);
         }
     }
@@ -145,9 +145,9 @@ public class Archer : IEnemy
 
     private bool IsPlayerVisibleFrom(Vector3 origin)
     {
-        Vector3 start = origin + (_gameManager.Player.transform.position - origin).normalized;
+        Vector3 start = origin + (_gameManager.Player.transform.position + Vector3.up - origin).normalized;
         start.y = origin.y + 1f;
-        Vector3 direction = _gameManager.Player.transform.position - start;
+        Vector3 direction = _gameManager.Player.transform.position + Vector3.up - start;
 
         if (Physics.Raycast(start, direction, out RaycastHit hit))
         {
@@ -164,7 +164,7 @@ public class Archer : IEnemy
         int nbArrow = Random.Range(1, 6);
 
         // Scatters the arrow to within 1 unit of the target using trigonometry
-        float distancePlayer = Vector3.Distance(transform.position, _gameManager.Player.transform.position);
+        float distancePlayer = Vector3.Distance(transform.position, _gameManager.Player.transform.position + Vector3.up);
         float angle = Mathf.Atan(1f / distancePlayer);
         float angleRange = (2f * angle) / (nbArrow + 1);
 

@@ -71,7 +71,7 @@ public class CharacterPanel : MonoBehaviour
         switch (_characterModel.name)
         {
             case "Demon T Wiezzorek":
-                _gameManager.SelectedPlayer = PlayerType.Guerrier;
+                _gameManager.SelectedPlayer = PlayerType.Deamon;
                 break;
             case "Erika Archer With Bow Arrow":
                 _gameManager.SelectedPlayer = PlayerType.Archer;

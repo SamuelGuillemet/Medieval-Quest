@@ -12,27 +12,24 @@ public class FireBall : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Enemy")
-        {
-            IEnemy _enemy = other.gameObject.GetComponent<IEnemy>();
-            GameManager.Instance.OnEnemyDamageTaken?.Invoke(_damage, _enemy, 1);
-            _explosion.SetActive(true);
-            _renderer.enabled = false;
-            _rigidbody.velocity = Vector3.zero;
-
-            Destroy(gameObject, 0.4f);
-        }
-        else if (other.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player")
         {
             return;
         }
-        else
+        if (other.gameObject.tag == "Enemy")
         {
-            _explosion.SetActive(true);
-            _rigidbody.velocity = Vector3.zero;
-
-            Destroy(gameObject, 0.25f);
+            IEnemy _enemy = other.gameObject.GetComponent<IEnemy>();
+            GameManager.Instance.OnEnemyDamageTaken?.Invoke(_damage, _enemy, 2);
         }
+        Explode();
+    }
+
+    void Explode()
+    {
+        _explosion.SetActive(true);
+        _rigidbody.velocity = Vector3.zero;
+        _renderer.enabled = false;
+        Destroy(gameObject, 0.5f);
     }
 
     public void SetMovement()

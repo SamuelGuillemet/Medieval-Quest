@@ -17,7 +17,7 @@ public class Bomb : MonoBehaviour
 
     public void SetTarget(Transform target)
     {
-        Vector3 direction = target.position - Vector3.up - transform.position;
+        Vector3 direction = target.position - transform.position;
         direction = direction.normalized * 12f;
         _rigidbody.AddForce(direction, ForceMode.Impulse);
     }

@@ -7,7 +7,7 @@ public class Trap : MonoBehaviour
     private int _damage;
     private int _maxEnemyTouched;
     private int _enemyTouched;
-    private float _time;
+    private float _time = 3f;
     public Animator TrapDoorAnim;
 
     public int Damage { set => _damage = value; }
@@ -35,8 +35,7 @@ public class Trap : MonoBehaviour
         {
             _enemyTouched += 1;
             IEnemy _enemy = other.gameObject.GetComponent<IEnemy>();
-            Debug.Log("Enemy touched");
-            GameManager.Instance.OnEnemyDamageTaken?.Invoke(_damage, _enemy, 0);
+            _enemy.TakeDamage(_damage, 0);
             _enemy.FreezeEnemy(_time);
         }
     }

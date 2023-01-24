@@ -15,8 +15,7 @@ public class GameManager : MonoBehaviour
 
     private PrefabsGenerator _prefabsGenerator;
 
-    [SerializeField]
-    private int _seed = 1;
+    [SerializeField] private int _seed = 1;
 
     private int _numberOfEnemies = 0;
     private EnemySpawnZone[] _enemySpawnZones;
@@ -27,12 +26,12 @@ public class GameManager : MonoBehaviour
 
     public List<IEnemy> Enemies;
 
-    public UnityEventIEnemy OnEnemyKilled;
-    public UnityEventIntIEnemyFloat OnEnemyDamageTaken;
-    public UnityEventInt OnPlayerDamageTaken;
-    public UnityEventInt OnPlayerHealed;
-    public UnityEventExperienceOrb OnOrbCollected;
-    public UnityEventInt OnPlayerUpgrade;
+    [HideInInspector] public UnityEventIEnemy OnEnemyKilled;
+    [HideInInspector] public UnityEventIntIEnemyFloat OnEnemyDamageTaken;
+    [HideInInspector] public UnityEventInt OnPlayerDamageTaken;
+    [HideInInspector] public UnityEventInt OnPlayerHealed;
+    [HideInInspector] public UnityEventExperienceOrb OnOrbCollected;
+    [HideInInspector] public UnityEventInt OnPlayerUpgrade;
 
     private int _playerExperience = 0;
     public int PlayerExperience { get => _playerExperience; set => _playerExperience = value; }
@@ -43,6 +42,7 @@ public class GameManager : MonoBehaviour
     private AudioManager _audioManager;
 
     private GameUI _gameUI;
+    [SerializeField] private GameObject _damageOutputPrefab;
 
     void Awake()
     {
@@ -111,6 +111,7 @@ public class GameManager : MonoBehaviour
             yield return new WaitUntil(() => _numberOfEnemies == 0);
             yield return new WaitForSeconds(5f);
         }
+        // TODO: End of game - Victory
     }
 
     private void OnEnemyKilledCallback(IEnemy enemy)
@@ -127,6 +128,8 @@ public class GameManager : MonoBehaviour
     {
         enemy.TakeDamage(damage, repuslionForce);
         Debug.Log("Enemy: " + enemy.name + " - Health: " + enemy.Health);
+
+        DamageOutput.Create(_damageOutputPrefab, Player.transform.position, damage);
     }
 
     private void OnPlayerDamagedCallback(int damage)
@@ -230,7 +233,7 @@ public enum PlayerType
 {
     None,
     Archer,
-    Guerrier,
+    Deamon,
     Mage
 }
 

@@ -18,6 +18,7 @@ public class Mignon : MonoBehaviour
 
     public int MaxHealth { set => _maxHealth = _health = value; }
     public float DelayBetweenCare { set => _delayBetweenCare = value; }
+    public float Speed { set => _agent.speed = value; }
 
 
     void Start()

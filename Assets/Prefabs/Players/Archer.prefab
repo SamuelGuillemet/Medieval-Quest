@@ -86,6 +86,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cam: {fileID: 0}
+  _damageOutputPrefab: {fileID: 8063309634391806487, guid: 53c8ff993e9a4494e93026257066a835,
+    type: 3}
 --- !u!136 &3183756341171776245
 CapsuleCollider:
   m_ObjectHideFlags: 0

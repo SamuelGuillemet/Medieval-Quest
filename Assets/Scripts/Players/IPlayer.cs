@@ -74,7 +74,7 @@ public class IPlayer : MonoBehaviour
     public void TakeDamage(int amount)
     {
         _health -= amount;
-        // TODO : Add event when  health = 0
+        // TODO : End of game - Defeat
     }
 
     public void Heal(int amount)
@@ -88,6 +88,7 @@ public class IPlayer : MonoBehaviour
 
     public void Upgrade(int key)
     {
+        Debug.Log("Upgrade " + key);
         switch (key)
         {
             case 1:

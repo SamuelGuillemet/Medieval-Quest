@@ -69,6 +69,7 @@ public class IEnemy : MonoBehaviour
         // Could not attack if outside of camera view
         _couldAttack = IsOnScreen(transform.position, 0.05f);
         healthBar.healthBar.maxValue = _maxHealth;
+        healthBar.healthBar.value = _health;
     }
 
     public float GetHealthInPercent()
@@ -91,7 +92,6 @@ public class IEnemy : MonoBehaviour
             {
                 StartCoroutine(DamageTakenKnockback((transform.position - _gameManager.Player.transform.position).normalized, knockback));
             }
-            _prefabHealthBar.healthBar.value = _health;
         }
     }
 
@@ -221,7 +221,7 @@ public class IEnemy : MonoBehaviour
     {
         ResetKnockback();
         StopAllCoroutines();
-        Destroy(healthBar.gameObject);
+        if (healthBar != null) Destroy(healthBar.gameObject);
     }
 
     public void FreezeEnemy(float time)

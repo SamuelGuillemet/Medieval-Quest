@@ -26,8 +26,6 @@ public class PlayerAgent : MonoBehaviour
     private NavMeshAgent _agent;
     public NavMeshAgent Agent { get => _agent; }
 
-    [SerializeField]
-    private GameObject _damageOutputPrefab;
     Animator _animator;
 
 
@@ -64,15 +62,6 @@ public class PlayerAgent : MonoBehaviour
         else if (Input.GetKeyUp(KeyCode.LeftShift))
         {
             _agentRange = AgentRangeMode.Walk;
-        }
-
-        if (Input.GetKeyDown(KeyCode.P)) // TODO: Remove this
-        {
-            DamageOutput.Create(
-                _damageOutputPrefab,
-                position: transform.position,
-                damage: UnityEngine.Random.Range(1, 100)
-            );
         }
     }
 
@@ -155,8 +144,7 @@ public class PlayerAgent : MonoBehaviour
         // Calculate the direction of the movement based on input and rotation
         Vector3 origin = new Vector3(_horizontalInput, 0f, _verticalInput);
 
-        if (Mathf.Abs(_horizontalInput) < 0.1f && Mathf.Abs(_verticalInput) < 0.1f)
-            return;
+        origin.y += transform.position.y + 1.5f;
 
         if (_agentRange == AgentRangeMode.Dash)
         {
@@ -173,7 +161,7 @@ public class PlayerAgent : MonoBehaviour
         origin += transform.position;
 
         RaycastHit hit;
-        if (Physics.Raycast(origin, Vector3.down, out hit))
+        if (Physics.Raycast(origin, Vector3.down, out hit, 20f, LayerMask.GetMask("Floor")))
         {
             Vector3 destination = new Vector3(hit.point.x, hit.point.y, hit.point.z);
 

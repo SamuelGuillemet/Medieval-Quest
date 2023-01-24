@@ -50,7 +50,7 @@ public class UpgradeMenu : MonoBehaviour
             }
         }
         //depending on the slider, do something
-        //_gameManager.upgradeValues[key] += 1; // TODO
+        _gameManager.OnPlayerUpgrade.Invoke(index + 1);
 
         if (slider.value == slider.maxValue)
         {
@@ -155,12 +155,7 @@ public class UpgradeMenu : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && _upgradeMenuCanvasGroup.alpha == 1)
-        {
-            StartCoroutine(DisableUpgradePopup(0f));
-        }
-
-        if (Input.GetKeyDown(KeyCode.E) && _gameUI.upgradeCount > 0)
+        if (_gameUI.upgradeCount > 0)
         {
             EnableUpgradePopup();
         }

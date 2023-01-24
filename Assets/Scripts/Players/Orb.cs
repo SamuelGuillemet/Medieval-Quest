@@ -8,8 +8,8 @@ public class Orb : MonoBehaviour
     private int enemyTouched;
     private float _speed = 300f;
     private int _damage = 2;
-    private bool _orbRepulsion;
-    public bool OrbRepulsion { set => _orbRepulsion = value; }
+    private float _orbRepulsion;
+    public float OrbRepulsion { set => _orbRepulsion = value; }
 
     void Start()
     {
@@ -34,7 +34,7 @@ public class Orb : MonoBehaviour
         if (other.gameObject.tag == "Enemy")
         {
             IEnemy enemy = other.gameObject.GetComponent<IEnemy>();
-            GameManager.Instance.OnEnemyDamageTaken?.Invoke(_damage, enemy, _orbRepulsion ? 2 : 0);
+            GameManager.Instance.OnEnemyDamageTaken?.Invoke(_damage, enemy, _orbRepulsion);
             enemyTouched += 1;
         }
 

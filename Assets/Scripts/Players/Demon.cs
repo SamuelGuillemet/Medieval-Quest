@@ -102,6 +102,7 @@ public class Demon : IPlayer
         Mignon mignon = Instantiate(mignonPrefab, transform.position, Quaternion.identity);
         mignon.MaxHealth = _mignonMaxHealth;
         mignon.DelayBetweenCare = _mignonDelayBetweenCare;
+        mignon.Speed = _playerAgent.Agent.speed;
     }
 
     public void SwitchMovement()

@@ -47,7 +47,7 @@ public class ArcherPlayer : IPlayer
         _damageArrow = 10;
 
         _maxEnemyTouchedTrap = 1;
-        _damageTrap = 10;
+        _damageTrap = 0;
 
         _attack3Duration = 3f;
         _gainSpeedAttack3 = _playerAgent.Agent.speed;

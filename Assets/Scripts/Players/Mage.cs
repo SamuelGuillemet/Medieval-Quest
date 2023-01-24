@@ -33,10 +33,10 @@ public class Mage : IPlayer
     private int _attack1Damage = 5;
     private float _attack2Duration = 5f;
     private int _maxEnemyTouched;
-    private bool _orbRepulsion;
+    private float _orbRepulsion;
 
     public int MaxEnemyTouched { get => _maxEnemyTouched; }
-    public bool OrbRepulsion { get => _orbRepulsion; }
+    public float OrbRepulsion { get => _orbRepulsion; }
 
     public override void Start()
     {
@@ -49,7 +49,7 @@ public class Mage : IPlayer
         _cooldown3 = 10f;
 
         _maxEnemyTouched = 5;
-        _orbRepulsion = false;
+        _orbRepulsion = 0;
     }
 
     public override IEnumerator Attack1()
@@ -107,7 +107,7 @@ public class Mage : IPlayer
 
     public override void SpecificUpgrade2()
     {
-        _orbRepulsion = true;
+        _orbRepulsion += 0.5f;
     }
 
     public override void SpecificUpgrade3()
