@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -5701,7 +5701,7 @@ GameObject:
   - component: {fileID: 1301613015}
   - component: {fileID: 1301613014}
   m_Layer: 5
-  m_Name: Warrior
+  m_Name: Demon
   m_TagString: CharacterPanel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9738,7 +9738,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a2134d54309b44045a00e49fc906bd2a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: df816143acf817047ad46d4aa7ae0566, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -10161,7 +10161,7 @@ GameObject:
   - component: {fileID: 2583974322138723774}
   - component: {fileID: 4578152089689838149}
   m_Layer: 5
-  m_Name: DashAttack
+  m_Name: ShockWaveAttack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15930,7 +15930,7 @@ GameObject:
   - component: {fileID: 743760849310611419}
   - component: {fileID: 7168082816449136304}
   m_Layer: 5
-  m_Name: SwordAttack
+  m_Name: GroundSmashAttack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17833,7 +17833,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0ee92b0c4be60a34cb3327c469063756, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2ea59f226728ade4789e5b43106f481c, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -18403,9 +18403,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Coup d'\xE9p\xE9e qui fait 5 d\xE9g\xE2ts aux ennemis dans une sph\xE8re
-    devant le personnage et repousse les cibles touch\xE9es dans la direction oppos\xE9e
-    au personnage. 1 seconde de cooldown.\r\n"
+  m_text: "Bond qui fait 2 d\xE9g\xE2ts \xE0 l'impact et repousse les cibles alentour.
+    Ne s\u2019active pas si la souris est au-dessus d\u2019une case de fosse. 5 secondes
+    de cooldown."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -18990,9 +18990,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Bond qui fait 2 d\xE9g\xE2ts \xE0 l'impact et repousse les cibles alentour.
-    Ne s\u2019active pas si la souris est au-dessus d\u2019une case de fosse. 5 secondes
-    de cooldown."
+  m_text: "Le personnage lib\xE8re une onde de choc qui inflige des d\xE9g\xE2ts
+    aux ennemis alentour."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -20448,9 +20447,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Tournoiement pendant 3 secondes, 1 d\xE9g\xE2ts toutes les 0.5 secondes
-    autour du personnage. Pendant le Tournoiement, le personnage se d\xE9place 1.5
-    fois plus vite. 5 secondes de cooldown."
+  m_text: "Invocation d'une liche qui soigne le joueur et peut infliger des d\xE9g\xE2ts
+    aux ennemis."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -20546,7 +20544,7 @@ GameObject:
   - component: {fileID: 3035816636108129044}
   - component: {fileID: 436905256199597400}
   m_Layer: 5
-  m_Name: SpinAttack
+  m_Name: SummonAttack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20955,7 +20953,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 511c8bc9d1b311e4da262990b15eb364, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 121700710300d8744a5848d38ed5d74c, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
