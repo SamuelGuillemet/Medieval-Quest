@@ -57,6 +57,7 @@ public class ArcherPlayer : IPlayer
     {
         _canAction1 = false;
         _animator.SetTrigger("Shoot");
+        _audioManager.PlaySound("Arrow");
         yield return new WaitForSeconds(_cooldown1);
         _canAction1 = true;
     }
@@ -80,7 +81,8 @@ public class ArcherPlayer : IPlayer
 
     public void PlaceTrap()
     {
-        Trap trap = Instantiate(_trapPrefab, transform.position + Vector3.up * 0.1f, new Quaternion(0, 0, 0, 0));
+        Trap trap = Instantiate(_trapPrefab, transform.position + Vector3.up * 0.1f, Quaternion.identity);
+        _audioManager.PlaySound("PlaceTrapDoor");
         trap.Damage = _damageTrap;
         trap.MaxEnemyTouched = _maxEnemyTouchedTrap;
     }
@@ -102,11 +104,13 @@ public class ArcherPlayer : IPlayer
 
     private void Action3()
     {
+        _audioManager.PlaySound("Action3Archer");
         _playerAgent.Agent.speed += _gainSpeedAttack3;
         _cooldown1 /= 2f;
     }
     private void UnAction3()
     {
+        _audioManager.Stop();
         _playerAgent.Agent.speed -= _gainSpeedAttack3;
         _cooldown1 *= 2f;
     }

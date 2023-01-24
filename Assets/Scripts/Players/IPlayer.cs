@@ -29,6 +29,7 @@ public class IPlayer : MonoBehaviour
     protected Coroutine _attack3Coroutine;
 
 
+    private AudioManager _audioManager;
 
 
     // Start is called before the first frame update
@@ -37,6 +38,8 @@ public class IPlayer : MonoBehaviour
         _gameManager = GameManager.Instance;
         _animator = GetComponent<Animator>();
         _playerAgent = GetComponentInParent<PlayerAgent>();
+
+        _audioManager = AudioManager.Instance;
     }
 
     // Update is called once per frame
@@ -71,9 +74,12 @@ public class IPlayer : MonoBehaviour
         yield return null;
     }
 
+
+
     public void TakeDamage(int amount)
     {
         _health -= amount;
+        DamageSound();
         // TODO : End of game - Defeat
     }
 
@@ -158,4 +164,8 @@ public class IPlayer : MonoBehaviour
     public virtual void SpecificUpgrade4() { }
 
     public virtual void SpecificUpgrade5() { }
+
+    public virtual void DamageSound() { }
+
+
 }
