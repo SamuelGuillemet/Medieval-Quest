@@ -115,6 +115,11 @@ public class ArcherPlayer : IPlayer
         _cooldown1 *= 2f;
     }
 
+    public override void DamageSound()
+    {
+        _audioManager.PlaySound("DamageArcher");
+    }
+
     #region Amelioration
     public override void SpecificUpgrade1()
     {

@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
 
     private PrefabsGenerator _prefabsGenerator;
 
-    [SerializeField] private int _seed = 1;
+    private int _seed = 1;
 
     private int _numberOfEnemies = 0;
     private EnemySpawnZone[] _enemySpawnZones;
@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public UnityEventInt OnPlayerHealed;
     [HideInInspector] public UnityEventExperienceOrb OnOrbCollected;
     [HideInInspector] public UnityEventInt OnPlayerUpgrade;
+    [HideInInspector] public UnityEvent OnPlayerDeath;
 
     private int _playerExperience = 0;
     public int PlayerExperience { get => _playerExperience; set => _playerExperience = value; }
@@ -44,7 +45,41 @@ public class GameManager : MonoBehaviour
     private GameUI _gameUI;
     [SerializeField] private GameObject _damageOutputPrefab;
 
+    private SaveBetwenScene _saveBetwenScene;
+
+    [Space(10)]
+    [Header("Prefabs for player")]
+    [SerializeField] private GameObject _archerPrefab;
+    [SerializeField] private GameObject _demonPrefab;
+    [SerializeField] private GameObject _magePrefab;
+
     void Awake()
+    {
+        _saveBetwenScene = SaveBetwenScene.Instance;
+
+        if (_saveBetwenScene.SelectedPlayer == PlayerType.None && SelectedPlayer == PlayerType.None)
+            _saveBetwenScene.SelectedPlayer = PlayerType.Archer;
+
+        SelectedPlayer = _saveBetwenScene.SelectedPlayer;
+        GameObject player = null;
+        // TODO: Fix the size of the map
+        switch (SelectedPlayer)
+        {
+            case PlayerType.Archer:
+                player = Instantiate(_archerPrefab, new Vector3(40, 4, 40), Quaternion.identity);
+                break;
+            case PlayerType.Demon:
+                player = Instantiate(_demonPrefab, new Vector3(40, 4, 40), Quaternion.identity);
+                break;
+            case PlayerType.Mage:
+                player = Instantiate(_magePrefab, new Vector3(40, 4, 40), Quaternion.identity);
+                break;
+        }
+
+        _seed = Random.Range(0, 10000);
+    }
+
+    void OnEnable()
     {
         Enemies = new List<IEnemy>();
 
@@ -67,6 +102,7 @@ public class GameManager : MonoBehaviour
         OnPlayerHealed.AddListener(OnPlayerHealedCallback);
         OnOrbCollected.AddListener(OnOrbCollectedCallback);
         OnPlayerUpgrade.AddListener(OnPlayerUpgradeCallback);
+        OnPlayerDeath.AddListener(OnPlayerDeathCallback);
 
         _audioManager = AudioManager.Instance;
     }
@@ -80,7 +116,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator EnemiesWave()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
         while (WaveNumber < _fibonnaciSuite.Length)
         {
             _gameUI.UpdateWaveText(WaveNumber, _fibonnaciSuite[WaveNumber]);
@@ -111,7 +147,7 @@ public class GameManager : MonoBehaviour
             yield return new WaitUntil(() => _numberOfEnemies == 0);
             yield return new WaitForSeconds(5f);
         }
-        // TODO: End of game - Victory
+        _gameUI.Victory();
     }
 
     private void OnEnemyKilledCallback(IEnemy enemy)
@@ -166,6 +202,11 @@ public class GameManager : MonoBehaviour
     private void OnPlayerUpgradeCallback(int key)
     {
         _player.Upgrade(key);
+    }
+
+    private void OnPlayerDeathCallback()
+    {
+        _gameUI.Defeat();
     }
 
     IEnumerator SpawnExperienceOrb(Vector3 position)
@@ -233,7 +274,7 @@ public enum PlayerType
 {
     None,
     Archer,
-    Deamon,
+    Demon,
     Mage
 }
 

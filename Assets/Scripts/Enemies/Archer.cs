@@ -174,7 +174,7 @@ public class Archer : IEnemy
             float angleScatter = angle - (angleRange * (i + 1));
 
             GameObject arrow = PoolingManager.Instance.SpawnObjectFromPool(_arrow, _muzzle.position, Quaternion.identity);
-            arrow.transform.LookAt(_gameManager.Player.transform);
+            arrow.transform.LookAt(_gameManager.Player.transform.position + Vector3.up);
             arrow.transform.RotateAround(transform.position, Vector3.up, angleScatter * Mathf.Rad2Deg);
             arrow.GetComponent<Rigidbody>().AddForce(arrow.transform.forward * 400f);
         }

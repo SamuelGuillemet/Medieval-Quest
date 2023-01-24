@@ -12,8 +12,7 @@ public class PlayerAgent : MonoBehaviour
         Dash
     }
 
-    [SerializeField]
-    Camera _cam;
+    private Camera _cam;
     private float _horizontalInput;
     private float _verticalInput;
 
@@ -46,6 +45,8 @@ public class PlayerAgent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (_cam == null) _cam = Camera.main;
+
         CalculateDestinationWithInputFromTopWorld();
         UpdateRotation();
 

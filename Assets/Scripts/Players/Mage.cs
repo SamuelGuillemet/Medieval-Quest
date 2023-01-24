@@ -29,6 +29,7 @@ public class Mage : IPlayer
 {
     [SerializeField] private FireBall _fireBallPrefab; // TODO Pooling
     [SerializeField] private Orb _orbPrefab; // TODO Pooling
+    [SerializeField] private GameObject _wallPrefab;
     [SerializeField] private GameObject _hand;
     private int _attack1Damage = 5;
     private float _attack2Duration = 5f;
@@ -38,10 +39,8 @@ public class Mage : IPlayer
     public int MaxEnemyTouched { get => _maxEnemyTouched; }
     public float OrbRepulsion { get => _orbRepulsion; }
 
-    [SerializeField] public float lengthWall = 1f;
-    [SerializeField] private Material IceMaterial;
-    [SerializeField] private bool WallMakedamage = false;
-    [SerializeField] private float wallDamage = 1f;
+    private float _lengthWall;
+    private int _wallDamage;
 
     public override void Start()
     {
@@ -55,6 +54,9 @@ public class Mage : IPlayer
 
         _maxEnemyTouched = 5;
         _orbRepulsion = 0;
+
+        _lengthWall = 2f;
+        _wallDamage = 0;
     }
 
     public override IEnumerator Attack1()
@@ -85,7 +87,7 @@ public class Mage : IPlayer
     public void ThrowOrb()
     {
         Vector3 offset = new Vector3(0, 2, 2);
-        Orb orb = Instantiate(_orbPrefab, transform.position + offset, transform.rotation, transform);
+        Orb orb = Instantiate(_orbPrefab, transform.position + offset, transform.rotation);
         orb.OrbRepulsion = _orbRepulsion;
         Destroy(orb.gameObject, _attack2Duration); // TODO Pooling
     }
@@ -100,37 +102,39 @@ public class Mage : IPlayer
     {
         _canAction3 = false;
         _animator.SetTrigger("IceWall");
+        _audioManager.PlaySound("IceWall");
         yield return new WaitForSeconds(_cooldown3);
         _canAction3 = true;
     }
 
     public void IceWall()
     {
-        GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        cube.transform.position = transform.position + 4 * transform.forward;
-        cube.transform.localScale = new Vector3(lengthWall, 6.5f, 0.2f);
-        cube.transform.rotation = transform.rotation;
-        _audioManager.PlaySound("IceWall");
-        cube.GetComponent<Renderer>().material = IceMaterial;
-        if (WallMakedamage)
+        Vector3 spawnPosition = transform.position + 3 * transform.forward;
+        spawnPosition.y = 3.5f;
+        GameObject wall = Instantiate(_wallPrefab, spawnPosition, transform.rotation);
+        wall.transform.localScale = new Vector3(_lengthWall, 3f, 0.2f);
+
+        if (_wallDamage > 0)
         {
-            Collider[] cols = Physics.OverlapSphere(cube.transform.position, lengthWall);
+            Collider[] cols = Physics.OverlapSphere(wall.transform.position, _lengthWall);
             foreach (Collider col in cols)
             {
                 if (col.gameObject.tag == "Enemy")
                 {
-                    //Make damage to enemy with WallDamage
+                    IEnemy enemy = col.gameObject.GetComponent<IEnemy>();
+                    _gameManager.OnEnemyDamageTaken?.Invoke(_wallDamage, enemy, 1);
                 }
             }
         }
-        Destroy(cube, 5);
-        //cube.transform.localScale()
+        Destroy(wall, 5);
     }
 
     public override void DamageSound()
     {
         _audioManager.PlaySound("DamageMage");
     }
+
+
     #region Amelioration
 
     public override void SpecificUpgrade1()
@@ -150,12 +154,12 @@ public class Mage : IPlayer
 
     public override void SpecificUpgrade4()
     {
-        // TODO Increase IceWall size
+        _lengthWall += 0.5f;
     }
 
     public override void SpecificUpgrade5()
     {
-        // TODO Add damage on IceWall
+        _wallDamage += 1;
     }
 
     #endregion Amelioration

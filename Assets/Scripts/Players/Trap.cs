@@ -7,7 +7,7 @@ public class Trap : MonoBehaviour
     private int _damage;
     private int _maxEnemyTouched;
     private int _enemyTouched;
-    private float _time = 3f;
+    private float _time = 2f;
     public Animator TrapDoorAnim;
 
     public int Damage { set => _damage = value; }
@@ -25,7 +25,7 @@ public class Trap : MonoBehaviour
         if (_enemyTouched == _maxEnemyTouched)
         {
             TrapDoorAnim.SetBool("open", true);
-            Destroy(gameObject, 1f);
+            Destroy(gameObject, _time + 0.5f);
         }
     }
 

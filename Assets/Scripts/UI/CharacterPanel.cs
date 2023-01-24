@@ -14,37 +14,37 @@ public class CharacterPanel : MonoBehaviour
     [SerializeField] private TMPro.TextMeshProUGUI _gamesText;
 
     [SerializeField] private TMPro.TextMeshProUGUI _winsText;
-    private GameManager _gameManager;
+    private SaveBetwenScene _saveBetwenScene;
 
     private void Start()
     {
-        _gameManager = GameManager.Instance; // TODO Save this 
+        _saveBetwenScene = SaveBetwenScene.Instance;
         _medalImage.enabled = false;
 
         SetSelectedPlayer();
 
-        if (!PlayerPrefs.HasKey(_gameManager.SelectedPlayer.ToString() + "GamesPlayed"))
+        if (!PlayerPrefs.HasKey(_saveBetwenScene.SelectedPlayer.ToString() + "GamesPlayed"))
         {
-            PlayerPrefs.SetInt(_gameManager.SelectedPlayer.ToString() + "GamesPlayed", 0);
+            PlayerPrefs.SetInt(_saveBetwenScene.SelectedPlayer.ToString() + "GamesPlayed", 0);
         }
 
-        if (!PlayerPrefs.HasKey(_gameManager.SelectedPlayer.ToString() + "MaxWave"))
+        if (!PlayerPrefs.HasKey(_saveBetwenScene.SelectedPlayer.ToString() + "MaxWave"))
         {
-            PlayerPrefs.SetInt(_gameManager.SelectedPlayer.ToString() + "MaxWave", 0);
+            PlayerPrefs.SetInt(_saveBetwenScene.SelectedPlayer.ToString() + "MaxWave", 0);
         }
 
-        if (!PlayerPrefs.HasKey(_gameManager.SelectedPlayer.ToString() + "GamesWon"))
+        if (!PlayerPrefs.HasKey(_saveBetwenScene.SelectedPlayer.ToString() + "GamesWon"))
         {
-            PlayerPrefs.SetInt(_gameManager.SelectedPlayer.ToString() + "GamesWon", 0);
+            PlayerPrefs.SetInt(_saveBetwenScene.SelectedPlayer.ToString() + "GamesWon", 0);
         }
 
         PlayerPrefs.Save();
 
-        SetGamesText(PlayerPrefs.GetInt(_gameManager.SelectedPlayer.ToString() + "GamesPlayed"));
-        SetWavesText(PlayerPrefs.GetInt(_gameManager.SelectedPlayer.ToString() + "MaxWave"));
-        SetWinsText(PlayerPrefs.GetInt(_gameManager.SelectedPlayer.ToString() + "GamesWon"));
+        SetGamesText(PlayerPrefs.GetInt(_saveBetwenScene.SelectedPlayer.ToString() + "GamesPlayed"));
+        SetWavesText(PlayerPrefs.GetInt(_saveBetwenScene.SelectedPlayer.ToString() + "MaxWave"));
+        SetWinsText(PlayerPrefs.GetInt(_saveBetwenScene.SelectedPlayer.ToString() + "GamesWon"));
 
-        if (PlayerPrefs.GetInt(_gameManager.SelectedPlayer.ToString() + "GamesWon") > 0)
+        if (PlayerPrefs.GetInt(_saveBetwenScene.SelectedPlayer.ToString() + "GamesWon") > 0)
         {
             _medalImage.enabled = true;
         }
@@ -71,13 +71,13 @@ public class CharacterPanel : MonoBehaviour
         switch (_characterModel.name)
         {
             case "Demon T Wiezzorek":
-                _gameManager.SelectedPlayer = PlayerType.Deamon;
+                _saveBetwenScene.SelectedPlayer = PlayerType.Demon;
                 break;
             case "Erika Archer With Bow Arrow":
-                _gameManager.SelectedPlayer = PlayerType.Archer;
+                _saveBetwenScene.SelectedPlayer = PlayerType.Archer;
                 break;
             case "Ganfaul M Aure":
-                _gameManager.SelectedPlayer = PlayerType.Mage;
+                _saveBetwenScene.SelectedPlayer = PlayerType.Mage;
                 break;
             default:
                 break;

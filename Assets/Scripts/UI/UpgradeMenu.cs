@@ -58,11 +58,7 @@ public class UpgradeMenu : MonoBehaviour
             isMaxed[index] = true;
         }
         _gameUI.upgradeCount--;
-        Destroy(
-            _gameUI.upgradeImages.transform
-                .GetChild(_gameUI.upgradeImages.transform.childCount - 1)
-                .gameObject
-        );
+        (_gameUI.upgradeImages.transform.GetChild(_gameUI.upgradeImages.transform.childCount - 1).gameObject).SetActive(false);
 
         if (_gameUI.upgradeCount <= 0)
         {
@@ -155,7 +151,7 @@ public class UpgradeMenu : MonoBehaviour
 
     private void Update()
     {
-        if (_gameUI.upgradeCount > 0)
+        if (_gameUI.upgradeCount > 0 && Input.GetKeyDown(KeyCode.E) && !_upgradeMenuCanvasGroup.interactable)
         {
             EnableUpgradePopup();
         }

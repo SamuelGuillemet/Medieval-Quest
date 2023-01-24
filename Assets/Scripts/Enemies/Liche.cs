@@ -26,7 +26,7 @@ public class Liche : IEnemy
         _delayBeforeStartingAttack = WarriorTiming.TimingLock(Warrior.Liche);
         _cooldown = 10f;
         _warrior = Warrior.Liche;
-        _enemyAgent.Agent.speed = 2f;
+        _enemyAgent.Agent.speed = 4f;
 
         _damageZone.SetActive(false);
 

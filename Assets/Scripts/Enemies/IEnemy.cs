@@ -229,11 +229,12 @@ public class IEnemy : MonoBehaviour
         StartCoroutine(FreezeEnemyRoutine(time));
     }
 
-    IEnumerator FreezeEnemyRoutine(float time = 1f)
+    IEnumerator FreezeEnemyRoutine(float time = 0.8f)
     {
-        Debug.Log("Freeze enemy");
-        DeactivateEnemy();
+        _enemyAgent.Agent.isStopped = true;
+        StopCoroutine(_attackCoroutine);
         yield return new WaitForSeconds(time);
-        ActivateEnemy();
+        _enemyAgent.Agent.isStopped = false;
+        _attackCoroutine = StartCoroutine(AttackRoutine());
     }
 }

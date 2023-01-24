@@ -39,7 +39,7 @@ public class SpecificUpgrades : MonoBehaviour
                 _upgrade4Text.text = "Perçage de l'attaque 1";
                 _upgrade5Text.text = "Capacité du piège";
                 break;
-            case PlayerType.Deamon:
+            case PlayerType.Demon:
                 _upgrade1Text.text = "Dégâts de l'attaque 1";
                 _upgrade2Text.text = "Dégâts de l’attaque 2";
                 _upgrade3Text.text = "Repoussement de l'attaque 2";

@@ -10,26 +10,63 @@ public class GameUI : MonoBehaviour
     public GameObject upgradeImages;
     private GameManager _gameManager;
 
-    [SerializeField]
-    private Image _upgradeImage;
+    [SerializeField] private VictoryMenu _victoryMenu;
+    [SerializeField] private DefeatMenu _defeatMenu;
 
-    [SerializeField]
-    private Image _upgradeAlert;
+    [SerializeField] private Image _upgradeImage;
+    [SerializeField] private Image _upgradeAlert;
+    [SerializeField] private Slider _healthBar;
+    [SerializeField] private Slider _xpBar;
+    [SerializeField] private Slider _enemiesBar;
+    [SerializeField] private TMPro.TMP_Text _waveText;
 
-    [SerializeField]
-    private Slider _healthBar;
+    private GameObject _archerAbilities;
+    private GameObject _mageAbilities;
+    private GameObject _demonAbilities;
 
-    [SerializeField]
-    private Slider _xpBar;
-
-    [SerializeField]
-    private Slider _enemiesBar;
-
-    [SerializeField]
-    private TMPro.TMP_Text _waveText;
+    Slider[] abilities;
 
     void Start()
     {
+        StartCoroutine(LateStart());
+    }
+
+    IEnumerator LateStart()
+    {
+        yield return new WaitForSeconds(1f);
+        _archerAbilities = transform.Find("HUD/ArcherAbilities").gameObject;
+        _mageAbilities = transform.Find("HUD/MageAbilities").gameObject;
+        _demonAbilities = transform.Find("HUD/DemonAbilities").gameObject;
+
+        _archerAbilities.SetActive(false);
+        _mageAbilities.SetActive(false);
+        _demonAbilities.SetActive(false);
+
+        GameObject active = null;
+        switch (GameManager.Instance.SelectedPlayer)
+        {
+            case PlayerType.Archer:
+                _archerAbilities.SetActive(true);
+                active = _archerAbilities;
+                break;
+            case PlayerType.Mage:
+                _mageAbilities.SetActive(true);
+                active = _mageAbilities;
+                break;
+            case PlayerType.Demon:
+                _demonAbilities.SetActive(true);
+                active = _demonAbilities;
+                break;
+        }
+
+        abilities = active.GetComponentsInChildren<Slider>();
+        foreach (Slider slider in abilities)
+        {
+            slider.maxValue = 1;
+            slider.value = 0;
+            Debug.Log(slider.name);
+        }
+
         _healthBar.maxValue = GameManager.Instance.Player.MaxHealth;
         _healthBar.value = _healthBar.maxValue;
         _enemiesBar.value = _enemiesBar.minValue;
@@ -38,7 +75,14 @@ public class GameUI : MonoBehaviour
 
         upgradeCount = 0;
         _gameManager = GameManager.Instance;
+    }
 
+    void FixedUpdate()
+    {
+        for (int i = 0; i < abilities.Length; i++)
+        {
+            abilities[i].value = 1 - _gameManager.Player.GetCoolDowns(i + 1);
+        }
     }
 
     public void UpdateEnnemiesBar(int enemies)
@@ -78,6 +122,7 @@ public class GameUI : MonoBehaviour
         Vector3 popupinitpos = new Vector3(initpos.x, upgradeImages.transform.position.y - 50f, initpos.z);
         Vector3 popupendpos = new Vector3(initpos.x, upgradeImages.transform.position.y, initpos.z);
         Image popup = Instantiate(_upgradeAlert, initpos, Quaternion.identity, transform);
+        popup.gameObject.name = "UpgradeAlert: " + upgradeCount.ToString();
 
         float timer = 0f;
         while (timer < 1f)
@@ -89,7 +134,6 @@ public class GameUI : MonoBehaviour
             yield return new WaitForEndOfFrame();
             timer += Time.deltaTime;
         }
-        yield return null;
 
         yield return new WaitForSeconds(1f);
         float alpha = 1f;
@@ -100,5 +144,15 @@ public class GameUI : MonoBehaviour
             alpha -= 2f * Time.deltaTime;
         }
         Destroy(popup.gameObject);
+    }
+
+    public void Victory()
+    {
+        _victoryMenu.VictoryMenuButton();
+    }
+
+    public void Defeat()
+    {
+        _defeatMenu.DefeatMenuButton();
     }
 }

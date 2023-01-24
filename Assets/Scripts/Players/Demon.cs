@@ -8,7 +8,7 @@ using UnityEngine;
 ///  - Explosion qui fait 10 dégâts aux ennemis dans une sphère devant le personnage. 
 ///  - 1 seconde de cooldown.
 /// Action 2 : 
-/// - Bond qui fait une onde de choc et qui fait 2 dégâts à l'impact et repousse les cibles alentour. 
+/// - Bond qui fait une onde de choc et qui fait 3 dégâts à l'impact et repousse les cibles alentour. 
 /// - 7 secondes de cooldown.
 /// Action 3 : 
 /// - Création d'un mignon qui soigne le personnage de 1 point de vie toutes les 2 secondes pendant 6 secondes.
@@ -26,15 +26,15 @@ public class Demon : IPlayer
     [SerializeField] private Mignon mignonPrefab;
     private int _damageAttack1;
     private float _attackRadius;
-    private float _knockback;
+    private float _knockback1;
 
     private int _mignonMaxHealth;
     private float _mignonDelayBetweenCare;
 
     private float magnitude = 0.1f;
-    private float chocWaveRadius = 3f;
-    private float chocWaveDamage = 3f;
-    [SerializeField] public Camera cam;
+    private int _chocWaveRadius;
+    private int _chocWaveDamage;
+    [SerializeField] private GameObject _chocWave;
 
 
     // Start is called before the first frame update
@@ -48,12 +48,23 @@ public class Demon : IPlayer
         _cooldown2 = 7f;
         _cooldown3 = 10f;
 
-        _knockback = 0;
+        _knockback1 = 0;
         _damageAttack1 = 10;
         _attackRadius = 2f;
 
         _mignonMaxHealth = 1;
         _mignonDelayBetweenCare = 2f;
+
+        _chocWaveRadius = 4;
+        _chocWaveDamage = 3;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position + transform.forward, _attackRadius);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, _chocWaveRadius);
     }
 
     public override IEnumerator Attack1()
@@ -73,7 +84,7 @@ public class Demon : IPlayer
             if (col.gameObject.tag == "Enemy")
             {
                 IEnemy enemy = col.gameObject.GetComponent<IEnemy>();
-                _gameManager.OnEnemyDamageTaken?.Invoke(_damageAttack1, enemy, _knockback);
+                _gameManager.OnEnemyDamageTaken?.Invoke(_damageAttack1, enemy, _knockback1);
             }
         }
     }
@@ -84,6 +95,7 @@ public class Demon : IPlayer
         _canAction2 = false;
         _animator.SetTrigger("ChocWave");
         _audioManager.PlaySound("DemonChocWave");
+        _chocWave.SetActive(true);
         yield return new WaitForSeconds(_cooldown2);
         _canAction2 = true;
     }
@@ -91,12 +103,14 @@ public class Demon : IPlayer
     public void ChocWave()
     {
         StartCoroutine(Shake());
-        Collider[] cols = Physics.OverlapSphere(transform.position, chocWaveRadius);
+        _chocWave.transform.localScale = new Vector3(1f, 1f, 1f);
+        Collider[] cols = Physics.OverlapSphere(transform.position, _chocWaveRadius);
         foreach (Collider col in cols)
         {
             if (col.gameObject.tag == "Enemy")
             {
-                //Make damage to enemy with WallDamage
+                IEnemy enemy = col.gameObject.GetComponent<IEnemy>();
+                _gameManager.OnEnemyDamageTaken?.Invoke(_chocWaveDamage, enemy, 2);
             }
         }
     }
@@ -104,20 +118,19 @@ public class Demon : IPlayer
 
     IEnumerator Shake()
     {
-        Vector3 originalPos = cam.transform.localPosition;
+        Vector3 originalPos = Camera.main.transform.localPosition;
         float elapsed = 0.0f;
-        while (elapsed < 1)
+        while (elapsed < 1.5f)
         {
             float x = Random.Range(-0.5f, 0.5f) * magnitude;
             float y = Random.Range(-0.5f, 0.5f) * magnitude;
-            cam.transform.localPosition = new Vector3(originalPos.x + x, originalPos.y + y, originalPos.z);
+            Camera.main.transform.localPosition = new Vector3(originalPos.x + x, originalPos.y + y, originalPos.z);
             elapsed += Time.deltaTime * 5;
             yield return null;
         }
-        cam.transform.localPosition = originalPos;
+        _chocWave.SetActive(false);
+        _chocWave.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
     }
-
-
 
     public override IEnumerator Attack3()
     {
@@ -141,20 +154,26 @@ public class Demon : IPlayer
         _playerAgent.Agent.isStopped = !_playerAgent.Agent.isStopped;
     }
 
+    public override void DamageSound()
+    {
+        _audioManager.PlaySound("DamageDemon");
+    }
+
     #region Amelioration
 
     public override void SpecificUpgrade1()
     {
-        _damageAttack1 += 2;
+        _damageAttack1 += 1;
     }
 
     public override void SpecificUpgrade2()
     {
+        _chocWaveDamage += 1;
     }
 
     public override void SpecificUpgrade3()
     {
-        _knockback += 0.5f;
+        _knockback1 += 0.5f;
     }
 
     public override void SpecificUpgrade4()

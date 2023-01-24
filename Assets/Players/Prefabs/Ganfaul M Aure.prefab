@@ -808,6 +808,8 @@ MonoBehaviour:
     type: 3}
   _orbPrefab: {fileID: -7495085118743877815, guid: 8aeb2c0224fe763499eed3ec0587162b,
     type: 3}
+  _wallPrefab: {fileID: 5281554715821619739, guid: d709d0d18af7eeb49843585e7f913154,
+    type: 3}
   _hand: {fileID: 1593388536015788230}
 --- !u!1 &1975527702605722605
 GameObject:
