@@ -3502,7 +3502,8 @@ MonoBehaviour:
   upgradeImages: {fileID: 3754473387180815162}
   _upgradeImage: {fileID: 8759405332615731422, guid: bd3173c892494e34ba7db41795a65310,
     type: 3}
-  _upgradeAlert: {fileID: 0}
+  _upgradeAlert: {fileID: 8759405332615731422, guid: b9f45427719459b4baa7ca96baf85a4e,
+    type: 3}
   _healthBar: {fileID: 2301225043214724305}
   _xpBar: {fileID: 2301225045211392272}
   _enemiesBar: {fileID: 2301225043277750480}
@@ -16486,12 +16487,12 @@ PrefabInstance:
     - target: {fileID: 7762845261741444346, guid: 04787f43c9740cf4892996c7bd5aa1a8,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: -268.2433
+      value: 0.00024414062
       objectReference: {fileID: 0}
     - target: {fileID: 7762845261741444346, guid: 04787f43c9740cf4892996c7bd5aa1a8,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: -150.66418
+      value: -0.000061035156
       objectReference: {fileID: 0}
     - target: {fileID: 7762845261741444346, guid: 04787f43c9740cf4892996c7bd5aa1a8,
         type: 3}
@@ -16531,12 +16532,12 @@ PrefabInstance:
     - target: {fileID: 7762845261741444346, guid: 04787f43c9740cf4892996c7bd5aa1a8,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -0.00012207031
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7762845261741444346, guid: 04787f43c9740cf4892996c7bd5aa1a8,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -0.000030517578
       objectReference: {fileID: 0}
     - target: {fileID: 7762845261741444346, guid: 04787f43c9740cf4892996c7bd5aa1a8,
         type: 3}

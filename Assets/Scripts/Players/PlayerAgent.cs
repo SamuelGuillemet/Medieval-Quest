@@ -66,17 +66,7 @@ public class PlayerAgent : MonoBehaviour
             _agentRange = AgentRangeMode.Walk;
         }
 
-        if (_animator)
-        {
-            AdjustAnimations();
-
-            if (Input.GetMouseButtonDown(0))
-            {
-                _warriorController.Attack1();
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.P)) // TODO: Remove this
         {
             DamageOutput.Create(
                 _damageOutputPrefab,
@@ -84,6 +74,19 @@ public class PlayerAgent : MonoBehaviour
                 damage: UnityEngine.Random.Range(1, 100)
             );
         }
+    }
+
+    private void UpdateAnimations()
+    {
+        Vector3 input = new Vector3(_horizontalInput, 0, _verticalInput);
+        Vector3 animspeed = new Vector3(Vector3.Dot(input, transform.forward), 0, Vector3.Dot(input, transform.right));
+
+
+        float horizontalSpeed = -animspeed.x;
+        float verticalSpeed = -animspeed.z;
+
+        _animator.SetFloat("HorizontalSpeed", horizontalSpeed * (_agent.velocity.magnitude / _agent.speed));
+        _animator.SetFloat("VerticalSpeed", verticalSpeed * (_agent.velocity.magnitude / _agent.speed));
     }
 
 
@@ -144,17 +147,6 @@ public class PlayerAgent : MonoBehaviour
 
             Debug.DrawLine(transform.position, destination, Color.blue);
         }
-
-        // Quaternion rotation = transform.rotation;
-
-        // Vector3 input = new Vector3(_horizontalInput, 0, _verticalInput);
-        // Vector3 animspeed = new Vector3(Vector3.Dot(input, transform.forward), 0, Vector3.Dot(input, transform.right));
-
-        // float horizontalSpeed = -animspeed.x;
-        // float verticalSpeed = -animspeed.z;
-
-        // _animator.SetFloat("HorizontalSpeed", horizontalSpeed * (_agent.velocity.magnitude / _agent.speed));
-        // _animator.SetFloat("VerticalSpeed", verticalSpeed * (_agent.velocity.magnitude / _agent.speed));
     }
 
     private void CalculateDestinationWithInputFromTopWorld()
@@ -190,8 +182,7 @@ public class PlayerAgent : MonoBehaviour
             Debug.DrawLine(transform.position, destination, Color.blue);
             _agent.SetDestination(destination);
         }
-
-        UpdateAnimations();
+        if (_animator != null) UpdateAnimations();
     }
 
     private void OnTriggerEnter(Collider other)

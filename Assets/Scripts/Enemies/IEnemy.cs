@@ -44,8 +44,9 @@ public class IEnemy : MonoBehaviour
     protected Coroutine _attackCoroutine;
     protected Coroutine _movementCoroutine;
 
-    public EnemyHealthBar prefabHealthBar;
-    public Canvas canvas;
+    [SerializeField] private EnemyHealthBar _prefabHealthBar;
+    private Canvas _canvas;
+    private EnemyHealthBar healthBar;
 
     public virtual void OnEnable()
     {
@@ -55,12 +56,10 @@ public class IEnemy : MonoBehaviour
         _camera = Camera.main;
         _audioSource = GetComponent<AudioSource>();
 
-        canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
+        _canvas = GameObject.Find("EnemyHealthBarCanvas").GetComponent<Canvas>();
 
-        prefabHealthBar.target = transform;
-        prefabHealthBar.healthBar.maxValue = _maxHealth;
-        prefabHealthBar.healthBar.value = _maxHealth;
-        Instantiate(prefabHealthBar, transform.position, Quaternion.identity, canvas.transform);
+        healthBar = Instantiate(_prefabHealthBar, transform.position, Quaternion.identity, _canvas.transform);
+        healthBar.target = transform;
 
         _couldAttack = false;
     }
@@ -69,6 +68,8 @@ public class IEnemy : MonoBehaviour
     {
         // Could not attack if outside of camera view
         _couldAttack = IsOnScreen(transform.position, 0.05f);
+        healthBar.healthBar.value = _health;
+        healthBar.healthBar.maxValue = _maxHealth;
     }
 
     public float GetHealthInPercent()
@@ -84,7 +85,6 @@ public class IEnemy : MonoBehaviour
         if (_health <= 0)
         {
             _gameManager.OnEnemyKilled.Invoke(this);
-            //remove health bar
         }
         else
         {
@@ -95,7 +95,7 @@ public class IEnemy : MonoBehaviour
                     damage
                 )
             );
-            prefabHealthBar.healthBar.value = _health;
+            _prefabHealthBar.healthBar.value = _health;
         }
     }
 
@@ -220,5 +220,6 @@ public class IEnemy : MonoBehaviour
     {
         ResetKnockback();
         StopAllCoroutines();
+        Destroy(healthBar.gameObject);
     }
 }

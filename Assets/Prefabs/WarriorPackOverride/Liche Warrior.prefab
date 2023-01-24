@@ -6852,8 +6852,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _audioClipAttack: {fileID: 8300000, guid: db5cc56aee8408b4d916cd2b5fc6db10, type: 3}
-  HealthBarPrefab: {fileID: 0}
-  healthPanelRect: {fileID: 0}
+  _prefabHealthBar: {fileID: 6247241294506537266, guid: 4e8d245ee285b06419ac7a6ed1504964,
+    type: 3}
   _damageZone: {fileID: 652701584}
 --- !u!82 &4511196149835182335
 AudioSource:
@@ -6864,7 +6864,8 @@ AudioSource:
   m_GameObject: {fileID: 4364229611522231820}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 00f5f69b394195d45879f87afacbd352,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
