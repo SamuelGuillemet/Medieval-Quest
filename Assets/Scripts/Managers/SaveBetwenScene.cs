@@ -14,7 +14,7 @@ public class SaveBetwenScene : MonoBehaviour
                 _instance = FindObjectOfType<SaveBetwenScene>();
                 if (_instance == null)
                 {
-                    GameObject go = new GameObject("SaveBetwenScene", typeof(SaveBetwenScene));
+                    new GameObject("SaveBetwenScene", typeof(SaveBetwenScene));
                 }
             }
             return _instance;
