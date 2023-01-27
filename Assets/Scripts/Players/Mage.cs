@@ -27,8 +27,8 @@ using UnityEngine;
 /// </summary>
 public class Mage : IPlayer
 {
-    [SerializeField] private FireBall _fireBallPrefab; // TODO Pooling
-    [SerializeField] private Orb _orbPrefab; // TODO Pooling
+    [SerializeField] private FireBall _fireBallPrefab;
+    [SerializeField] private GameObject _orbPrefab;
     [SerializeField] private GameObject _wallPrefab;
     [SerializeField] private GameObject _hand;
     private int _attack1Damage = 5;
@@ -69,7 +69,7 @@ public class Mage : IPlayer
 
     public void ThrowFireBall()
     {
-        FireBall fireBall = Instantiate(_fireBallPrefab, _hand.transform.position, _hand.transform.rotation);
+        FireBall fireBall = _poolingManager.SpawnObjectFromPool(_fireBallPrefab, _hand.transform.position, _hand.transform.rotation);
         fireBall.Damage = _attack1Damage;
         fireBall.SetMovement();
     }
@@ -86,10 +86,8 @@ public class Mage : IPlayer
 
     public void ThrowOrb()
     {
-        Vector3 offset = new Vector3(0, 2, 2);
-        Orb orb = Instantiate(_orbPrefab, transform.position + offset, transform.rotation);
-        orb.OrbRepulsion = _orbRepulsion;
-        Destroy(orb.gameObject, _attack2Duration); // TODO Pooling
+        GameObject orb = _poolingManager.SpawnObjectFromPool(_orbPrefab, transform.position, transform.rotation);
+        _poolingManager.ReturnToPool(orb, _attack2Duration);
     }
 
 
@@ -111,7 +109,7 @@ public class Mage : IPlayer
     {
         Vector3 spawnPosition = transform.position + 3 * transform.forward;
         spawnPosition.y = 3.5f;
-        GameObject wall = Instantiate(_wallPrefab, spawnPosition, transform.rotation);
+        GameObject wall = _poolingManager.SpawnObjectFromPool(_wallPrefab, spawnPosition, transform.rotation);
         wall.transform.localScale = new Vector3(_lengthWall, 3f, 0.2f);
 
         if (_wallDamage > 0)
@@ -126,7 +124,7 @@ public class Mage : IPlayer
                 }
             }
         }
-        Destroy(wall, 5);
+        _poolingManager.ReturnToPool(wall, 5f);
     }
 
     public override void DamageSound()

@@ -19,7 +19,7 @@ public class FireBall : MonoBehaviour
         if (other.gameObject.tag == "Enemy")
         {
             IEnemy _enemy = other.gameObject.GetComponent<IEnemy>();
-            GameManager.Instance.OnEnemyDamageTaken?.Invoke(_damage, _enemy, 2);
+            GameManager.Instance.OnEnemyDamageTaken?.Invoke(_damage, _enemy, 1);
         }
         Explode();
     }
@@ -29,7 +29,7 @@ public class FireBall : MonoBehaviour
         _explosion.SetActive(true);
         _rigidbody.velocity = Vector3.zero;
         _renderer.enabled = false;
-        Destroy(gameObject, 0.5f);
+        PoolingManager.Instance.ReturnToPool(gameObject, 0.5f);
     }
 
     public void SetMovement()

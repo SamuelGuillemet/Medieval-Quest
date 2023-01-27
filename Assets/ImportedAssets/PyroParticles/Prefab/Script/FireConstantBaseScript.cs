@@ -38,7 +38,7 @@ namespace DigitalRuby.PyroParticles
 
         public void Play(float targetVolume)
         {
-            if (AudioSource != null && !AudioSource.isPlaying)
+            if (AudioSource != null && !AudioSource.isPlaying && AudioSource.isActiveAndEnabled)
             {
                 AudioSource.volume = 0.0f;
                 AudioSource.Play();
@@ -90,9 +90,9 @@ namespace DigitalRuby.PyroParticles
             LoopingAudioSource.Update();
         }
 
-        protected override void Start()
+        protected override void OnEnable()
         {
-            base.Start();
+            base.OnEnable();
 
             LoopingAudioSource.Play();
         }

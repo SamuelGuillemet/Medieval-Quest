@@ -18,6 +18,7 @@ public class Liche : IEnemy
 {
     [SerializeField] private GameObject _damageZone;
     private float _timingDamageZone = 5f;
+    private Dictionary<int, float> _damageZoneTimers = new Dictionary<int, float>();
     public override void OnEnable()
     {
         base.OnEnable();
@@ -103,72 +104,44 @@ public class Liche : IEnemy
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        int amount = 1;
+        if (other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("Enemy") || other.gameObject.CompareTag("Mignon"))
         {
-            StartCoroutine(EffectDamageZone(1));
-        }
-        if (other.gameObject.CompareTag("Enemy")
-            && other.gameObject.GetComponent<IEnemy>().Warrior != Warrior.Liche)
-        {
-            StartCoroutine(EffectDamageZoneOnEnemy(other.gameObject.GetComponent<IEnemy>(), 1));
-        }
-        if (other.gameObject.CompareTag("Mignon"))
-        {
-            StartCoroutine(EffectDamageZoneOnMignon(other.gameObject.GetComponent<Mignon>(), 1));
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            StopCoroutine(EffectDamageZone(1));
-        }
-        if (other.gameObject.CompareTag("Enemy"))
-        {
-            StopCoroutine(EffectDamageZoneOnEnemy(other.gameObject.GetComponent<IEnemy>(), 1));
-        }
-        if (other.gameObject.CompareTag("Mignon"))
-        {
-            StopCoroutine(EffectDamageZoneOnMignon(other.gameObject.GetComponent<Mignon>(), 1));
-        }
-    }
-
-    IEnumerator EffectDamageZoneOnEnemy(IEnemy enemy, int care)
-    {
-        while (true)
-        {
-            if (!_damageZone.activeInHierarchy) yield break;
-            enemy.Heal(care);
-            yield return new WaitForSeconds(1f);
-        }
-    }
-
-    IEnumerator EffectDamageZone(int damage)
-    {
-        while (true)
-        {
-            if (!_damageZone.activeInHierarchy) yield break;
-            _gameManager.OnPlayerDamageTaken?.Invoke(damage);
-            yield return new WaitForSeconds(1f);
-        }
-    }
-
-    IEnumerator EffectDamageZoneOnMignon(Mignon mignon, int damage)
-    {
-        while (true)
-        {
-            if (!_damageZone.activeInHierarchy) yield break;
-            mignon.OnDamageTaken(damage);
-            yield return new WaitForSeconds(1f);
+            if (!_damageZoneTimers.ContainsKey(other.gameObject.GetInstanceID()))
+            {
+                _damageZoneTimers.Add(other.gameObject.GetInstanceID(), 1f);
+            }
+            _damageZoneTimers[other.gameObject.GetInstanceID()] += Time.deltaTime;
+            if (_damageZoneTimers[other.gameObject.GetInstanceID()] >= 1f)
+            {
+                _damageZoneTimers[other.gameObject.GetInstanceID()] = 0;
+                if (other.gameObject.CompareTag("Player"))
+                {
+                    _gameManager.OnPlayerDamageTaken?.Invoke(amount);
+                }
+                if (other.gameObject.CompareTag("Enemy"))
+                {
+                    IEnemy enemy = other.gameObject.GetComponent<IEnemy>();
+                    if (enemy.Warrior != Warrior.Liche)
+                    {
+                        enemy.Heal(amount);
+                    }
+                }
+                if (other.gameObject.CompareTag("Mignon"))
+                {
+                    Mignon mignon = other.gameObject.GetComponent<Mignon>();
+                    mignon.OnDamageTaken(amount);
+                }
+            }
         }
     }
 
     public override void SpecificReset()
     {
         _damageZone.SetActive(false);
+        _damageZoneTimers.Clear();
     }
 
 }

@@ -32,20 +32,15 @@ public class Bomb : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Floor"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Floor") || other.gameObject.CompareTag("Obstacle"))
         {
             _particleSystem.Play();
             _rigidbody.isKinematic = true;
             _renderer.SetActive(false);
             _audioSource.Play();
             MakeDamage();
-            Invoke(nameof(DisableObject), 0.5f);
+            PoolingManager.Instance.ReturnToPool(gameObject, 1f);
         }
-    }
-
-    private void DisableObject()
-    {
-        PoolingManager.Instance.ReturnToPool(this.gameObject);
     }
 
     private void MakeDamage()

@@ -111,7 +111,6 @@ public class PrefabsGenerator : MonoBehaviour
                 Tiles[i].position.z <= ((mapHeight / 2f) + 1f) * _tileSize
             )
             {
-                //Remove the Tiles[i] from the list 
                 Tiles.RemoveAt(i);
                 i--;
             }
@@ -199,7 +198,7 @@ public class PrefabsGenerator : MonoBehaviour
                     Vector3 postionLand = new Vector3(i * _tileSize + 2f, -1f, j * _tileSize + 2f);
                     Instantiate(LandPrefab, postionLand, Quaternion.identity, _LandContainer.transform);
 
-                    if (j == i || (j == mapHeight && i == -1) || (j == -1 && i == mapWidth))
+                    if ((j == mapHeight && i == -1) || (i == -1 && j == -1) || (j == -1 && i == mapWidth) || (i == mapWidth && j == mapHeight))
                     {
                         Instantiate(Angle, new Vector3(i * _tileSize + 2f, 2f, j * _tileSize + 2f), Quaternion.identity, _ObstaclesContainer.transform);
                     }

@@ -6,7 +6,7 @@ using WarriorAnimsFREE;
 
 public class Mignon : MonoBehaviour
 {
-    private NavMeshAgent _agent;
+    [SerializeField] private NavMeshAgent _agent;
     private WarriorController _warriorController;
     private Animator _animator;
     private int _health;
@@ -23,14 +23,13 @@ public class Mignon : MonoBehaviour
 
     void Start()
     {
-        _care = 1;
+        _care = 2;
         _lifeTime = 6f;
         _timeToCare = 0f;
 
         _animator = GetComponentInChildren<Animator>();
         _warriorController = GetComponent<WarriorController>();
 
-        _agent = GetComponent<NavMeshAgent>();
         _agent.angularSpeed = 800f;
         _agent.acceleration = 60f;
         _agent.speed = 4f;
@@ -50,7 +49,7 @@ public class Mignon : MonoBehaviour
         _timeToCare -= Time.deltaTime;
         if (_lifeTime <= 0)
         {
-            Destroy(gameObject); // TODO Pooling
+            PoolingManager.Instance.ReturnToPool(gameObject);
         }
 
         _animator.SetFloat("Velocity", _agent.velocity.magnitude / _agent.speed);
@@ -91,7 +90,7 @@ public class Mignon : MonoBehaviour
         _health -= damage;
         if (_health <= 0)
         {
-            Destroy(gameObject); // TODO Pooling
+            PoolingManager.Instance.ReturnToPool(gameObject);
         }
     }
 

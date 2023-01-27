@@ -64,8 +64,8 @@ public class ArcherPlayer : IPlayer
 
     public void ThrowArrow()
     {
-        ArrowPlayer arrow = Instantiate(_arrowPrefab, transform.position + transform.forward + transform.forward + new Vector3(0, 2, 0), transform.rotation);
-        arrow.transform.right = -transform.forward;
+        ArrowPlayer arrow = _poolingManager.SpawnObjectFromPool(_arrowPrefab, transform.position + 2 * transform.forward + new Vector3(0, 2, 0), Quaternion.identity);
+        arrow.transform.LookAt(transform.position + transform.forward * 100 + new Vector3(0, 2, 0));
         arrow.Damage = _damageArrow;
         arrow.MaxEnemyTouched = _maxEnemyTouchedArrow;
     }
@@ -81,7 +81,7 @@ public class ArcherPlayer : IPlayer
 
     public void PlaceTrap()
     {
-        Trap trap = Instantiate(_trapPrefab, transform.position + Vector3.up * 0.1f, Quaternion.identity);
+        Trap trap = _poolingManager.SpawnObjectFromPool(_trapPrefab, transform.position + Vector3.up * 0.1f, Quaternion.identity);
         _audioManager.PlaySound("PlaceTrapDoor");
         trap.Damage = _damageTrap;
         trap.MaxEnemyTouched = _maxEnemyTouchedTrap;

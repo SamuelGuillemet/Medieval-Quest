@@ -11,7 +11,7 @@ public class PoolingManager : MonoBehaviour
     private GameObject _experienceOrbPrefab;
     private static PoolingManager _instance;
     public static PoolingManager Instance { get { if (_instance == null) _instance = GameObject.FindObjectOfType<PoolingManager>(); return _instance; } }
-    public Dictionary<string, List<GameObject>> _pools = new Dictionary<string, List<GameObject>>();
+    public Dictionary<string, List<Object>> _pools = new Dictionary<string, List<Object>>();
 
     private Transform _poolParent;
 
@@ -34,7 +34,7 @@ public class PoolingManager : MonoBehaviour
 
         foreach (GameObject prefab in _prefabs)
         {
-            _pools.Add(prefab.name, new List<GameObject>());
+            _pools.Add(prefab.name, new List<Object>());
             for (int i = 0; i < 5; i++)
             {
                 GameObject obj = UnityUtils.InstantiateDisabled(prefab, _poolParent);
@@ -43,7 +43,7 @@ public class PoolingManager : MonoBehaviour
         }
     }
 
-    public GameObject GetPooledObject(GameObject _obj, Transform parent = null)
+    public T GetPooledObject<T>(T _obj, Transform parent = null) where T : Object
     {
         if (parent == null) parent = _poolParent;
         string key = _obj.name;
@@ -52,40 +52,45 @@ public class PoolingManager : MonoBehaviour
         {
             for (int i = 0; i < _pools[key].Count; i++)
             {
-                if (!_pools[key][i].gameObject.activeInHierarchy)
+                T tempsObj = _pools[key][i] as T;
+                if (UnityUtils.GetActiveInHierachyState<T>(tempsObj) == false)
                 {
-                    return _pools[key][i];
+                    return tempsObj;
                 }
             }
         }
         // If there's no pool of objects of this type, we will create it.
         else
         {
-            _pools.Add(key, new List<GameObject>());
+            _pools.Add(key, new List<Object>());
         }
-
         // We instantiate an object of the desired type and add it to the pool.
-        GameObject obj = UnityUtils.InstantiateDisabled(_obj);
+        T obj = UnityUtils.InstantiateDisabled(_obj);
         _pools[key].Add(obj);
         // If we have specified a parent, we set it as the object's parent.
         if (parent != null)
         {
-            obj.transform.SetParent(parent);
+            UnityUtils.SetParent<T>(obj, parent, false);
         }
         return obj;
     }
 
-    public void ReturnToPool(GameObject obj)
+    public void ReturnToPool<T>(T obj, float time = 0) where T : Object
     {
-        obj.SetActive(false);
+        StartCoroutine(ReturnToPoolCoroutine(obj, time));
     }
 
-    public GameObject SpawnObjectFromPool(GameObject _obj, Vector3 position, Quaternion rotation, Transform parent = null)
+    IEnumerator ReturnToPoolCoroutine<T>(T obj, float delay) where T : Object
     {
-        GameObject obj = GetPooledObject(_obj, parent);
-        obj.transform.position = position;
-        obj.transform.rotation = rotation;
-        obj.gameObject.SetActive(true);
+        yield return new WaitForSeconds(delay);
+        UnityUtils.SetActiveState<T>(obj, false);
+    }
+
+    public T SpawnObjectFromPool<T>(T _obj, Vector3 position, Quaternion rotation, Transform parent = null) where T : Object
+    {
+        T obj = GetPooledObject(_obj, parent);
+        UnityUtils.SetTransform<T>(obj, position, rotation);
+        UnityUtils.SetActiveState<T>(obj, true);
         return obj;
     }
 

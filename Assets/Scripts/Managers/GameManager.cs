@@ -5,6 +5,7 @@ using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] Camera _mainCamera;
     public PlayerType SelectedPlayer = PlayerType.None;
     private IPlayer _player;
     public IPlayer Player { get => _player; set => _player = value; }
@@ -16,6 +17,8 @@ public class GameManager : MonoBehaviour
     private PrefabsGenerator _prefabsGenerator;
 
     private int _seed = 1;
+    private int _width = 20;
+    private int _height = 20;
 
     private int _numberOfEnemies = 0;
     private EnemySpawnZone[] _enemySpawnZones;
@@ -45,7 +48,7 @@ public class GameManager : MonoBehaviour
     private GameUI _gameUI;
     [SerializeField] private GameObject _damageOutputPrefab;
 
-    private SaveBetwenScene _saveBetwenScene;
+    private SaveDataBetweenScenes _saveBetwenScene;
 
     [Space(10)]
     [Header("Prefabs for player")]
@@ -55,28 +58,43 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        _saveBetwenScene = SaveBetwenScene.Instance;
+        _seed = Random.Range(0, 10000);
+        _width = Random.Range(12, 24);
+        _height = Random.Range(12, 24);
 
-        if (_saveBetwenScene.SelectedPlayer == PlayerType.None && SelectedPlayer == PlayerType.None)
-            _saveBetwenScene.SelectedPlayer = PlayerType.Archer;
+        _width += _width % 2 == 0 ? 0 : 1;
+        _height += _height % 2 == 0 ? 0 : 1;
 
-        SelectedPlayer = _saveBetwenScene.SelectedPlayer;
+
+        _saveBetwenScene = SaveDataBetweenScenes.Instance;
+
+        if (_saveBetwenScene.SelectedPlayer == PlayerType.None)
+        {
+            if (SelectedPlayer == PlayerType.None) SelectedPlayer = PlayerType.Archer;
+        }
+        else
+        {
+            SelectedPlayer = _saveBetwenScene.SelectedPlayer;
+        }
+
         GameObject player = null;
-        // TODO: Fix the size of the map
+
+        Vector3 playerPosition = new Vector3(_width * 2, 4, _height * 2);
         switch (SelectedPlayer)
         {
             case PlayerType.Archer:
-                player = Instantiate(_archerPrefab, new Vector3(40, 4, 40), Quaternion.identity);
+                player = Instantiate(_archerPrefab, playerPosition, Quaternion.identity);
                 break;
             case PlayerType.Demon:
-                player = Instantiate(_demonPrefab, new Vector3(40, 4, 40), Quaternion.identity);
+                player = Instantiate(_demonPrefab, playerPosition, Quaternion.identity);
                 break;
             case PlayerType.Mage:
-                player = Instantiate(_magePrefab, new Vector3(40, 4, 40), Quaternion.identity);
+                player = Instantiate(_magePrefab, playerPosition, Quaternion.identity);
                 break;
         }
 
-        _seed = Random.Range(0, 10000);
+        Debug.Log("Player type: " + player + " " + SelectedPlayer);
+
     }
 
     void OnEnable()
@@ -89,6 +107,8 @@ public class GameManager : MonoBehaviour
         _gameUI = FindObjectOfType<GameUI>();
 
         _mapGenerator.Seed = _seed;
+        _mapGenerator.MapWidth = _width;
+        _mapGenerator.MapHeight = _height;
         _prefabsGenerator.NumberOfEnemySpawnZone = _numberOfEnemySpawnZone;
 
         _mapGenerator.GenerateMap();
@@ -119,7 +139,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(2f);
         while (WaveNumber < _fibonnaciSuite.Length)
         {
-            _gameUI.UpdateWaveText(WaveNumber, _fibonnaciSuite[WaveNumber]);
+            _gameUI.UpdateWaveText(WaveNumber + 1, _fibonnaciSuite[WaveNumber]);
             int count = 0;
             while (count < _fibonnaciSuite[WaveNumber])
             {

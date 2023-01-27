@@ -84,9 +84,9 @@ namespace DigitalRuby.PyroParticles
             UnityEngine.Physics.IgnoreLayerCollision(fireLayer, fireLayer);
         }
 
-        protected virtual void Start()
+        protected virtual void OnEnable()
         {
-            if (AudioSource != null)
+            if (AudioSource != null && AudioSource.isActiveAndEnabled)
             {
                 AudioSource.Play();
             }

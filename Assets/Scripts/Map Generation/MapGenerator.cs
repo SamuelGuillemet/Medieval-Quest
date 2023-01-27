@@ -22,6 +22,8 @@ public class MapGenerator : MonoBehaviour
     private PrefabsGenerator _prefabsGenerator;
 
     public int Seed { get => _seed; set => _seed = value; }
+    public int MapWidth { set => _mapWidth = value; }
+    public int MapHeight { set => _mapHeight = value; }
 
     public void GenerateMap()
     {

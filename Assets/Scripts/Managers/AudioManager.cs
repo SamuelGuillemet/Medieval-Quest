@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,8 +12,8 @@ public class AudioManager : MonoBehaviour
             _instance = FindObjectOfType<AudioManager>();
             if (_instance == null)
             {
-                // _instance = FindObjectOfType<AudioManager>();
-                new GameObject("AudioManager", typeof(AudioManager));
+                AudioManager audioManager = Resources.Load<AudioManager>("AudioManager");
+                Instantiate(audioManager);
             }
             return _instance;
         }
@@ -49,8 +50,21 @@ public class AudioManager : MonoBehaviour
 
     public void PlayMusic(string name)
     {
-        AudioClip clip = _audioClips.Find(x => x.Name == name).Clip;
+        Nullable<Audio> clip = _audioClips.Find(x => x.Name == name);
+        if (clip == null) return;
+        StartCoroutine(LoopMusic(clip.Value.Clip));
+    }
+
+    public bool IsPlaying()
+    {
+        return _audioSourceMusic.isPlaying;
+    }
+
+    IEnumerator LoopMusic(AudioClip clip)
+    {
         _audioSourceMusic.PlayOneShot(clip);
+        yield return new WaitForSeconds(clip.length);
+        StartCoroutine(LoopMusic(clip));
     }
 
 }

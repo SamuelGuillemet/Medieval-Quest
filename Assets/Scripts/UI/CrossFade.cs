@@ -7,8 +7,6 @@ public class CrossFade : MonoBehaviour
 {
     private Animator crossfadeAnimator;
 
-    private GameObject _camForPreviousScene;
-
     void Awake()
     {
         crossfadeAnimator = GetComponent<Animator>();
@@ -40,36 +38,32 @@ public class CrossFade : MonoBehaviour
 
     }
 
-
-
-    private GameObject FindCameraOnScene(Scene scene)
-    {
-        if (!scene.IsValid()) return null;
-        foreach (GameObject go in scene.GetRootGameObjects())
-        {
-            if (go.GetComponent<Camera>() != null)
-                return go;
-        }
-        return null;
-    }
-
+    // Todo : Change transform of camera to the transform of the previous scene
     void OnActiveSceneChanged(Scene current, Scene next)
     {
         Debug.Log("OnActiveSceneChanged: " + current.name + " -> " + next.name);
 
         // Get the camera from the current scene
-        _camForPreviousScene = FindCameraOnScene(current);
-        if (_camForPreviousScene != null)
+        GameObject _cam = Camera.main.gameObject;
+        if (next.name == "GameScene")
         {
-            _camForPreviousScene.SetActive(false);
+            _cam.transform.position = new Vector3(0, 33, 0);
+            _cam.transform.rotation = Quaternion.Euler(73, 0, 0);
         }
 
-        // Activate the camera on the new scene
-        GameObject _cam = FindCameraOnScene(next);
-        if (_cam != null)
+        if (next.name == "MainMenu")
         {
-            _cam.SetActive(true);
+            _cam.transform.position = new Vector3(50, 40, -15);
+            _cam.transform.rotation = Quaternion.Euler(37, 0, 0);
         }
+
+        if (next.name == "CharacterSelectionMenu")
+        {
+            _cam.transform.position = new Vector3(0, 1, -10);
+            _cam.transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+
+
 
         // Destroy the previous scene only if it is not the GameScene
         if (current.IsValid() && current.name != "GameScene")
@@ -86,6 +80,7 @@ public class CrossFade : MonoBehaviour
     {
         Debug.Log("OnSceneLoaded: " + scene.name);
         SceneManager.SetActiveScene(scene);
+        Debug.Log("Playing Music : " + AudioManager.Instance.IsPlaying());
     }
 
     private void OnDisable()

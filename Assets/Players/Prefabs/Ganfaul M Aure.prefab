@@ -806,7 +806,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _fireBallPrefab: {fileID: 1534740078357614437, guid: 8e2218927e522eb47a75fea966877ff7,
     type: 3}
-  _orbPrefab: {fileID: -7495085118743877815, guid: 8aeb2c0224fe763499eed3ec0587162b,
+  _orbPrefab: {fileID: 657654096374687573, guid: 134803e6757aecb4a98574b20afabdbd,
     type: 3}
   _wallPrefab: {fileID: 5281554715821619739, guid: d709d0d18af7eeb49843585e7f913154,
     type: 3}

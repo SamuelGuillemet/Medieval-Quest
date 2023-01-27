@@ -6,14 +6,17 @@ using UnityEngine.UI;
 
 public class CharacterSelection : MonoBehaviour
 {
-    private GameObject[] _charactersPanels;
+    private GameObject[] _charactersPanelGameObjects;
+    private CharacterPanel[] _characterPanels;
     [SerializeField] private CrossFade _crossFade;
     private int _currentCharacterIndex;
-    private SaveBetwenScene _saveBetwenScene;
+    private SaveDataBetweenScenes _saveDataBetweenScenes;
 
     private void Awake()
     {
-        _saveBetwenScene = SaveBetwenScene.Instance;
+        _saveDataBetweenScenes = SaveDataBetweenScenes.Instance;
+
+        GetComponent<Canvas>().worldCamera = Camera.main;
 
         if (PlayerPrefs.HasKey("CharacterIndex"))
         {
@@ -24,52 +27,53 @@ public class CharacterSelection : MonoBehaviour
             _currentCharacterIndex = 0;
         }
 
-        _charactersPanels = GameObject.FindGameObjectsWithTag("CharacterPanel");
+        _charactersPanelGameObjects = GameObject.FindGameObjectsWithTag("CharacterPanel");
 
-        for (int i = 0; i < _charactersPanels.Length; i++)
+        for (int i = 0; i < _charactersPanelGameObjects.Length; i++)
         {
-            _charactersPanels[i].SetActive(false);
+            _charactersPanelGameObjects[i].SetActive(false);
         }
-        Debug.Log("Current Character Index: " + _currentCharacterIndex);
-        _charactersPanels[_currentCharacterIndex].SetActive(true);
+        _charactersPanelGameObjects[_currentCharacterIndex].SetActive(true);
+
+        _characterPanels = new CharacterPanel[_charactersPanelGameObjects.Length];
+
+        int index = 0;
+        foreach (GameObject characterPanelGameObject in _charactersPanelGameObjects)
+        {
+            _characterPanels[index] = characterPanelGameObject.GetComponent<CharacterPanel>();
+            index++;
+        }
     }
 
     public void ExitMenu()
     {
-        _charactersPanels[_currentCharacterIndex].SetActive(false);
+        _charactersPanelGameObjects[_currentCharacterIndex].SetActive(false);
         StartCoroutine(_crossFade.LoadSceneCoroutine("MainMenu"));
     }
 
     public void PlayGame()
     {
-        SaveCharacterandAbilities();
-        _charactersPanels[_currentCharacterIndex].SetActive(false);
+        _saveDataBetweenScenes.SelectedPlayer = _characterPanels[_currentCharacterIndex].Player;
+        _charactersPanelGameObjects[_currentCharacterIndex].SetActive(false);
         StartCoroutine(_crossFade.LoadSceneCoroutine("GameScene"));
-        Debug.Log("Play Game");
-    }
-
-    private void SaveCharacterandAbilities()
-    {
-        _saveBetwenScene.characterIndex = _currentCharacterIndex;
-
     }
 
     public void NextCharacter()
     {
-        for (int i = 0; i < _charactersPanels.Length; i++)
+        for (int i = 0; i < _charactersPanelGameObjects.Length; i++)
         {
-            if (_charactersPanels[i].activeSelf)
+            if (_charactersPanelGameObjects[i].activeSelf)
             {
-                _charactersPanels[i].SetActive(false);
-                if (i == _charactersPanels.Length - 1)
+                _charactersPanelGameObjects[i].SetActive(false);
+                if (i == _charactersPanelGameObjects.Length - 1)
                 {
-                    _charactersPanels[0].SetActive(true);
+                    _charactersPanelGameObjects[0].SetActive(true);
                     PlayerPrefs.SetInt("CharacterIndex", 0);
                     _currentCharacterIndex = 0;
                 }
                 else
                 {
-                    _charactersPanels[i + 1].SetActive(true);
+                    _charactersPanelGameObjects[i + 1].SetActive(true);
                     PlayerPrefs.SetInt("CharacterIndex", i + 1);
                     _currentCharacterIndex = i + 1;
                 }
@@ -80,20 +84,20 @@ public class CharacterSelection : MonoBehaviour
 
     public void PreviousCharacter()
     {
-        for (int i = 0; i < _charactersPanels.Length; i++)
+        for (int i = 0; i < _charactersPanelGameObjects.Length; i++)
         {
-            if (_charactersPanels[i].activeSelf)
+            if (_charactersPanelGameObjects[i].activeSelf)
             {
-                _charactersPanels[i].SetActive(false);
+                _charactersPanelGameObjects[i].SetActive(false);
                 if (i == 0)
                 {
-                    _charactersPanels[_charactersPanels.Length - 1].SetActive(true);
-                    PlayerPrefs.SetInt("CharacterIndex", _charactersPanels.Length - 1);
-                    _currentCharacterIndex = _charactersPanels.Length - 1;
+                    _charactersPanelGameObjects[_charactersPanelGameObjects.Length - 1].SetActive(true);
+                    PlayerPrefs.SetInt("CharacterIndex", _charactersPanelGameObjects.Length - 1);
+                    _currentCharacterIndex = _charactersPanelGameObjects.Length - 1;
                 }
                 else
                 {
-                    _charactersPanels[i - 1].SetActive(true);
+                    _charactersPanelGameObjects[i - 1].SetActive(true);
                     PlayerPrefs.SetInt("CharacterIndex", i - 1);
                     _currentCharacterIndex = i - 1;
                 }
@@ -122,5 +126,7 @@ public class CharacterSelection : MonoBehaviour
         {
             PlayGame();
         }
+
+        _saveDataBetweenScenes.SelectedPlayer = _characterPanels[_currentCharacterIndex].Player;
     }
 }

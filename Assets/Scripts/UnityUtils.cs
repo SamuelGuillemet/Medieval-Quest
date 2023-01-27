@@ -50,7 +50,7 @@ public static class UnityUtils
         return (coreObject, coreObjectTransform);
     }
 
-    private static bool GetActiveState<T>(T @object) where T : Object
+    public static bool GetActiveState<T>(T @object) where T : Object
     {
         switch (@object)
         {
@@ -69,7 +69,26 @@ public static class UnityUtils
         }
     }
 
-    private static void SetActiveState<T>(T @object, bool state) where T : Object
+    public static bool GetActiveInHierachyState<T>(T @object) where T : Object
+    {
+        switch (@object)
+        {
+            case GameObject gameObject:
+                {
+                    return gameObject.activeInHierarchy;
+                }
+            case Component component:
+                {
+                    return component.gameObject.activeInHierarchy;
+                }
+            default:
+                {
+                    return false;
+                }
+        }
+    }
+
+    public static void SetActiveState<T>(T @object, bool state) where T : Object
     {
         switch (@object)
         {
@@ -88,7 +107,7 @@ public static class UnityUtils
         }
     }
 
-    private static void SetParent<T>(T @object, Transform parent, bool worldPositionStays) where T : Object
+    public static void SetParent<T>(T @object, Transform parent, bool worldPositionStays) where T : Object
     {
         switch (@object)
         {
@@ -101,6 +120,27 @@ public static class UnityUtils
             case Component component:
                 {
                     component.transform.SetParent(parent, worldPositionStays);
+
+                    break;
+                }
+        }
+    }
+
+    public static void SetTransform<T>(T @object, Vector3 position, Quaternion rotation) where T : Object
+    {
+        switch (@object)
+        {
+            case GameObject gameObject:
+                {
+                    gameObject.transform.position = position;
+                    gameObject.transform.rotation = rotation;
+
+                    break;
+                }
+            case Component component:
+                {
+                    component.transform.position = position;
+                    component.transform.rotation = rotation;
 
                     break;
                 }

@@ -13,6 +13,8 @@ public class UpgradeMenu : MonoBehaviour
     Button[] buttons;
     bool[] isMaxed;
 
+    bool isUpgrading = false;
+
 
     void Awake()
     {
@@ -27,10 +29,8 @@ public class UpgradeMenu : MonoBehaviour
         isMaxed = new bool[sliders.Length];
         for (int i = 0; i < sliders.Length; i++)
         {
-            Debug.Log(sliders[i].GetComponentInChildren<Button>().name);
             buttons[i] = sliders[i].GetComponentInChildren<Button>();
             isMaxed[i] = false;
-            Debug.Log(isMaxed[i].ToString());
         }
     }
 
@@ -58,7 +58,21 @@ public class UpgradeMenu : MonoBehaviour
             isMaxed[index] = true;
         }
         _gameUI.upgradeCount--;
-        (_gameUI.upgradeImages.transform.GetChild(_gameUI.upgradeImages.transform.childCount - 1).gameObject).SetActive(false);
+        // Get the last active child of the upgradeImages object and disable it
+        GameObject[] imgs = new GameObject[_gameUI.upgradeImages.transform.childCount];
+        foreach (Transform t in _gameUI.upgradeImages.transform)
+        {
+            imgs[t.GetSiblingIndex()] = t.gameObject;
+        }
+        foreach (GameObject img in imgs)
+        {
+            if (img.activeSelf)
+            {
+                img.SetActive(false);
+                break;
+            }
+        }
+        // (_gameUI.upgradeImages.transform.GetChild(_gameUI.upgradeImages.transform.childCount - 1).gameObject).SetActive(false);
 
         if (_gameUI.upgradeCount <= 0)
         {
@@ -82,11 +96,13 @@ public class UpgradeMenu : MonoBehaviour
         }
 
         Time.timeScale = 1;
+        isUpgrading = false;
     }
 
     public void EnableUpgradePopup()
     {
         Time.timeScale = 0;
+        isUpgrading = true;
 
         //enable the upgrade menu
         _upgradeMenuCanvasGroup.alpha = 1;
@@ -151,7 +167,7 @@ public class UpgradeMenu : MonoBehaviour
 
     private void Update()
     {
-        if (_gameUI.upgradeCount > 0 && Input.GetKeyDown(KeyCode.E) && !_upgradeMenuCanvasGroup.interactable)
+        if (_gameUI.upgradeCount > 0 && Input.GetKeyDown(KeyCode.E) && !isUpgrading)
         {
             EnableUpgradePopup();
         }

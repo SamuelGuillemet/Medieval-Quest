@@ -9,10 +9,10 @@ using UnityEngine;
 ///  - 1 seconde de cooldown.
 /// Action 2 : 
 /// - Bond qui fait une onde de choc et qui fait 3 dégâts à l'impact et repousse les cibles alentour. 
-/// - 7 secondes de cooldown.
+/// - 5 secondes de cooldown.
 /// Action 3 : 
 /// - Création d'un mignon qui soigne le personnage de 1 point de vie toutes les 2 secondes pendant 6 secondes.
-/// - Le mignon n'a qu'un seul point de vie.
+/// - Le mignon a 3 points de vie.
 /// - 10 secondes de cooldown.
 /// Amélioration spécifique
 /// - Gain de dégât sur l’attaque 1,
@@ -23,7 +23,9 @@ using UnityEngine;
 /// </summary>
 public class Demon : IPlayer
 {
-    [SerializeField] private Mignon mignonPrefab;
+    [SerializeField] private Mignon _mignonPrefab;
+    [SerializeField] private GameObject _chocWave;
+
     private int _damageAttack1;
     private float _attackRadius;
     private float _knockback1;
@@ -34,7 +36,6 @@ public class Demon : IPlayer
     private float magnitude = 0.1f;
     private int _chocWaveRadius;
     private int _chocWaveDamage;
-    [SerializeField] private GameObject _chocWave;
 
 
     // Start is called before the first frame update
@@ -45,14 +46,14 @@ public class Demon : IPlayer
         MaxHealth = 50;
 
         _cooldown1 = 1f;
-        _cooldown2 = 7f;
+        _cooldown2 = 5f;
         _cooldown3 = 10f;
 
         _knockback1 = 0;
         _damageAttack1 = 10;
         _attackRadius = 2f;
 
-        _mignonMaxHealth = 1;
+        _mignonMaxHealth = 3;
         _mignonDelayBetweenCare = 2f;
 
         _chocWaveRadius = 4;
@@ -120,7 +121,7 @@ public class Demon : IPlayer
     {
         Vector3 originalPos = Camera.main.transform.localPosition;
         float elapsed = 0.0f;
-        while (elapsed < 1.5f)
+        while (elapsed < 2f)
         {
             float x = Random.Range(-0.5f, 0.5f) * magnitude;
             float y = Random.Range(-0.5f, 0.5f) * magnitude;
@@ -143,7 +144,7 @@ public class Demon : IPlayer
 
     public void Summon()
     {
-        Mignon mignon = Instantiate(mignonPrefab, transform.position, Quaternion.identity);
+        Mignon mignon = _poolingManager.SpawnObjectFromPool(_mignonPrefab, transform.position, Quaternion.identity);
         mignon.MaxHealth = _mignonMaxHealth;
         mignon.DelayBetweenCare = _mignonDelayBetweenCare;
         mignon.Speed = _playerAgent.Agent.speed;
