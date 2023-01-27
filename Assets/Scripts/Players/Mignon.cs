@@ -7,8 +7,8 @@ using WarriorAnimsFREE;
 public class Mignon : MonoBehaviour
 {
     [SerializeField] private NavMeshAgent _agent;
-    private WarriorController _warriorController;
-    private Animator _animator;
+    [SerializeField] private WarriorController _warriorController;
+    [SerializeField] private Animator _animator;
     private int _health;
     private int _maxHealth;
     private int _care;
@@ -21,14 +21,11 @@ public class Mignon : MonoBehaviour
     public float Speed { set => _agent.speed = value; }
 
 
-    void Start()
+    void OnEnable()
     {
         _care = 2;
         _lifeTime = 6f;
         _timeToCare = 0f;
-
-        _animator = GetComponentInChildren<Animator>();
-        _warriorController = GetComponent<WarriorController>();
 
         _agent.angularSpeed = 800f;
         _agent.acceleration = 60f;

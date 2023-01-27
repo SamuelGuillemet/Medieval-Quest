@@ -17,7 +17,7 @@ public class Trap : MonoBehaviour
     {
         if (_enemyTouched == _maxEnemyTouched)
         {
-            TrapDoorAnim.SetBool("open", true);
+            TrapDoorAnim.SetTrigger("open");
             PoolingManager.Instance.ReturnToPool(gameObject, _time + 0.5f);
         }
     }
@@ -36,7 +36,7 @@ public class Trap : MonoBehaviour
     private void OnEnable()
     {
         _enemyTouched = 0;
-        TrapDoorAnim.SetBool("open", false);
+        TrapDoorAnim.SetTrigger("close");
     }
 
 }

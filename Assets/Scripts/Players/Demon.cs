@@ -13,7 +13,7 @@ using UnityEngine;
 /// Action 3 : 
 /// - Création d'un mignon qui soigne le personnage de 1 point de vie toutes les 2 secondes pendant 6 secondes.
 /// - Le mignon a 3 points de vie.
-/// - 10 secondes de cooldown.
+/// - 15 secondes de cooldown.
 /// Amélioration spécifique
 /// - Gain de dégât sur l’attaque 1,
 /// - Gain de dégât sur l’attaque 2,
@@ -39,15 +39,15 @@ public class Demon : IPlayer
 
 
     // Start is called before the first frame update
-    public override void Start()
+    public override void OnEnable()
     {
-        base.Start();
+        base.OnEnable();
 
         MaxHealth = 50;
 
         _cooldown1 = 1f;
         _cooldown2 = 5f;
-        _cooldown3 = 10f;
+        _cooldown3 = 15f;
 
         _knockback1 = 0;
         _damageAttack1 = 10;
@@ -138,13 +138,13 @@ public class Demon : IPlayer
         _canAction3 = false;
         _animator.SetTrigger("Summon");
         _audioManager.PlaySound("DemonSummon");
-        yield return new WaitForSeconds(_cooldown3 + 6f);
+        yield return new WaitForSeconds(_cooldown3);
         _canAction3 = true;
     }
 
     public void Summon()
     {
-        Mignon mignon = _poolingManager.SpawnObjectFromPool(_mignonPrefab, transform.position, Quaternion.identity);
+        Mignon mignon = _poolingManager.SpawnObjectFromPool(_mignonPrefab, transform.position + new Vector3(1, 0, 1), Quaternion.identity);
         mignon.MaxHealth = _mignonMaxHealth;
         mignon.DelayBetweenCare = _mignonDelayBetweenCare;
         mignon.Speed = _playerAgent.Agent.speed;

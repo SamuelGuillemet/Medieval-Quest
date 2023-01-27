@@ -4968,6 +4968,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _agent: {fileID: 2706307186634219812}
+  _warriorController: {fileID: 104387566825081586}
+  _animator: {fileID: 7594172992114107243}
 --- !u!65 &604544267
 BoxCollider:
   m_ObjectHideFlags: 0

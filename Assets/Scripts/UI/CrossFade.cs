@@ -80,7 +80,6 @@ public class CrossFade : MonoBehaviour
     {
         Debug.Log("OnSceneLoaded: " + scene.name);
         SceneManager.SetActiveScene(scene);
-        Debug.Log("Playing Music : " + AudioManager.Instance.IsPlaying());
     }
 
     private void OnDisable()

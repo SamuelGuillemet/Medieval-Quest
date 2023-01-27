@@ -71,7 +71,7 @@ public class GameUI : MonoBehaviour
         upgradeCount = 0;
     }
 
-    void FixedUpdate()
+    void LateUpdate()
     {
         if (abilities == null)
             return;

@@ -33,9 +33,9 @@ public class ArcherPlayer : IPlayer
     private float _gainSpeedAttack3;
 
     // Start is called before the first frame update
-    public override void Start()
+    public override void OnEnable()
     {
-        base.Start();
+        base.OnEnable();
 
         MaxHealth = 30;
 

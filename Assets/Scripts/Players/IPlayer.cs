@@ -7,6 +7,9 @@ public class IPlayer : MonoBehaviour
     protected Animator _animator;
     protected PlayerAgent _playerAgent;
     protected GameManager _gameManager;
+    protected AudioManager _audioManager;
+    protected PoolingManager _poolingManager;
+    protected Camera _camera;
 
     protected int _health;
     protected int _maxHealth;
@@ -32,13 +35,7 @@ public class IPlayer : MonoBehaviour
     protected bool _canAction3 = true;
     protected Coroutine _attack3Coroutine;
 
-
-    protected AudioManager _audioManager;
-    protected PoolingManager _poolingManager;
-
-
-    // Start is called before the first frame update
-    public virtual void Start()
+    public virtual void OnEnable()
     {
         _gameManager = GameManager.Instance;
         _poolingManager = PoolingManager.Instance;
@@ -46,6 +43,7 @@ public class IPlayer : MonoBehaviour
         _playerAgent = GetComponentInParent<PlayerAgent>();
 
         _audioManager = AudioManager.Instance;
+        _camera = Camera.main;
     }
 
     // Update is called once per frame
