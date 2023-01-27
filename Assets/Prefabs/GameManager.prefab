@@ -43,8 +43,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4219690c6f12c824dbde5cf76d69e56a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _mainCamera: {fileID: 772566442551279045, guid: 93045ad28271a7d4abb60426d79114c7,
+    type: 3}
   SelectedPlayer: 0
-  _seed: 7
   _numberOfEnemySpawnZone: 8
   WaveNumber: 0
   Enemies: []

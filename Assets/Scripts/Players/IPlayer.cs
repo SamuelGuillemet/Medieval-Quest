@@ -7,11 +7,15 @@ public class IPlayer : MonoBehaviour
     protected Animator _animator;
     protected PlayerAgent _playerAgent;
     protected GameManager _gameManager;
+    protected AudioManager _audioManager;
+    protected PoolingManager _poolingManager;
+    protected Camera _camera;
 
     protected int _health;
     protected int _maxHealth;
     public int MaxHealth { set => _maxHealth = _health = value; get => _maxHealth; }
     public int Health { get => _health; }
+    private bool _invincible = false;
 
     // Attack 1
     protected float _cooldown1;
@@ -31,18 +35,15 @@ public class IPlayer : MonoBehaviour
     protected bool _canAction3 = true;
     protected Coroutine _attack3Coroutine;
 
-
-    protected AudioManager _audioManager;
-
-
-    // Start is called before the first frame update
-    public virtual void Start()
+    public virtual void OnEnable()
     {
         _gameManager = GameManager.Instance;
+        _poolingManager = PoolingManager.Instance;
         _animator = GetComponent<Animator>();
         _playerAgent = GetComponentInParent<PlayerAgent>();
 
         _audioManager = AudioManager.Instance;
+        _camera = Camera.main;
     }
 
     // Update is called once per frame
@@ -64,21 +65,47 @@ public class IPlayer : MonoBehaviour
         {
             _attack3Coroutine = StartCoroutine(Attack3());
         }
+
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            _invincible = !_invincible;
+        }
     }
 
     private void FixedUpdate()
     {
-        if (_currentCooldown1 > 0 && !_canAction1)
+        if (_currentCooldown1 > 0)
         {
-            _currentCooldown1 -= Time.deltaTime;
+            if (!_canAction1)
+            {
+                _currentCooldown1 -= Time.deltaTime;
+            }
+            else
+            {
+                _currentCooldown1 = 0;
+            }
         }
-        if (_currentCooldown2 > 0 && !_canAction2)
+        if (_currentCooldown2 > 0)
         {
-            _currentCooldown2 -= Time.deltaTime;
+            if (!_canAction2)
+            {
+                _currentCooldown2 -= Time.deltaTime;
+            }
+            else
+            {
+                _currentCooldown2 = 0;
+            }
         }
-        if (_currentCooldown3 > 0 && !_canAction3)
+        if (_currentCooldown3 > 0)
         {
-            _currentCooldown3 -= Time.deltaTime;
+            if (!_canAction3)
+            {
+                _currentCooldown3 -= Time.deltaTime;
+            }
+            else
+            {
+                _currentCooldown3 = 0;
+            }
         }
 
         if (_currentCooldown1 <= 0 && !_canAction1)
@@ -114,7 +141,7 @@ public class IPlayer : MonoBehaviour
 
     public void TakeDamage(int amount)
     {
-        _health -= amount;
+        if (!_invincible) _health -= amount;
         DamageSound();
         if (_health <= 0)
         {
@@ -133,7 +160,6 @@ public class IPlayer : MonoBehaviour
 
     public void Upgrade(int key)
     {
-        Debug.Log("Upgrade " + key);
         switch (key)
         {
             case 1:

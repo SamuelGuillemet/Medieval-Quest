@@ -71,7 +71,6 @@ public class DefeatMenu : MonoBehaviour
 
         ShowDefeatMenu();
         _finalTime.text = _uitimer.TimerText.text;
-        Debug.Log(_gameManager);
         _wavesText.text = "Vagues vaincues : " + (_gameManager.WaveNumber - 1);
 
         PlayerPrefs.SetInt(

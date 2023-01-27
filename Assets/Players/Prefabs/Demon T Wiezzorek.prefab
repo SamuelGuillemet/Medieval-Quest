@@ -1708,8 +1708,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fca80aa7d5da6544d95ee95dc2bbaeb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mignonPrefab: {fileID: 4458354732880621564, guid: f73c3eb3e9e91f346935750d67b0335c,
+  _mignonPrefab: {fileID: 4458354732880621564, guid: f73c3eb3e9e91f346935750d67b0335c,
     type: 3}
+  _chocWave: {fileID: 0}
 --- !u!1 &4298000075718570044
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,36 +8,35 @@ public class Trap : MonoBehaviour
     private int _maxEnemyTouched;
     private int _enemyTouched;
     private float _time = 2f;
-    public Animator TrapDoorAnim;
+    [SerializeField] private Animator TrapDoorAnim;
 
     public int Damage { set => _damage = value; }
     public int MaxEnemyTouched { set => _maxEnemyTouched = value; }
-
-    // Use this for initialization
-    void Awake()
-    {
-        _enemyTouched = 0;
-        TrapDoorAnim = GetComponent<Animator>();
-    }
 
     private void Update()
     {
         if (_enemyTouched == _maxEnemyTouched)
         {
-            TrapDoorAnim.SetBool("open", true);
-            Destroy(gameObject, _time + 0.5f);
+            TrapDoorAnim.SetTrigger("open");
+            PoolingManager.Instance.ReturnToPool(gameObject, _time + 0.5f);
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Enemy")
+        if (other.gameObject.tag == "Enemy" && _enemyTouched < _maxEnemyTouched)
         {
             _enemyTouched += 1;
             IEnemy _enemy = other.gameObject.GetComponent<IEnemy>();
             _enemy.TakeDamage(_damage, 0);
-            _enemy.FreezeEnemy(_time);
+            if (other.gameObject.activeInHierarchy) _enemy.FreezeEnemy(_time);
         }
+    }
+
+    private void OnEnable()
+    {
+        _enemyTouched = 0;
+        TrapDoorAnim.SetTrigger("close");
     }
 
 }

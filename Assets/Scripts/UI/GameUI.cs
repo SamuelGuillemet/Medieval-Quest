@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class GameUI : MonoBehaviour
 {
-    public int upgradeCount { get; set; }
+    public int upgradeCount = 0;
     public GameObject upgradeImages;
     private GameManager _gameManager;
 
@@ -28,12 +28,8 @@ public class GameUI : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(LateStart());
-    }
+        _gameManager = GameManager.Instance;
 
-    IEnumerator LateStart()
-    {
-        yield return new WaitForSeconds(1f);
         _archerAbilities = transform.Find("HUD/ArcherAbilities").gameObject;
         _mageAbilities = transform.Find("HUD/MageAbilities").gameObject;
         _demonAbilities = transform.Find("HUD/DemonAbilities").gameObject;
@@ -64,7 +60,6 @@ public class GameUI : MonoBehaviour
         {
             slider.maxValue = 1;
             slider.value = 0;
-            Debug.Log(slider.name);
         }
 
         _healthBar.maxValue = GameManager.Instance.Player.MaxHealth;
@@ -74,11 +69,12 @@ public class GameUI : MonoBehaviour
         _xpBar.value = _xpBar.minValue;
 
         upgradeCount = 0;
-        _gameManager = GameManager.Instance;
     }
 
-    void FixedUpdate()
+    void LateUpdate()
     {
+        if (abilities == null)
+            return;
         for (int i = 0; i < abilities.Length; i++)
         {
             abilities[i].value = 1 - _gameManager.Player.GetCoolDowns(i + 1);

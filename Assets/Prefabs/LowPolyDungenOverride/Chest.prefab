@@ -203,7 +203,7 @@ GameObject:
   - component: {fileID: 4018913464897580147}
   m_Layer: 0
   m_Name: Chest
-  m_TagString: UpgradeStand
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647

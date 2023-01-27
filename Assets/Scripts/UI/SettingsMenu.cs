@@ -14,9 +14,9 @@ public class SettingsMenu : MonoBehaviour
     [SerializeField] private Toggle _fullscreenToggle;
     [SerializeField] private Slider _volumeSlider;
     [SerializeField] private Slider _musicSlider;
-    [SerializeField] private AudioMixer _musicMixer;
+    [SerializeField] private AudioMixerGroup _musicMixer;
     [SerializeField] private Slider _sfxSlider;
-    [SerializeField] private AudioMixer _sfxMixer;
+    [SerializeField] private AudioMixerGroup _sfxMixer;
     [SerializeField] private Button _saveButton;
     [SerializeField] private CrossFade _crossFade;
     private float _currentVolume;
@@ -36,6 +36,7 @@ public class SettingsMenu : MonoBehaviour
         for (int i = 0; i < resolutions.Length; i++)
         {
             string option = resolutions[i].width + " x " + resolutions[i].height;
+            //if (!options.Contains(option)) 
             options.Add(option);
             if (
                 resolutions[i].width == Screen.currentResolution.width
@@ -47,6 +48,7 @@ public class SettingsMenu : MonoBehaviour
         _resolutionDropdown.AddOptions(options);
         _resolutionDropdown.RefreshShownValue();
         LoadSettings(currentResolutionIndex);
+        SaveSettings();
 
         _isSaved = true;
         _saveButton.interactable = false;
@@ -66,13 +68,13 @@ public class SettingsMenu : MonoBehaviour
 
     private void SetMusicVolume(float volume)
     {
-        _musicMixer.SetFloat("MusicVolume", Mathf.Log10(volume) * 20);
+        _musicMixer.audioMixer.SetFloat("MusicVolume", Mathf.Log10(volume) * 20);
         _currentMusicVolume = volume;
     }
 
     private void SetSFXVolume(float volume)
     {
-        _sfxMixer.SetFloat("SFXVolume", Mathf.Log10(volume) * 20);
+        _sfxMixer.audioMixer.SetFloat("SFXVolume", Mathf.Log10(volume) * 20);
         _currentSFXVolume = volume;
     }
 
@@ -146,9 +148,6 @@ public class SettingsMenu : MonoBehaviour
             _sfxSlider.value = PlayerPrefs.GetFloat("SFXVolumePreference");
         else
             _sfxSlider.value = _currentSFXVolume;
-
-        // if (!PlayerPrefs.HasKey("PreviousScene"))
-        //     PlayerPrefs.SetString("PreviousScene", "MainMenu");
     }
 
     public void ExitMenu()
@@ -159,7 +158,9 @@ public class SettingsMenu : MonoBehaviour
         }
         else
         {
-            StartCoroutine(_crossFade.LoadSceneCoroutine(PlayerPrefs.GetString("PreviousScene")));
+            string nextScene = SaveDataBetweenScenes.Instance.PreviousScene == null ? "MainMenu" : SaveDataBetweenScenes.Instance.PreviousScene;
+            Debug.Log("Loading scene: " + nextScene);
+            StartCoroutine(_crossFade.LoadSceneCoroutine(nextScene));
         }
     }
 

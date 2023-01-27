@@ -8,11 +8,11 @@ using UnityEngine;
 ///  Action 1 : 
 ///  - Tir d’une boule de feu qui explose à l’impact d’un mur ou d’un ennemi. 
 ///  - En explosant elle inflige 5 dégâts et repousse les ennemis du centre de l’explosion. 
-///  - 2 secondes de cooldown.
+///  - 1.5 secondes de cooldown.
 ///  Action 2 : 
 ///  - Création d’un projectile Orbe qui orbite autour du personnage pendant 5 secondes ou jusqu’à avoir percuté 5 ennemis. 
 ///  - Le projectile inflige 2 dégâts en traversant un ennemi. 
-///  - 10 secondes de cooldown.
+///  - 7 secondes de cooldown.
 ///  Action 3 : 
 ///  - Création d’un mur de glace qui disparaît après 5 secondes. 
 ///  - Le mur n’est traversable ni par le personnage, ni par les ennemis, ni par les projectiles. 
@@ -27,12 +27,12 @@ using UnityEngine;
 /// </summary>
 public class Mage : IPlayer
 {
-    [SerializeField] private FireBall _fireBallPrefab; // TODO Pooling
-    [SerializeField] private Orb _orbPrefab; // TODO Pooling
+    [SerializeField] private FireBall _fireBallPrefab;
+    [SerializeField] private GameObject _orbPrefab;
     [SerializeField] private GameObject _wallPrefab;
     [SerializeField] private GameObject _hand;
-    private int _attack1Damage = 5;
-    private float _attack2Duration = 5f;
+    private int _attack1Damage;
+    private float _attack2Duration;
     private int _maxEnemyTouched;
     private float _orbRepulsion;
 
@@ -42,17 +42,20 @@ public class Mage : IPlayer
     private float _lengthWall;
     private int _wallDamage;
 
-    public override void Start()
+    public override void OnEnable()
     {
-        base.Start();
+        base.OnEnable();
 
         MaxHealth = 40;
 
-        _cooldown1 = 2f;
-        _cooldown2 = 10f;
+        _cooldown1 = 1.5f;
+        _cooldown2 = 7f;
         _cooldown3 = 10f;
 
+        _attack1Damage = 5;
+
         _maxEnemyTouched = 5;
+        _attack2Duration = 5f;
         _orbRepulsion = 0;
 
         _lengthWall = 2f;
@@ -69,7 +72,7 @@ public class Mage : IPlayer
 
     public void ThrowFireBall()
     {
-        FireBall fireBall = Instantiate(_fireBallPrefab, _hand.transform.position, _hand.transform.rotation);
+        FireBall fireBall = _poolingManager.SpawnObjectFromPool(_fireBallPrefab, _hand.transform.position, _hand.transform.rotation);
         fireBall.Damage = _attack1Damage;
         fireBall.SetMovement();
     }
@@ -86,10 +89,8 @@ public class Mage : IPlayer
 
     public void ThrowOrb()
     {
-        Vector3 offset = new Vector3(0, 2, 2);
-        Orb orb = Instantiate(_orbPrefab, transform.position + offset, transform.rotation);
-        orb.OrbRepulsion = _orbRepulsion;
-        Destroy(orb.gameObject, _attack2Duration); // TODO Pooling
+        GameObject orb = _poolingManager.SpawnObjectFromPool(_orbPrefab, transform.position, transform.rotation);
+        _poolingManager.ReturnToPool(orb, _attack2Duration);
     }
 
 
@@ -100,6 +101,12 @@ public class Mage : IPlayer
 
     public override IEnumerator Attack3()
     {
+        RaycastHit hit;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (!Physics.Raycast(ray, out hit, 100f, LayerMask.GetMask("Floor")))
+        {
+            yield break;
+        }
         _canAction3 = false;
         _animator.SetTrigger("IceWall");
         _audioManager.PlaySound("IceWall");
@@ -111,7 +118,7 @@ public class Mage : IPlayer
     {
         Vector3 spawnPosition = transform.position + 3 * transform.forward;
         spawnPosition.y = 3.5f;
-        GameObject wall = Instantiate(_wallPrefab, spawnPosition, transform.rotation);
+        GameObject wall = _poolingManager.SpawnObjectFromPool(_wallPrefab, spawnPosition, transform.rotation);
         wall.transform.localScale = new Vector3(_lengthWall, 3f, 0.2f);
 
         if (_wallDamage > 0)
@@ -126,7 +133,7 @@ public class Mage : IPlayer
                 }
             }
         }
-        Destroy(wall, 5);
+        _poolingManager.ReturnToPool(wall, 5f);
     }
 
     public override void DamageSound()

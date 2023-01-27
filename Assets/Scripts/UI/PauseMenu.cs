@@ -15,15 +15,6 @@ public class PauseMenu : MonoBehaviour
     {
         _isPaused = true;
         ResumeGame();
-
-        // if (PlayerPrefs.GetString("PreviousScene") == "GameScene")
-        // {
-        //     PauseGame();
-        // }
-        // else
-        // {
-        //     ResumeGame();
-        // }
     }
 
     private void Update()
@@ -33,12 +24,10 @@ public class PauseMenu : MonoBehaviour
             if (_isPaused)
             {
                 ResumeGame();
-                AudioListener.pause = false;
             }
             else
             {
                 PauseGame();
-                AudioListener.pause = true;
             }
         }
     }
@@ -73,14 +62,13 @@ public class PauseMenu : MonoBehaviour
 
     public void Settings()
     {
-        Debug.Log("SAVE SCENE TO CONTINUE GAME");
-        PlayerPrefs.SetString("PreviousScene", SceneManager.GetActiveScene().name);
+        SaveDataBetweenScenes.Instance.PreviousScene = SceneManager.GetActiveScene().name;
         StartCoroutine(_crossFade.LoadSceneCoroutine("SettingsMenu", false));
     }
 
     public void ExitGame()
     {
-        //Application.Quit();
+        Time.timeScale = 1;
         StartCoroutine(_crossFade.LoadSceneCoroutine("MainMenu"));
     }
 }

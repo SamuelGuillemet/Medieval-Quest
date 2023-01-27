@@ -70,6 +70,11 @@ public class IEnemy : MonoBehaviour
         _couldAttack = IsOnScreen(transform.position, 0.05f);
         healthBar.healthBar.maxValue = _maxHealth;
         healthBar.healthBar.value = _health;
+
+        if (transform.position.y < -10)
+        {
+            _gameManager.OnEnemyKilled.Invoke(this);
+        }
     }
 
     public float GetHealthInPercent()
