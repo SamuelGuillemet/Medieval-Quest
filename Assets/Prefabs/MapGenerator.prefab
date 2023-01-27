@@ -1,0 +1,208 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7700496042528484983
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7700496042528484987}
+  - component: {fileID: 7700496042528484984}
+  - component: {fileID: 7700496042528484985}
+  - component: {fileID: 7700496042528484982}
+  m_Layer: 0
+  m_Name: Map
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &7700496042528484987
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7700496042528484983}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: -0.00000004371139}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 8, y: 1, z: 8}
+  m_Children: []
+  m_Father: {fileID: 7700496042598210543}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &7700496042528484984
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7700496042528484983}
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &7700496042528484985
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7700496042528484983}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 41f50a3738848da4ba0314e478d439b8, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!64 &7700496042528484982
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7700496042528484983}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &7700496042598210538
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7700496042598210543}
+  - component: {fileID: 7700496042598210541}
+  - component: {fileID: 7700496042598210542}
+  - component: {fileID: 7700496042598210540}
+  m_Layer: 0
+  m_Name: MapGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7700496042598210543
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7700496042598210538}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 7700496042528484987}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7700496042598210541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7700496042598210538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46acf97b774e1a64d99cb9a0ed7f03ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mapWidth: 20
+  _mapHeight: 20
+  _drawMode: 2
+  _noiseScale: 0.01
+  _octaves: 2
+  _persistance: 0.85
+  _lacunarity: 2
+  _seed: 5
+  _offset: {x: 0, y: 0.5}
+  autoUpdate: 1
+  _regions:
+  - name: 1
+    height: 0.11
+    colour: {r: 0.20852618, g: 0.2583954, b: 0.6226415, a: 0}
+  - name: 3
+    height: 0.8
+    colour: {r: 0.16891626, g: 0.41509432, b: 0.1194375, a: 0}
+  - name: 0
+    height: 0.88
+    colour: {r: 0.49056602, g: 0.44552565, b: 0.09024564, a: 0}
+  - name: 2
+    height: 1
+    colour: {r: 0.3773585, g: 0.21579786, b: 0.02669989, a: 0}
+--- !u!114 &7700496042598210542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7700496042598210538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4c7583a96197fe47aa67d795af6e40b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LightPrefab: {fileID: 1610183233969500, guid: ae948cb06bc5b6347bf76f173a65653a,
+    type: 3}
+  HolePrefab: {fileID: 2341316115371522178, guid: 20286810243290249811ff3b589f55e1,
+    type: 3}
+  ObstaclePrefab: {fileID: 6659731155063719765, guid: 6be26636acc762549ae1cf9db87ff1c6,
+    type: 3}
+  LandPrefab: {fileID: 6096502267260433808, guid: 5f5ce4885e01d6a45aea556f97ac351c,
+    type: 3}
+  LightPole: {fileID: 3429902833556940846, guid: b5cc6e7934b8bd944bad82fccd36d63e,
+    type: 3}
+  Start: {fileID: 956026827591957114, guid: ee07be6c87119a3499798dcedf6e3ce4, type: 3}
+  Wall: {fileID: 3795198702302463021, guid: 21f78785d71b23d4996472db82e3c0e5, type: 3}
+  Angle: {fileID: 585000260050326852, guid: cc59d4b07c770c74faae905b62b53a3b, type: 3}
+  EnemySpawn: {fileID: 5860001928150923655, guid: 80136de2514a5c849afeeb4697059b89,
+    type: 3}
+  _holes: 9
+  _obstacles: 27
+  _lands: 364
+--- !u!114 &7700496042598210540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7700496042598210538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a61d62a7d5d03f54badb84b780856a15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _textureRender: {fileID: 7700496042528484985}

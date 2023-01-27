@@ -1,0 +1,80 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4889667218285533882
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4889667218285533860}
+  - component: {fileID: 4889667218285533861}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4889667218285533860
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4889667218285533882}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4889667218285533861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4889667218285533882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4219690c6f12c824dbde5cf76d69e56a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mainCamera: {fileID: 772566442551279045, guid: 93045ad28271a7d4abb60426d79114c7,
+    type: 3}
+  SelectedPlayer: 0
+  _numberOfEnemySpawnZone: 8
+  WaveNumber: 0
+  Enemies: []
+  OnEnemyKilled:
+    m_PersistentCalls:
+      m_Calls: []
+  OnEnemyDamageTaken:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPlayerDamageTaken:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPlayerHealed:
+    m_PersistentCalls:
+      m_Calls: []
+  OnOrbCollected:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPlayerUpgrade:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPlayerDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  _damageOutputPrefab: {fileID: 8063309634391806487, guid: 53c8ff993e9a4494e93026257066a835,
+    type: 3}
+  _archerPrefab: {fileID: 3183756341171776244, guid: e9d61b86df316f84c960b05e386a1865,
+    type: 3}
+  _demonPrefab: {fileID: 273972285178452110, guid: f1aa3163a050a674ea349a47ed25129c,
+    type: 3}
+  _magePrefab: {fileID: 1966662942312923135, guid: 482468a82178ede4887706bac9a4d0dc,
+    type: 3}

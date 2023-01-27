@@ -58,3 +58,6 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+# User editor settings
+UserSettings/EditorUserSettings.asset
+.config/dotnet-tools.json
